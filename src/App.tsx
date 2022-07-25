@@ -1,26 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
+/* eslint-disable react/react-in-jsx-scope */
+import MapCanvas from './map_task/MapCanvas';
+import Chat from './map_task/Chat';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(): JSX.Element {
+    return (
+        <div className="App">
+            <div className="Container">
+                <MapCanvas im_width={1413} im_height={1052} im_name={'map1.png'} />
+                <Chat />
+            </div>
+        </div>
+    );
 }
 
 export default App;
