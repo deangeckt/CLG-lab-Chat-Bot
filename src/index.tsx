@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import Wrapper from './Wrapper';
 import './index.css';
 
@@ -14,5 +13,3 @@ root.render(
         </Wrapper>
     </React.StrictMode>,
 );
-
-// reportWebVitals();
