@@ -20,7 +20,6 @@ function Chat(): JSX.Element {
 
     const submitMsg = () => {
         if (!currMsg) return;
-        console.log('msg:', currMsg);
         setCurrMsg('');
         const newMsg = new Message({ id: 0, message: currMsg });
         setMessages([...messages, newMsg]);
