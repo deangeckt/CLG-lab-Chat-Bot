@@ -4,7 +4,7 @@ import { ChatFeed, Message } from 'react-chat-ui';
 import { IconButton, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import './Chat.css';
-import { callBot, getHealth } from '../api';
+import { callBot } from '../api';
 
 function Chat(): JSX.Element {
     const { state, setState } = useContext(AppContext);
@@ -23,7 +23,7 @@ function Chat(): JSX.Element {
         setBotType(true);
         callBot(currMsg, addBotMsg);
     };
-    // very ugly wordaround!
+    // very ugly workaround!
     const addBotMsg = (msg: string) => {
         updateChatState([new Message({ message: currMsg, id: 0 }), new Message({ message: msg, id: 1 })]);
         setBotType(false);
@@ -34,11 +34,6 @@ function Chat(): JSX.Element {
             addUserMsg();
         }
     };
-
-    React.useEffect(() => {
-        console.log('api');
-        getHealth();
-    }, []);
 
     return (
         <div className="chat_container">

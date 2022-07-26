@@ -18,7 +18,11 @@ class Bot:
         return res
 
     def call(self, user_msg):
-        print(f'Bot call with: {user_msg}')
+        """
+        :param user_msg: last user chat message
+        :return: generated string
+        """
+        print(f'Bot called with: {user_msg}')
         sleep(2)
         self.chat.append(user_msg)  # keep history
         return self.__get_next()

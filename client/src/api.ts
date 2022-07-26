@@ -25,6 +25,6 @@ export const callBot = async (msg: string, update: Function) => {
         })) as AxiosResponse;
         update(response.data.res);
     } catch (error: any) {
-        console.log(error);
+        update('Bot not connected');
     }
 };
