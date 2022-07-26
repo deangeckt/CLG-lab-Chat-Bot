@@ -4,38 +4,47 @@ import { ChatFeed, Message } from 'react-chat-ui';
 import { IconButton, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import './Chat.css';
-
-const messages_mock = [
-    new Message({
-        id: 1,
-        message: "I'm the recipient! (The person you're talking to fsf sf sf sf sf sf sfsf sf sf )",
-    }),
-    new Message({ id: 0, message: "I'm you -- the blue bubble!" }),
-];
+import { callBot, getHealth } from '../api';
 
 function Chat(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [currMsg, setCurrMsg] = useState('');
-    const [messages, setMessages] = useState(messages_mock);
+    const [botType, setBotType] = useState(false);
 
-    const submitMsg = () => {
+    const updateChatState = (newMsg: Message[]) => {
+        const chat = [...state.chat].concat(newMsg);
+        setState({ ...state, chat: chat });
+    };
+
+    const addUserMsg = () => {
         if (!currMsg) return;
+        updateChatState([new Message({ message: currMsg, id: 0 })]);
         setCurrMsg('');
-        const newMsg = new Message({ id: 0, message: currMsg });
-        setMessages([...messages, newMsg]);
+        setBotType(true);
+        callBot(currMsg, addBotMsg);
+    };
+    // very ugly wordaround!
+    const addBotMsg = (msg: string) => {
+        updateChatState([new Message({ message: currMsg, id: 0 }), new Message({ message: msg, id: 1 })]);
+        setBotType(false);
     };
 
     const onKeyPress = (e: any) => {
         if (e.keyCode == 13) {
-            submitMsg();
+            addUserMsg();
         }
     };
+
+    React.useEffect(() => {
+        console.log('api');
+        getHealth();
+    }, []);
 
     return (
         <div className="chat_container">
             <ChatFeed
-                messages={messages}
-                isTyping={false} // set this to true when bot is typing
+                messages={state.chat}
+                isTyping={botType}
                 bubbleStyles={{
                     text: {
                         fontSize: 18,
@@ -55,7 +64,7 @@ function Chat(): JSX.Element {
                     onChange={(e) => setCurrMsg(e.target.value)}
                     onKeyDown={(e) => onKeyPress(e)}
                 />
-                <IconButton color="primary" size="medium" onClick={submitMsg}>
+                <IconButton color="primary" size="medium" onClick={addUserMsg}>
                     <SendIcon />
                 </IconButton>
             </div>

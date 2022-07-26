@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { AppContext } from './AppContext';
+import { Message } from 'react-chat-ui';
 
 export interface IAppState {
-    a: string;
+    chat: Message[];
 }
 
 export const init_app_state: IAppState = {
-    a: 'first string',
+    chat: [new Message({ id: 1, message: 'Welcome!' })],
 };
 
 const Wrapper = (props: any) => {
