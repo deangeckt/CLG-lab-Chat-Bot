@@ -1,18 +1,18 @@
 {
 	"elephant": {
-		"left": [
+		"right": [
 			"giraph",
 			"gray rocks"
 		],
-		"right": [
+		"left": [
 			"parrot",
 			"trees",
 			"path"
 		],
-		"down": [
+		"up": [
 			"black rock"
 		],
-		"up": [
+		"down": [
 			"gray rocks"
 		],
 		"on": [
@@ -20,17 +20,17 @@
 		]
 	},
 	"giraph": {
-		"left": [
+		"right": [
 			"end of map"
 		],
-		"right": [
+		"left": [
 			"gray rocks",
 			"path"
 		],
-		"down": [
+		"up": [
 			"path"
 		],
-		"up": [
+		"down": [
 			"water"
 		],
 		"on": [
@@ -38,19 +38,19 @@
 		]
 	},
 	"parrot": {
-		"left": [
+		"right": [
 			"elephant"
 		],
-		"right": [
+		"left": [
 			"gray rocks",
 			"path",
 			"tiger"
 		],
-		"down": [
+		"up": [
 			"path",
 			"crocodile"
 		],
-		"up": [
+		"down": [
 			"water"
 		],
 		"on": [
@@ -58,18 +58,18 @@
 		]
 	},
 	"tiger": {
-		"left": [
+		"right": [
 			"parrot",
 			"path"
 		],
-		"right": [
+		"left": [
 			"start",
 			"path"
 		],
-		"down": [
+		"up": [
 			"water"
 		],
-		"up": [
+		"down": [
 			"end of map"
 		],
 		"on": [
@@ -77,17 +77,17 @@
 		]
 	},
 	"start": {
-		"left": [
+		"right": [
 			"tiger",
 			"path"
 		],
-		"right": [
+		"left": [
 			"end of map"
 		],
-		"down": [
+		"up": [
 			"water"
 		],
-		"up": [
+		"down": [
 			"end of map"
 		],
 		"on": [
@@ -95,16 +95,16 @@
 		]
 	},
 	"butterfly": {
-		"left": [
+		"right": [
 			"water"
 		],
-		"right": [
+		"left": [
 			"end of map"
 		],
-		"down": [
+		"up": [
 			"water"
 		],
-		"up": [
+		"down": [
 			"start",
 			"water"
 		],
