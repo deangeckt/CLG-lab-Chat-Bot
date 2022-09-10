@@ -5,11 +5,11 @@ import traceback
 from flask import Flask
 from flask import request
 from flask_cors import CORS
-from bot import Bot
+from bots.rule_based.rule_based_bot import ruleBasedBot
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
-chat_bot = Bot()
+chat_bot = ruleBasedBot()
 
 
 @app.route('/api/v1/health', methods=['GET'])

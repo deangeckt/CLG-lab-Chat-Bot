@@ -1,0 +1,115 @@
+{
+	"elephant": {
+		"left": [
+			"giraph",
+			"gray rocks"
+		],
+		"right": [
+			"parrot",
+			"trees",
+			"path"
+		],
+		"down": [
+			"black rock"
+		],
+		"up": [
+			"gray rocks"
+		],
+		"on": [
+			"green island"
+		]
+	},
+	"giraph": {
+		"left": [
+			"end of map"
+		],
+		"right": [
+			"gray rocks",
+			"path"
+		],
+		"down": [
+			"path"
+		],
+		"up": [
+			"water"
+		],
+		"on": [
+			"green island"
+		]
+	},
+	"parrot": {
+		"left": [
+			"elephant"
+		],
+		"right": [
+			"gray rocks",
+			"path",
+			"tiger"
+		],
+		"down": [
+			"path",
+			"crocodile"
+		],
+		"up": [
+			"water"
+		],
+		"on": [
+			"tree"
+		]
+	},
+	"tiger": {
+		"left": [
+			"parrot",
+			"path"
+		],
+		"right": [
+			"start",
+			"path"
+		],
+		"down": [
+			"water"
+		],
+		"up": [
+			"end of map"
+		],
+		"on": [
+			"green island"
+		]
+	},
+	"start": {
+		"left": [
+			"tiger",
+			"path"
+		],
+		"right": [
+			"end of map"
+		],
+		"down": [
+			"water"
+		],
+		"up": [
+			"end of map"
+		],
+		"on": [
+			"start"
+		]
+	},
+	"butterfly": {
+		"left": [
+			"water"
+		],
+		"right": [
+			"end of map"
+		],
+		"down": [
+			"water"
+		],
+		"up": [
+			"start",
+			"water"
+		],
+		"on": [
+			"island in the edge"
+		]
+	}
+}
