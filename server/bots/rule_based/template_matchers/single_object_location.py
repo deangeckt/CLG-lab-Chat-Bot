@@ -1,16 +1,13 @@
 import re
 import random
 from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
-from bots.rule_based.template_matchers.template_utils import get_direction_phrase
 
 
 class SingleObjectLocation(TemplateMatcher):
     """
     e.g. "where is the tiger" -> 'the tiger is above the parrot'
+    e.g. "I don't see the tiger" -> 'the tiger is above the parrot'
     """
-    directions_words_binary = ['located', 'near', 'next to', 'beside']
-    directions_words = ['right', 'left', 'right', 'below', 'above',
-                        'north', 'south', 'west', 'east']
 
     @staticmethod
     def __is_match(text):
@@ -20,6 +17,17 @@ class SingleObjectLocation(TemplateMatcher):
         match |= bool(re.match("(.*)(i do not | don't see the)(.*)", t))
         return match
 
+    def __get_direction_phrase(self, direction_word):
+        direction_phrase = direction_word
+        if direction_phrase in self.shared.angle_directions:
+            direction_phrase += ' of the'
+        elif direction_phrase in self.shared.prepositions_directions or direction_phrase == 'on':
+            direction_phrase += ' the'
+        else:
+            direction_phrase += ' to the'
+
+        return direction_phrase
+
     def match(self, user_msg):
         detected_objects = self.shared.get_objects_in_user_msg(user_msg)
         is_match = self.__is_match(user_msg)
@@ -27,8 +35,12 @@ class SingleObjectLocation(TemplateMatcher):
         if not is_match or len(detected_objects) != 1:
             return None
         obj = detected_objects[0]
+        if obj not in self.kb:
+            return None
+
         direction = random.choice(list(self.kb[obj].keys()))
+        direction_word = random.choice(self.shared.direction_mapping[direction])
         next_obj = random.choice(self.kb[obj][direction])
 
-        direction_phrase = get_direction_phrase(direction)
+        direction_phrase = self.__get_direction_phrase(direction_word)
         return f'the {obj} is {direction_phrase} {next_obj}'

@@ -6,6 +6,7 @@ class TemplateMatcher(ABC):
     def __init__(self, share: TemplateMatcherShare):
         self.shared = share
         self.kb = self.shared.kb
+        self.chat = self.shared.chat
 
     @abstractmethod
     def match(self, user_msg):

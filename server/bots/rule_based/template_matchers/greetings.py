@@ -1,23 +1,32 @@
-from bots.rule_based.template_matchers.match_utils import tokenize
 from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
 import random
+import re
 
 
 class Greetings(TemplateMatcher):
     greeting_words = {'hi', 'hello', 'hey', 'hiya', 'howdy'}
-    resp_options = ['hey there', 'hello there', 'hi', 'hey', 'hello']
+    basic_options = ['hey there', 'hello there', 'hi', 'hey', 'hello']
+    how_are_you_options = ['all well thank you!', 'very well thanks', "i'm good thank you"]
 
-    # TODO: can add more complicated greetings such as "how are you"
-
-    @staticmethod
-    def __is_greeting(text):
-        for token in tokenize(text):
+    def __is_basic_greeting(self, text):
+        for token in self.shared.tokenize(text):
             if token in Greetings.greeting_words:
                 return True
         return False
 
-    def match(self, user_msg):
-        if not self.__is_greeting(user_msg):
-            return None
+    @staticmethod
+    def __is_how_are_you_greeting(text):
+        t = text.lower()
+        match = bool(re.match("(.*)(are you today)(.*)", t))
+        match |= bool(re.match("(how are you)(.*)", t))
+        match |= bool(re.match("(.*)(you doing)(.*)", t))
+        match |= bool(re.match("(.*)(going on)(.*)", t))
+        return match
 
-        return random.choice(Greetings.resp_options)
+    def match(self, user_msg):
+        if self.__is_basic_greeting(user_msg):
+            return random.choice(Greetings.basic_options)
+        elif self.__is_how_are_you_greeting(user_msg):
+            return random.choice(Greetings.how_are_you_options)
+        else:
+            return None
