@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import CanvasDraw from 'react-canvas-draw';
 import { Button, Typography } from '@material-ui/core';
@@ -8,12 +8,7 @@ import './MapCanvas.css';
 const get_canvas_size = (im_width: number, im_height: number) => {
     // map canvas is 80% width, the app container is 90% width
     const container_width = 0.8 * 0.9 * window.innerWidth;
-    const container_hegiht = 0.8 * 0.9 * window.innerHeight;
-
-    // console.log(container_width,container_hegiht);
-
     const ratio_w = container_width / im_width;
-    // const ratio_h = container_hegiht / im_height;
 
     let canvas_width = im_width;
     let canvas_height = im_height;
@@ -38,12 +33,26 @@ function MapCanvas({ im_width, im_height, im_name }: IMapCanvas) {
 
     const { canvas_width, canvas_height } = get_canvas_size(im_width, im_height);
 
+    const curr_coord = (e: any) => {
+        const lines = e.lines;
+        const last_line = lines[lines.length - 1];
+        const points = last_line.points;
+        const last_point = points[points.length - 1];
+
+        const curr_coord = state.curr_corrd;
+        curr_coord.x = last_point.x / canvas_width;
+        curr_coord.y = last_point.y / canvas_height;
+        setState({ ...state, curr_coord });
+
+        console.log(curr_coord);
+    };
+
     return (
         <>
             <div className="map_container">
                 <Typography variant="h5">CLG lab - Chat Bot 1.0</Typography>
                 <CanvasDraw
-                    onChange={(e) => console.log((e as any).lines)}
+                    onChange={(e) => curr_coord(e)}
                     ref={(canvasDraw) => (canvasRef = canvasDraw)}
                     canvasWidth={canvas_width}
                     canvasHeight={canvas_height}
