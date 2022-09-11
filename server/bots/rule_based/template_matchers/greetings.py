@@ -1,4 +1,4 @@
-from bots.rule_based.match_utils import tokenize
+from bots.rule_based.template_matchers.match_utils import tokenize
 from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
 import random
 

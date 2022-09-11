@@ -4,6 +4,7 @@ import json
 
 from bots.rule_based.template_matchers.greetings import Greetings
 from bots.rule_based.template_matchers.single_object_location import SingleObjectLocation
+from bots.rule_based.template_matchers.template_matcher_share import TemplateMatcherShare
 from bots.rule_based.template_matchers.two_objects_proximity import TwoObjectsProximity
 
 
@@ -15,10 +16,10 @@ class ruleBasedBot(Bot):
         with open(kb_path, 'r') as f:
             self.kb = json.load(f)
 
-        self.objects = self.kb.keys()
-        self.ordered_template_matchers = [Greetings(self.kb),
-                                          TwoObjectsProximity(self.kb),
-                                          SingleObjectLocation(self.kb)]
+        template_matchers_inputs = TemplateMatcherShare(self.kb)
+        self.ordered_template_matchers = [Greetings(template_matchers_inputs),
+                                          TwoObjectsProximity(template_matchers_inputs),
+                                          SingleObjectLocation(template_matchers_inputs)]
 
     def __state_machine(self, user_msg):
         for template_matcher in self.ordered_template_matchers:
