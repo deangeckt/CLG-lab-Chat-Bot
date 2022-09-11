@@ -8,16 +8,20 @@ import './MapCanvas.css';
 const get_canvas_size = (im_width: number, im_height: number) => {
     // map canvas is 80% width, the app container is 90% width
     const container_width = 0.8 * 0.9 * window.innerWidth;
+    const container_height = 0.8 * 0.9 * window.innerHeight;
+
     const ratio_w = container_width / im_width;
+    const ratio_h = container_height / im_height;
+
+    const ratio = ratio_w < ratio_h ? ratio_w : ratio_h;
 
     let canvas_width = im_width;
     let canvas_height = im_height;
 
-    if (ratio_w < 1) {
-        canvas_width *= ratio_w;
-        canvas_height *= ratio_w;
+    if (ratio < 1) {
+        canvas_width *= ratio;
+        canvas_height *= ratio;
     }
-
     return { canvas_width, canvas_height };
 };
 
