@@ -1,7 +1,7 @@
 import re
 import random
 from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
-from bots.rule_based.template_utils import get_direction_phrase
+from bots.rule_based.template_matchers.template_utils import get_direction_phrase
 
 
 class SingleObjectLocation(TemplateMatcher):
@@ -21,7 +21,7 @@ class SingleObjectLocation(TemplateMatcher):
         return match
 
     def match(self, user_msg):
-        detected_objects = self.get_objects_in_user_msg(user_msg)
+        detected_objects = self.shared.get_objects_in_user_msg(user_msg)
         is_match = self.__is_match(user_msg)
 
         if not is_match or len(detected_objects) != 1:

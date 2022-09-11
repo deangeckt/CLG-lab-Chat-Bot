@@ -1,6 +1,6 @@
 import re
 from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
-from bots.rule_based.template_utils import direction_mapping_to_phrasing
+from bots.rule_based.template_matchers.template_utils import direction_mapping_to_phrasing
 
 
 class TwoObjectsProximity(TemplateMatcher):
@@ -39,7 +39,7 @@ class TwoObjectsProximity(TemplateMatcher):
 
     def match(self, user_msg):
         yn_direction = self.__get_direction_in_yn_question(user_msg)
-        detected_objects = self.get_objects_in_user_msg(user_msg)
+        detected_objects = self.shared.get_objects_in_user_msg(user_msg)
 
         if not yn_direction or len(detected_objects) < 2:
             return None
@@ -47,7 +47,7 @@ class TwoObjectsProximity(TemplateMatcher):
         direction = self.__phrasing_yn_dir_to_map(yn_direction)
         first_obj = detected_objects[0]
         second_obj = detected_objects[1]
-        if direction is not 'binary':
+        if direction != 'binary':
             return 'yes' if second_obj in self.kb[first_obj][direction] else 'no'
         else:
             for dir_ in self.kb[first_obj]:
