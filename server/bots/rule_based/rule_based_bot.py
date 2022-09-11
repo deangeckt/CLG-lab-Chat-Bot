@@ -16,7 +16,6 @@ class ruleBasedBot(Bot):
         with open(kb_path, 'r') as f:
             self.kb = json.load(f)
 
-        # TODO Strategy?
         template_matchers_inputs = TemplateMatcherShare(self.kb)
         self.ordered_template_matchers = [Greetings(template_matchers_inputs),
                                           TwoObjectsProximity(template_matchers_inputs),
