@@ -25,16 +25,16 @@ class ruleBasedBot(Bot):
                                           SingleObjectOn(shared),
                                           GeneralInformation(shared)]
 
-    def __match_and_respond(self, user_msg):
+    def __match_and_respond(self, user_msg, user_state=None):
         for template_matcher in self.ordered_template_matchers:
-            resp = template_matcher.match(user_msg)
+            resp = template_matcher.match(user_msg, user_state)
             if resp is not None:
                 return resp
 
         return "i'm not sure"
 
-    def call(self, user_msg):
+    def call(self, user_msg, user_state=None):
         self.chat.append({'speaker': 'user', 'text': user_msg})
-        bot_msg = self.__match_and_respond(user_msg)
+        bot_msg = self.__match_and_respond(user_msg, user_state)
         self.chat.append({'speaker': 'bot', 'text': bot_msg})
         return bot_msg

@@ -5,12 +5,13 @@ from bots.rule_based.template_matchers.template_matcher_share import TemplateMat
 class TemplateMatcher(ABC):
     def __init__(self, share: TemplateMatcherShare):
         self.shared = share
-        self.kb = self.shared.kb
+        self.kb_prox = self.shared.kb_prox
         self.chat = self.shared.chat
 
     @abstractmethod
-    def match(self, user_msg):
+    def match(self, user_msg, user_state=None):
         """
         param user_msg: last user chat message
+        param user_state: current coordinate of user on the map
         :return: generated template string in case of a match, else None
         """

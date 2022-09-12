@@ -13,11 +13,11 @@ class SingleObjectOn(TemplateMatcher):
                 return obj
         return False
 
-    def match(self, user_msg):
+    def match(self, user_msg, user_state=None):
         obj_match = self.is_match(user_msg)
         if not obj_match:
             return None
         on_item = user_msg.lower().split('on')[-1].strip()
         on_item = on_item.split('the')[-1].strip()
         on_item = on_item.split('?')[0]
-        return 'yes' if on_item in self.kb[obj_match]['on'] else 'no'
+        return 'yes' if on_item in self.kb_prox[obj_match]['on'] else 'no'

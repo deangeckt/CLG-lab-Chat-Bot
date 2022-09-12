@@ -21,7 +21,7 @@ def health():
 def run():
     try:
         params = request.get_json()
-        res = chat_bot.call(params['msg'])
+        res = chat_bot.call(params['msg'], params['state'])
         return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
     except ValueError as e:
         return str(e), 505,

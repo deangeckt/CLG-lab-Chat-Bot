@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import { AppContext } from './AppContext';
 import { Message } from 'react-chat-ui';
 
+export interface MapCoord {
+    x: number;
+    y: number;
+}
+
 export interface IAppState {
     chat: Message[];
+    curr_corrd: MapCoord;
 }
 
 export const init_app_state: IAppState = {
     chat: [new Message({ id: 1, message: 'Welcome!' })],
+    curr_corrd: { x: -1, y: -1 },
 };
 
 const Wrapper = (props: any) => {

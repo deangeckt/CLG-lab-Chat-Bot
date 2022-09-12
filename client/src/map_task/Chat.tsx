@@ -3,8 +3,8 @@ import { AppContext } from '../AppContext';
 import { ChatFeed, Message } from 'react-chat-ui';
 import { IconButton, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-import './Chat.css';
 import { callBot } from '../api';
+import './Chat.css';
 
 function Chat(): JSX.Element {
     const { state, setState } = useContext(AppContext);
@@ -21,7 +21,7 @@ function Chat(): JSX.Element {
         updateChatState([new Message({ message: currMsg, id: 0 })]);
         setCurrMsg('');
         setBotType(true);
-        callBot(currMsg, addBotMsg);
+        callBot(currMsg, state.curr_corrd, addBotMsg);
     };
     // very ugly workaround!
     const addBotMsg = (msg: string) => {
