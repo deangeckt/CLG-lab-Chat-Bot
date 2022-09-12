@@ -35,7 +35,7 @@ class TwoObjectsProximity(TemplateMatcher):
                 return mapping
         raise "can't find direction mapping!"
 
-    def match(self, user_msg):
+    def match(self, user_msg, user_state=None):
         yn_direction = self.__get_direction_in_yn_question(user_msg)
         detected_objects = self.shared.get_objects_in_user_msg(user_msg)
 
@@ -46,16 +46,16 @@ class TwoObjectsProximity(TemplateMatcher):
         first_obj = detected_objects[0]
         second_obj = detected_objects[1]
 
-        if first_obj not in self.kb:
+        if first_obj not in self.kb_prox:
             return None
 
         if direction != 'binary':
-            return 'yes' if second_obj in self.kb[first_obj][direction] else 'no'
+            return 'yes' if second_obj in self.kb_prox[first_obj][direction] else 'no'
         else:
-            for dir_ in self.kb[first_obj]:
+            for dir_ in self.kb_prox[first_obj]:
                 if dir_ == 'on':
                     continue
-                if second_obj in self.kb[first_obj][dir_]:
+                if second_obj in self.kb_prox[first_obj][dir_]:
                     return 'yes'
             return 'no'
 

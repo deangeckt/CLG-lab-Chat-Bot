@@ -23,7 +23,7 @@ class Greetings(TemplateMatcher):
         match |= bool(re.match("(.*)(going on)(.*)", t))
         return match
 
-    def match(self, user_msg):
+    def match(self, user_msg, user_state=None):
         if self.__is_basic_greeting(user_msg):
             return random.choice(Greetings.basic_options)
         elif self.__is_how_are_you_greeting(user_msg):

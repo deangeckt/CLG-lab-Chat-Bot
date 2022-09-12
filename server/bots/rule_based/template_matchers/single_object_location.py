@@ -28,19 +28,19 @@ class SingleObjectLocation(TemplateMatcher):
 
         return direction_phrase
 
-    def match(self, user_msg):
+    def match(self, user_msg, user_state=None):
         detected_objects = self.shared.get_objects_in_user_msg(user_msg)
         is_match = self.__is_match(user_msg)
 
         if not is_match or len(detected_objects) != 1:
             return None
         obj = detected_objects[0]
-        if obj not in self.kb:
+        if obj not in self.kb_prox:
             return None
 
-        direction = random.choice(list(self.kb[obj].keys()))
+        direction = random.choice(list(self.kb_prox[obj].keys()))
         direction_word = random.choice(self.shared.direction_mapping[direction])
-        next_obj = random.choice(self.kb[obj][direction])
+        next_obj = random.choice(self.kb_prox[obj][direction])
 
         direction_phrase = self.__get_direction_phrase(direction_word)
         return f'the {obj} is {direction_phrase} {next_obj}'
