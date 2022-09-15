@@ -19,5 +19,8 @@ class SingleObjectOn(TemplateMatcher):
             return None
         on_item = user_msg.lower().split('on')[-1].strip()
         on_item = on_item.split('the')[-1].strip()
-        on_item = on_item.split('?')[0]
-        return 'yes' if on_item in self.kb_prox[obj_match]['on'] else 'no'
+        # on_item = on_item.split('?')[0]
+        actual_on = self.kb_prox[obj_match]['on'][0]
+        if actual_on in on_item or on_item in actual_on or on_item.split('?')[0] in actual_on:
+            return 'yes'
+        return 'no'

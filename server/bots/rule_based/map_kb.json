@@ -1,5 +1,42 @@
 {
 	"proximity": {
+		"start": {
+			"right": [
+				"tiger",
+				"path"
+			],
+			"left": [
+				"end of map"
+			],
+			"up": [
+				"water"
+			],
+			"down": [
+				"end of map"
+			],
+			"on": [
+				"start"
+			]
+		},
+		"tiger": {
+			"right": [
+				"parrot",
+				"path"
+			],
+			"left": [
+				"start",
+				"path"
+			],
+			"up": [
+				"water"
+			],
+			"down": [
+				"end of the map"
+			],
+			"on": [
+				"island with 2 dark rocks"
+			]
+		},
 		"elephant": {
 			"right": [
 				"giraph",
@@ -58,43 +95,6 @@
 				"tree"
 			]
 		},
-		"tiger": {
-			"right": [
-				"parrot",
-				"path"
-			],
-			"left": [
-				"start",
-				"path"
-			],
-			"up": [
-				"water"
-			],
-			"down": [
-				"end of map"
-			],
-			"on": [
-				"green island"
-			]
-		},
-		"start": {
-			"right": [
-				"tiger",
-				"path"
-			],
-			"left": [
-				"end of map"
-			],
-			"up": [
-				"water"
-			],
-			"down": [
-				"end of map"
-			],
-			"on": [
-				"start"
-			]
-		},
 		"butterfly": {
 			"right": [
 				"water"
@@ -112,21 +112,168 @@
 			"on": [
 				"island in the edge"
 			]
+		},
+		"tarantula": {
+			"right": [
+				"end of the map"
+			],
+			"left": [
+				"gray rocks"
+			],
+			"up": [
+				"water"
+			],
+			"down": [
+				"end of the map"
+			],
+			"on": [
+				"island in the top left edge of the map"
+			]
+		},
+		"frog": {
+			"right": [
+				"crocodile"
+			],
+			"left": [
+				"end of the map"
+			],
+			"up": [
+				"island"
+			],
+			"down": [
+				"butterfly"
+			],
+			"on": [
+				"island with 2 trees"
+			]
+		},
+		"crocodile": {
+			"right": [
+					"snake",
+					"treasure"
+			],
+			"left": [
+				"frog"
+			],
+			"up": [
+				"water"
+			],
+			"down": [
+				"parrot",
+				"elephant"
+			],
+			"on": [
+				"water"
+			]
+		},
+		"snake": {
+			"right": [
+					"treasure"
+			],
+			"left": [
+				"end of the map"
+			],
+			"up": [
+				"end of the map"
+			],
+			"down": [
+				"giraph"
+			],
+			"on": [
+				"tree"
+			]
 		}
 	},
 	"absolute": {
+		"start": {
+			"x": 0.9,
+			"y": 0.07,
+			"next_direction": [
+				"left",
+				"go left towards the tiger",
+				"go left on the branches on the water"
+			]
+		},
+		"tiger": {
+			"x": 0.7,
+			"y": 0.1,
+			"next_direction": [
+				"left",
+				"pass the branch below the tiger, to the left",
+				"pass the branch to the left"
+			]
+		},
 		"elephant": {
 			"x": 0.29,
 			"y": 0.36,
-			"next_direction":["right", "pass the gray rocks south east to the parrot"]
+			"next_direction": [
+				"right",
+				"left"
+			]
+		},
+		"giraph": {
+			"x": 0.04,
+			"y": 0.5,
+			"next_direction": [
+				"down",
+				"head south east from the giraph",
+				"below the giraph, continue on the branches right"
+			]
 		},
 		"parrot": {
 			"x": 0.48,
 			"y": 0.33,
-			"next_direction": ["right",
+			"next_direction": [
+				"right",
 				"walk over the gray rocks",
 				"go around the parrot over the gray rocks"
-				]
+			]
+		},
+		"butterfly": {
+			"x": 0.9,
+			"y": 0.39,
+			"next_direction": [
+				"left",
+				"above the butterfly, continue of the branches left"
+			]
+		},
+		"tarantula": {
+			"x": 0.1,
+			"y": 0.1,
+			"next_direction": [
+				"down",
+				"go down thorough the gray rocks towards the parrot"
+			]
+		},
+		"frog": {
+			"x": 0.83,
+			"y": 0.64,
+			"next_direction": [
+				"left",
+				"keep going left on the crocodile",
+				"do a slight u-turn near the frog"
+			]
+		},
+		"crocodile": {
+			"x": 0.47,
+			"y": 0.72,
+			"next_direction": [
+				"left",
+				"continue on the crocodile to the rock below the elephant",
+				"go over the crocodile towards the elephant, on the rocks"
+			]
+		},
+		"snake": {
+			"x": 0.1,
+			"y": 0.86,
+			"next_direction": [
+				"right",
+				"continue east to the treasure!"
+			]
+		},
+		"treasure": {
+			"x": 0.31,
+			"y": 0.9
 		}
 	}
 }

@@ -14,7 +14,7 @@ export interface IAppState {
 
 export const init_app_state: IAppState = {
     chat: [new Message({ id: 1, message: 'Welcome!' })],
-    curr_corrd: { x: -1, y: -1 },
+    curr_corrd: { x: 0.96, y: 0.091 },
 };
 
 const Wrapper = (props: any) => {

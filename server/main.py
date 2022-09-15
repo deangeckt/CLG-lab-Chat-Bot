@@ -23,12 +23,8 @@ def run():
         params = request.get_json()
         res = chat_bot.call(params['msg'], params['state'])
         return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
-    except ValueError as e:
-        return str(e), 505,
-    except:
-        exctype, _, exctb = sys.exc_info()
-        print(str(traceback.format_tb(exctb)))
-        return "", 500
+    except Exception as e:
+        return "Server error", 500, {'Content-Type': 'application/json'}
 
 
 if __name__ == "__main__":

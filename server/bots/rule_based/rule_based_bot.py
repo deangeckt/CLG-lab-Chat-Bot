@@ -1,6 +1,7 @@
 from pkg_resources import resource_filename
 from bots.bot import Bot
 import json
+import math
 
 from bots.rule_based.template_matchers.general_information import GeneralInformation
 from bots.rule_based.template_matchers.greetings import Greetings
@@ -18,6 +19,8 @@ class ruleBasedBot(Bot):
         with open(kb_path, 'r') as f:
             self.kb = json.load(f)
 
+        self.treasure_loc = self.kb['absolute']['treasure']
+
         shared = TemplateMatcherShare(self.kb, self.chat)
         self.ordered_template_matchers = [Greetings(shared),
                                           TwoObjectsProximity(shared),
@@ -25,7 +28,15 @@ class ruleBasedBot(Bot):
                                           SingleObjectOn(shared),
                                           GeneralInformation(shared)]
 
+    def __is_finished(self, user_state):
+        user_coord = (user_state['x'], user_state['y'])
+        treasure_coord = (self.treasure_loc['x'], self.treasure_loc['y'])
+        return math.dist(user_coord, treasure_coord) < 0.1
+
     def __match_and_respond(self, user_msg, user_state=None):
+        if self.__is_finished(user_state):
+            return 'you found the treasure!'
+
         for template_matcher in self.ordered_template_matchers:
             resp = template_matcher.match(user_msg, user_state)
             if resp is not None:

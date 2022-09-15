@@ -20,6 +20,7 @@ class GeneralInformation(TemplateMatcher):
         self.closest_obj = None
         self.next_direction = None
         self.strategies = [self.__informative1, self.__informative2, self.__engage_question]
+        self.strategies_wo_engage = [self.__informative1, self.__informative2]
         self.single_obj_loc_matcher = SingleObjectLocation(share)
 
     @staticmethod
@@ -89,7 +90,7 @@ class GeneralInformation(TemplateMatcher):
             self.engaged = False
             if 'yes' in user_msg:
                 response = self.__informative1()
-                return f'{response} towards it'
+                return f'{response} from it'
             elif 'no' in user_msg:
                 return self.single_obj_loc_matcher.match(f'where is the {self.closest_obj}')
 
@@ -97,11 +98,13 @@ class GeneralInformation(TemplateMatcher):
         if not is_match:
             return None
 
-        # TODO: use state to determine those
         self.closest_obj = self.__find_closest_object((user_state['x'], user_state['y']))
         self.next_direction = random.choice(self.shared.kb_abs[self.closest_obj]['next_direction'])
         if self.next_direction in self.shared.direction_mapping:
-            strategy = random.choice(self.strategies)
+            if self.closest_obj in ['start']:
+                strategy = random.choice(self.strategies_wo_engage)
+            else:
+                strategy = random.choice(self.strategies)
             return strategy()
         else:
             return self.next_direction
