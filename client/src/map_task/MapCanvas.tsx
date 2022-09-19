@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../AppContext';
 import CanvasDraw from 'react-canvas-draw';
-import { Button, Typography } from '@material-ui/core';
-
+import { Button } from '@material-ui/core';
 import './MapCanvas.css';
+
 const start_data =
     '{"lines":[{"points":[{"x":937.5472857842693,"y":52.92399213028491},{"x":937.5472857842693,"y":52.92399213028491}],"brushColor":"rgba(63,81,181,0.75)","brushRadius":10}],"width":969.0063878326996,"height":721.44}';
 
 const get_canvas_size = (im_width: number, im_height: number) => {
-    // map canvas is 80% width, the app container is 90% width
+    // map canvas is 75% width, the app container is 90% width
     const container_width = 0.75 * 0.9 * window.innerWidth;
     const container_height = 0.75 * 0.9 * window.innerHeight;
 
@@ -69,7 +69,6 @@ function MapCanvas({ im_width, im_height, im_name }: IMapCanvas) {
     return (
         <>
             <div className="map_container">
-                <Typography variant="h5">CLG lab - Chat Bot 1.0</Typography>
                 <CanvasDraw
                     onChange={(e) => curr_coord(e)}
                     ref={(canvasDraw) => (canvasRef = canvasDraw)}
