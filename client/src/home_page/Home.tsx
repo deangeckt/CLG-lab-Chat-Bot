@@ -4,8 +4,8 @@ import { Typography } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
+import { UserMetadata } from '../Wrapper';
 import './Home.css';
-import { Metadata } from '../Wrapper';
 
 const genders = ['Male', 'Female', 'Other'];
 
@@ -17,8 +17,8 @@ function Home(): JSX.Element {
         navigate(path);
     };
 
-    const simple_set = (e: any, field: keyof Metadata) => {
-        const metadata = state.metadata;
+    const simple_set = (e: any, field: keyof UserMetadata) => {
+        const metadata = state.user_metadata;
         metadata[field] = e.target.value.toString();
         setState({ ...state, metadata: metadata });
     };
@@ -47,7 +47,7 @@ function Home(): JSX.Element {
                     id="outlined-basic"
                     select
                     label="Select"
-                    value={state.metadata.gender}
+                    value={state.user_metadata.gender}
                     onChange={(event) => simple_set(event, 'gender')}
                 >
                     {genders.map((option) => (
