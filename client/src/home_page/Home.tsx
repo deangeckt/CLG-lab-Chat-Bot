@@ -1,10 +1,11 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import { Button, MenuItem, TextField } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { UserMetadata } from '../Wrapper';
+import Header from '../common/Header';
 import './Home.css';
 
 const genders = ['Male', 'Female', 'Other'];
@@ -25,10 +26,11 @@ function Home(): JSX.Element {
 
     return (
         <div className="Home">
-            <div className="Home_Container">
-                <Typography variant="h4">Welcome to CLG map task </Typography>
-                <Typography variant="h5">Fill in your details por favor</Typography>
+            <Header />
 
+            <div className="Home_Container">
+                <Typography variant="h4">Welcome to CLG map task</Typography>
+                <Typography variant="h5">Fill in your details por favor</Typography>
                 <TextField
                     id="outlined-basic"
                     label="Name"

@@ -8,9 +8,8 @@ export interface UserMetadata {
     gender: string;
 }
 
-export interface MapCoord {
-    x: number;
-    y: number;
+export interface UserSurvey {
+    free_text: string;
 }
 
 export interface MapCellIdx {
@@ -24,7 +23,14 @@ export interface MapMetadata {
     im_src: string;
     rows: number;
     cols: number;
-    start_cell: MapCellIdx;
+    end_cell: MapCellIdx;
+}
+
+export interface GameState {
+    end: boolean;
+    end_modal_text: string;
+    end_modal_title: string;
+    init_time: number;
 }
 
 export interface IAppState {
@@ -32,6 +38,8 @@ export interface IAppState {
     map_metadata: MapMetadata;
     user_map_path: MapCellIdx[];
     user_metadata: UserMetadata;
+    user_survey: UserSurvey;
+    game_state: GameState;
 }
 
 export const init_app_state: IAppState = {
@@ -43,9 +51,11 @@ export const init_app_state: IAppState = {
         im_src: 'map1.png',
         rows: 18,
         cols: 24,
-        start_cell: { r: 2, c: 23 },
+        end_cell: { r: 16, c: 7 },
     },
     user_map_path: [{ r: 2, c: 23 }],
+    user_survey: { free_text: '' },
+    game_state: { end: false, end_modal_text: '', end_modal_title: 'Game is over', init_time: 300 },
 };
 
 const Wrapper = (props: any) => {

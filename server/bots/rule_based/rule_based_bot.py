@@ -29,9 +29,9 @@ class ruleBasedBot(Bot):
                                           GeneralInformation(shared)]
 
     def __is_finished(self, user_state):
-        user_coord = (user_state['x'], user_state['y'])
-        treasure_coord = (self.treasure_loc['x'], self.treasure_loc['y'])
-        return math.dist(user_coord, treasure_coord) < 0.1
+        user_coord = (user_state['r'], user_state['c'])
+        treasure_coord = (self.treasure_loc['r'], self.treasure_loc['c'])
+        return math.dist(user_coord, treasure_coord) < 3
 
     def __match_and_respond(self, user_msg, user_state=None):
         if self.__is_finished(user_state):

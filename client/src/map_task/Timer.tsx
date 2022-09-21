@@ -1,14 +1,20 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import { useTimer } from 'react-timer-hook';
+import { useApp } from './useApp';
+import { useContext } from 'react';
+import { AppContext } from '../AppContext';
 import './Timer.css';
 
 function Timer(): JSX.Element {
+    const { state } = useContext(AppContext);
+
     const expiryTimestamp = new Date();
-    expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + 300);
+    expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + state.game_state.init_time);
+    const { open_ending_modal } = useApp();
 
     const { seconds, minutes } = useTimer({
         expiryTimestamp,
-        onExpire: () => console.warn('onExpire called'),
+        onExpire: () => open_ending_modal('Time is up'),
     });
 
     const right = seconds % 10;

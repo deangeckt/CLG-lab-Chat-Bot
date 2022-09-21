@@ -1,6 +1,7 @@
 import { useContext, useRef, useState } from 'react';
 import { AppContext } from '../AppContext';
-import { MapCellIdx, MapCoord } from '../Wrapper';
+import { MapCellIdx } from '../Wrapper';
+import { useApp } from './useApp';
 
 const get_canvas_size = (im_width: number, im_height: number) => {
     // map canvas is 75% width, the app container is 90% width
@@ -26,6 +27,7 @@ const path_cell_color = 'rgba(63, 81, 181, 0.8)';
 const next_cells_color = 'rgba(22, 196, 59, 0.4)';
 
 export function useMapCanvas() {
+    const { open_ending_modal } = useApp();
     const { state, setState } = useContext(AppContext);
     const [matrix, setMatrix] = useState(Array<Array<Path2D>>);
     const [neighbors, setNeighbors] = useState<Set<string>>(new Set());
@@ -36,7 +38,7 @@ export function useMapCanvas() {
     const init_matrix = () => {
         const canvas = canvasRef.current;
         const context = (canvas as any).getContext('2d');
-        context.beginPath();
+        // context.beginPath();
 
         const rows = state.map_metadata.rows;
         const columns = state.map_metadata.cols;
@@ -45,7 +47,7 @@ export function useMapCanvas() {
         const row_step = canvas_height / rows;
 
         const new_mat: Array<Array<Path2D>> = [];
-        const curr_map_cell: MapCellIdx = state.user_map_path[state.user_map_path.length - 1];
+        const curr_map_cell: MapCellIdx = state.user_map_path[0];
         const new_neighbors = get_neighbors(curr_map_cell);
 
         for (let row = 0; row < rows; row++) {
@@ -96,7 +98,20 @@ export function useMapCanvas() {
         }
     };
 
+    const is_finish = (cell: MapCellIdx): boolean => {
+        return (
+            Math.sqrt((cell.r - state.map_metadata.end_cell.r) ** 2 + (cell.c - state.map_metadata.end_cell.c) ** 2) < 2
+        );
+    };
+
     const next_move = (new_cell: MapCellIdx) => {
+        if (is_finish(new_cell)) {
+            open_ending_modal('Felicidades! you found the treasue');
+            return;
+        }
+
+        // console.log(new_cell);
+
         const new_neighbors = get_neighbors(new_cell);
         setNeighbors(new_neighbors);
 
@@ -162,18 +177,6 @@ export function useMapCanvas() {
         }
     };
 
-    const curr_map_cell_to_coord = (): MapCoord => {
-        const cell = state.user_map_path[state.user_map_path.length - 1];
-        const col_step = canvas_width / state.map_metadata.cols;
-        const row_step = canvas_height / state.map_metadata.rows;
-
-        let x = cell.c * col_step + radius * 1.5;
-        let y = cell.r * row_step + radius * 1.5;
-        x = x / canvas_width;
-        y = y / canvas_height;
-        return { x, y };
-    };
-
     return {
         canvasRef,
         matrix,
@@ -184,6 +187,5 @@ export function useMapCanvas() {
         init_matrix,
         onMouseClick,
         onKeyClick,
-        curr_map_cell_to_coord,
     };
 }

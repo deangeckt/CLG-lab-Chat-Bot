@@ -1,5 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
-
+import React from 'react';
 import { useRouteError } from 'react-router-dom';
 
 export default function ErrorPage() {
@@ -7,7 +6,6 @@ export default function ErrorPage() {
     console.error(error);
 
     return (
-        // eslint-disable-next-line react/react-in-jsx-scope
         <div id="error-page">
             <h1>Oops!</h1>
             <p>Sorry, an unexpected error has occurred.</p>

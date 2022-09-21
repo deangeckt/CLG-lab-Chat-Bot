@@ -1,0 +1,16 @@
+.Header {
+    width: 100%;
+    display: flex;
+    background-color: #484644;
+    margin-bottom: 8px;
+    justify-content: space-between;
+    height: 3em;
+}
+
+.clg_logo {
+    width: 96px;
+}
+
+.haifa_logo {
+    width: 96px;
+}

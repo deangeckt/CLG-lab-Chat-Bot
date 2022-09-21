@@ -70,12 +70,12 @@ class GeneralInformation(TemplateMatcher):
         return f'do you see the {self.closest_obj}?'
 
     def __find_closest_object(self, user_coord):
-        min_dist = 1
+        min_dist = 1000
         closest_obj = ''
         for obj in self.shared.kb_abs:
-            x = self.shared.kb_abs[obj]['x']
-            y = self.shared.kb_abs[obj]['y']
-            obj_coord = (x, y)
+            r = self.shared.kb_abs[obj]['r']
+            c = self.shared.kb_abs[obj]['c']
+            obj_coord = (r, c)
             curr_dist = math.dist(user_coord, obj_coord)
             if curr_dist < min_dist:
                 min_dist = curr_dist
@@ -98,7 +98,9 @@ class GeneralInformation(TemplateMatcher):
         if not is_match:
             return None
 
-        self.closest_obj = self.__find_closest_object((user_state['x'], user_state['y']))
+        self.closest_obj = self.__find_closest_object((user_state['r'], user_state['c']))
+        if self.closest_obj == 'treasure':
+            return 'you found the treasure!'
         self.next_direction = random.choice(self.shared.kb_abs[self.closest_obj]['next_direction'])
         if self.next_direction in self.shared.direction_mapping:
             if self.closest_obj in ['start']:

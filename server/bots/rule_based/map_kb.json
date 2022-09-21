@@ -186,8 +186,8 @@
 	},
 	"absolute": {
 		"start": {
-			"x": 0.9,
-			"y": 0.07,
+			"r": 2,
+			"c": 23,
 			"next_direction": [
 				"left",
 				"go left towards the tiger",
@@ -195,8 +195,8 @@
 			]
 		},
 		"tiger": {
-			"x": 0.7,
-			"y": 0.1,
+			"r": 2,
+			"c": 17,
 			"next_direction": [
 				"left",
 				"pass the branch below the tiger, to the left",
@@ -204,16 +204,16 @@
 			]
 		},
 		"elephant": {
-			"x": 0.29,
-			"y": 0.36,
+			"r": 6,
+			"c": 7,
 			"next_direction": [
 				"right",
 				"left"
 			]
 		},
 		"giraph": {
-			"x": 0.04,
-			"y": 0.5,
+			"r": 8,
+			"c": 1,
 			"next_direction": [
 				"down",
 				"head south east from the giraph",
@@ -221,8 +221,8 @@
 			]
 		},
 		"parrot": {
-			"x": 0.48,
-			"y": 0.33,
+			"r": 6,
+			"c": 11,
 			"next_direction": [
 				"right",
 				"walk over the gray rocks",
@@ -230,24 +230,24 @@
 			]
 		},
 		"butterfly": {
-			"x": 0.9,
-			"y": 0.39,
+			"r": 7,
+			"c": 21,
 			"next_direction": [
 				"left",
 				"above the butterfly, continue of the branches left"
 			]
 		},
 		"tarantula": {
-			"x": 0.1,
-			"y": 0.1,
+			"r": 1,
+			"c": 3,
 			"next_direction": [
 				"down",
 				"go down thorough the gray rocks towards the parrot"
 			]
 		},
 		"frog": {
-			"x": 0.83,
-			"y": 0.64,
+			"r": 11,
+			"c": 19,
 			"next_direction": [
 				"left",
 				"keep going left on the crocodile",
@@ -255,8 +255,8 @@
 			]
 		},
 		"crocodile": {
-			"x": 0.47,
-			"y": 0.72,
+			"r": 12,
+			"c": 11,
 			"next_direction": [
 				"left",
 				"continue on the crocodile to the rock below the elephant",
@@ -264,16 +264,16 @@
 			]
 		},
 		"snake": {
-			"x": 0.1,
-			"y": 0.86,
+			"r": 15,
+			"c": 2,
 			"next_direction": [
 				"right",
 				"continue east to the treasure!"
 			]
 		},
 		"treasure": {
-			"x": 0.31,
-			"y": 0.9
+			"r": 16,
+			"c": 7
 		}
 	}
 }

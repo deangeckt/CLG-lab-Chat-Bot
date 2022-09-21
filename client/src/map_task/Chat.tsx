@@ -4,14 +4,12 @@ import { ChatFeed, Message } from 'react-chat-ui';
 import { IconButton, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import { callBot } from '../api';
-import { useMapCanvas } from './useMapCanvas';
 import './Chat.css';
 
 function Chat(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [currMsg, setCurrMsg] = useState('');
     const [botType, setBotType] = useState(false);
-    const { curr_map_cell_to_coord } = useMapCanvas();
 
     const updateChatState = (newMsg: Message[]) => {
         const chat = [...state.chat].concat(newMsg);
@@ -23,7 +21,8 @@ function Chat(): JSX.Element {
         updateChatState([new Message({ message: currMsg, id: 0 })]);
         setCurrMsg('');
         setBotType(true);
-        callBot(currMsg, curr_map_cell_to_coord(), addBotMsg);
+        const curr_cell = state.user_map_path[state.user_map_path.length - 1];
+        callBot(currMsg, curr_cell, addBotMsg);
     };
     // very ugly workaround!
     const addBotMsg = (msg: string) => {

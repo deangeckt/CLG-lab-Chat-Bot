@@ -12,6 +12,8 @@
 .App_Header {
   display: flex;
   width: 100%;
+  justify-content: center;
+  margin-bottom: 4px;;
 }
 
 .App_Container {

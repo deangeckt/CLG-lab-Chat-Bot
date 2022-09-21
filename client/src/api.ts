@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { MapCoord } from './Wrapper';
+import { MapCellIdx } from './Wrapper';
 
 const baseUrl = 'http://localhost:8080/api/v1/';
 
@@ -16,9 +16,9 @@ export const getHealth = async () => {
     }
 };
 
-export const callBot = async (msg: string, coord: MapCoord, update: Function) => {
+export const callBot = async (msg: string, cell: MapCellIdx, update: Function) => {
     try {
-        const data = { msg, state: coord };
+        const data = { msg, state: cell };
         const response = (await axios.request({
             url: baseUrl + 'call',
             method: 'POST',
