@@ -14,7 +14,7 @@ function Home(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const navigate = useNavigate();
     const routeChange = () => {
-        const path = `map_task`;
+        const path = '/map_task';
         navigate(path);
     };
 

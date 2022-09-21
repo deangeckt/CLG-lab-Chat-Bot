@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { AppContext } from './AppContext';
-import { Message } from 'react-chat-ui';
 
 export interface UserMetadata {
     name: string;
@@ -33,8 +32,13 @@ export interface GameState {
     init_time: number;
 }
 
+export interface ChatMsg {
+    id: number;
+    message: string;
+}
+
 export interface IAppState {
-    chat: Message[];
+    chat: ChatMsg[];
     map_metadata: MapMetadata;
     user_map_path: MapCellIdx[];
     user_metadata: UserMetadata;
@@ -43,7 +47,7 @@ export interface IAppState {
 }
 
 export const init_app_state: IAppState = {
-    chat: [new Message({ id: 1, message: 'Welcome!' })],
+    chat: [{ id: 1, message: 'Welcome!' }],
     user_metadata: { name: '', age: '', gender: 'Male' },
     map_metadata: {
         im_width: 1413,

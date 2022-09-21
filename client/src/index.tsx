@@ -15,7 +15,7 @@ root.render(
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="map_task" element={<App />} />
-                <Route path="map_task/survey" element={<EndPage />} />
+                <Route path="survey" element={<EndPage />} />
             </Routes>
         </BrowserRouter>
     </Wrapper>,

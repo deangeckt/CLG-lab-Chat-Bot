@@ -26,7 +26,6 @@ function App(): JSX.Element {
     return (
         <div className="App">
             <Header />
-
             <Dialog
                 open={state.game_state.end}
                 TransitionComponent={Transition as any}

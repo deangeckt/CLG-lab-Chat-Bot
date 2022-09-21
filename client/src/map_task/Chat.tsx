@@ -1,24 +1,27 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../AppContext';
-import { ChatFeed, Message } from 'react-chat-ui';
-import { IconButton, TextField } from '@material-ui/core';
+import { IconButton, List, ListItem, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import { callBot } from '../api';
+import { ChatMsg } from '../Wrapper';
 import './Chat.css';
+
+// TODO: typing animation / loading
+// TODO: fix scroll auto down
 
 function Chat(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [currMsg, setCurrMsg] = useState('');
     const [botType, setBotType] = useState(false);
 
-    const updateChatState = (newMsg: Message[]) => {
+    const updateChatState = (newMsg: ChatMsg[]) => {
         const chat = [...state.chat].concat(newMsg);
         setState({ ...state, chat: chat });
     };
 
     const addUserMsg = () => {
         if (!currMsg) return;
-        updateChatState([new Message({ message: currMsg, id: 0 })]);
+        updateChatState([{ message: currMsg, id: 0 }]);
         setCurrMsg('');
         setBotType(true);
         const curr_cell = state.user_map_path[state.user_map_path.length - 1];
@@ -26,7 +29,10 @@ function Chat(): JSX.Element {
     };
     // very ugly workaround!
     const addBotMsg = (msg: string) => {
-        updateChatState([new Message({ message: currMsg, id: 0 }), new Message({ message: msg, id: 1 })]);
+        updateChatState([
+            { message: currMsg, id: 0 },
+            { message: msg, id: 1 },
+        ]);
         setBotType(false);
     };
 
@@ -38,19 +44,31 @@ function Chat(): JSX.Element {
 
     return (
         <div className="chat_container">
-            <ChatFeed
-                messages={state.chat}
-                isTyping={botType}
-                bubbleStyles={{
-                    text: {
-                        fontSize: 18,
-                    },
-                    chatbubble: {
-                        borderRadius: 50,
-                        padding: 10,
-                    },
-                }}
-            />
+            <List style={{ height: '90%', overflowY: 'auto' }}>
+                {state.chat.map(function (c, idx) {
+                    const direction = c.id == 1 ? 'row' : 'row-reverse';
+                    const color = c.id == 1 ? '#484644' : '#3f51b5';
+
+                    return (
+                        <ListItem key={idx}>
+                            <div style={{ display: 'flex', flexDirection: direction, width: '100%' }}>
+                                <span
+                                    style={{
+                                        color: 'white',
+                                        backgroundColor: color,
+                                        borderRadius: '8px',
+                                        padding: '8px',
+                                        fontSize: '18px',
+                                    }}
+                                >
+                                    {c.message}
+                                </span>
+                            </div>
+                        </ListItem>
+                    );
+                })}
+            </List>
+
             <div className="input_panel">
                 <TextField
                     style={{ width: '90%' }}

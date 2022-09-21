@@ -14,7 +14,7 @@ export function useApp() {
     };
 
     const navigate_to_end_page = () => {
-        const path = `survey`;
+        const path = '/survey';
         navigate(path);
     };
 
