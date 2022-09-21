@@ -30,7 +30,6 @@ export interface MapMetadata {
 export interface IAppState {
     chat: Message[];
     map_metadata: MapMetadata;
-    curr_map_cell: MapCellIdx;
     user_map_path: MapCellIdx[];
     user_metadata: UserMetadata;
 }
@@ -46,7 +45,6 @@ export const init_app_state: IAppState = {
         cols: 24,
         start_cell: { r: 2, c: 23 },
     },
-    curr_map_cell: { r: 2, c: 23 },
     user_map_path: [{ r: 2, c: 23 }],
 };
 
