@@ -9,6 +9,11 @@
   align-content: space-between;
 }
 
+.App_Header {
+  display: flex;
+  width: 100%;
+}
+
 .App_Container {
   width: 90vw;
   height: 90vh;
