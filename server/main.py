@@ -1,7 +1,5 @@
 import json
 import os
-import sys
-import traceback
 from flask import Flask
 from flask import request
 from flask_cors import CORS
