@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../AppContext';
-import { IconButton, List, ListItem, TextField } from '@material-ui/core';
+import { Box, CircularProgress, IconButton, List, ListItem, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import { callBot } from '../api';
 import { ChatMsg } from '../Wrapper';
 import './Chat.css';
 
-// TODO: typing animation / loading
 // TODO: fix scroll auto down
 
 function Chat(): JSX.Element {
@@ -67,6 +66,11 @@ function Chat(): JSX.Element {
                         </ListItem>
                     );
                 })}
+                {botType ? (
+                    <Box sx={{ display: 'flex', marginLeft: '16px' }}>
+                        <CircularProgress style={{ color: '#484644', width: '30px', height: '30px' }} />
+                    </Box>
+                ) : null}
             </List>
 
             <div className="input_panel">
