@@ -38,7 +38,6 @@ export function useMapCanvas() {
     const init_matrix = () => {
         const canvas = canvasRef.current;
         const context = (canvas as any).getContext('2d');
-        // context.beginPath();
 
         const rows = state.map_metadata.rows;
         const columns = state.map_metadata.cols;

@@ -7,14 +7,18 @@ import './Timer.css';
 
 function Timer(): JSX.Element {
     const { state } = useContext(AppContext);
-
-    const expiryTimestamp = new Date();
-    expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + state.game_state.init_time);
     const { open_ending_modal } = useApp();
+
+    const init_time = state.game_state.end ? 0 : state.game_state.init_time;
+    const expiryTimestamp = new Date();
+    expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + init_time);
 
     const { seconds, minutes } = useTimer({
         expiryTimestamp,
-        onExpire: () => open_ending_modal('Time is up'),
+        onExpire: () => {
+            if (state.game_state.end) return;
+            open_ending_modal('Time is up');
+        },
     });
 
     const right = seconds % 10;

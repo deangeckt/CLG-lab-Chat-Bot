@@ -17,7 +17,10 @@ function MapCanvas() {
         }
         const context = canvas.getContext('2d');
         context.drawImage(image, 0, 0, canvas_width, canvas_height);
+        if (state.game_state.end) return;
+
         init_matrix();
+        console.log('init');
     }, []);
 
     return (
