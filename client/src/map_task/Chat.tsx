@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { AppContext } from '../AppContext';
 import { Box, CircularProgress, IconButton, List, ListItem, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
@@ -6,12 +6,20 @@ import { callBot } from '../api';
 import { ChatMsg } from '../Wrapper';
 import './Chat.css';
 
-// TODO: fix scroll auto down
-
 function Chat(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [currMsg, setCurrMsg] = useState('');
     const [botType, setBotType] = useState(false);
+    const scrollRef = useRef(null);
+
+    useEffect(() => {
+        const cc = document.getElementById('chat_list');
+        if (!cc) return;
+        cc.scrollTo({
+            top: cc.scrollHeight,
+            behavior: 'smooth',
+        });
+    }, [state.chat]);
 
     const updateChatState = (newMsg: ChatMsg[]) => {
         const chat = [...state.chat].concat(newMsg);
@@ -43,7 +51,7 @@ function Chat(): JSX.Element {
 
     return (
         <div className="chat_container">
-            <List style={{ height: '90%', overflowY: 'auto' }}>
+            <List id="chat_list" style={{ height: '90%', overflowY: 'auto' }} ref={scrollRef}>
                 {state.chat.map(function (c, idx) {
                     const direction = c.id == 1 ? 'row' : 'row-reverse';
                     const color = c.id == 1 ? '#484644' : '#3f51b5';

@@ -20,7 +20,6 @@ function MapCanvas() {
         if (state.game_state.end) return;
 
         init_matrix();
-        console.log('init');
     }, []);
 
     return (
