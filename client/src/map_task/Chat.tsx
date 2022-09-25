@@ -1,16 +1,13 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../AppContext';
 import { Box, CircularProgress, IconButton, List, ListItem, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-import { callBot } from '../api';
-import { ChatMsg } from '../Wrapper';
+import { useChat } from './useChat';
 import './Chat.css';
 
 function Chat(): JSX.Element {
-    const { state, setState } = useContext(AppContext);
-    const [currMsg, setCurrMsg] = useState('');
-    const [botType, setBotType] = useState(false);
-    const scrollRef = useRef(null);
+    const { state } = useContext(AppContext);
+    const { botType, onKeyPress, sendUserMsg, inputTxt, setInputTxt } = useChat();
 
     useEffect(() => {
         const cc = document.getElementById('chat_list');
@@ -21,40 +18,12 @@ function Chat(): JSX.Element {
         });
     }, [state.chat]);
 
-    const updateChatState = (newMsg: ChatMsg[]) => {
-        const chat = [...state.chat].concat(newMsg);
-        setState({ ...state, chat: chat });
-    };
-
-    const addUserMsg = () => {
-        if (!currMsg) return;
-        updateChatState([{ message: currMsg, id: 0 }]);
-        setCurrMsg('');
-        setBotType(true);
-        const curr_cell = state.user_map_path[state.user_map_path.length - 1];
-        callBot(currMsg, curr_cell, addBotMsg);
-    };
-    // very ugly workaround!
-    const addBotMsg = (msg: string) => {
-        updateChatState([
-            { message: currMsg, id: 0 },
-            { message: msg, id: 1 },
-        ]);
-        setBotType(false);
-    };
-
-    const onKeyPress = (e: any) => {
-        if (e.keyCode == 13) {
-            addUserMsg();
-        }
-    };
-
     return (
         <div className="chat_container">
-            <List id="chat_list" style={{ height: '90%', overflowY: 'auto' }} ref={scrollRef}>
+            <List id="chat_list" style={{ height: '90%', overflowY: 'auto' }}>
                 {state.chat.map(function (c, idx) {
-                    const direction = c.id == 1 ? 'row' : 'row-reverse';
-                    const color = c.id == 1 ? '#484644' : '#3f51b5';
+                    const direction = c.id != state.game_config.game_role ? 'row' : 'row-reverse';
+                    const color = c.id != state.game_config.game_role ? '#484644' : '#3f51b5';
 
                     return (
                         <ListItem key={idx}>
@@ -85,12 +54,12 @@ function Chat(): JSX.Element {
                 <TextField
                     style={{ width: '90%' }}
                     variant="outlined"
-                    value={currMsg}
+                    value={inputTxt}
                     placeholder={'Type here'}
-                    onChange={(e) => setCurrMsg(e.target.value)}
+                    onChange={(e) => setInputTxt(e.target.value)}
                     onKeyDown={(e) => onKeyPress(e)}
                 />
-                <IconButton color="primary" size="medium" onClick={addUserMsg}>
+                <IconButton color="primary" size="medium" onClick={sendUserMsg}>
                     <SendIcon />
                 </IconButton>
             </div>

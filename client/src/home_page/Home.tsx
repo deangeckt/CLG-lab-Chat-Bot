@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, MenuItem, TextField } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { UserMetadata } from '../Wrapper';
 import Header from '../common/Header';
+import { assign_role } from '../api';
 import './Home.css';
 
 const genders = ['Male', 'Female', 'Other'];
@@ -17,6 +18,17 @@ function Home(): JSX.Element {
         const path = '/map_task';
         navigate(path);
     };
+
+    const update_role = (r: number) => {
+        console.log('setting role:', r);
+        const game_config = state.game_config;
+        game_config.game_role = r;
+        setState({ ...state, game_config });
+    };
+
+    useEffect(() => {
+        assign_role(update_role);
+    }, []);
 
     const simple_set = (e: any, field: keyof UserMetadata) => {
         const metadata = state.user_metadata;

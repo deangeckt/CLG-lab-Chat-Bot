@@ -25,6 +25,9 @@ export interface MapMetadata {
     end_cell: MapCellIdx;
 }
 
+export type gameMode = 'bot' | 'human';
+export type gameRole = number; // 0 : navigator, 1 instructor
+
 export interface GameState {
     end: boolean;
     end_modal_text: string;
@@ -32,8 +35,13 @@ export interface GameState {
     init_time: number;
 }
 
+export interface GameConfig {
+    game_mode: gameMode;
+    game_role: gameRole;
+}
+
 export interface ChatMsg {
-    id: number;
+    id: gameRole;
     message: string;
 }
 
@@ -44,6 +52,7 @@ export interface IAppState {
     user_metadata: UserMetadata;
     user_survey: UserSurvey;
     game_state: GameState;
+    game_config: GameConfig;
 }
 
 export const init_app_state: IAppState = {
@@ -60,6 +69,7 @@ export const init_app_state: IAppState = {
     user_map_path: [{ r: 2, c: 23 }],
     user_survey: { free_text: '' },
     game_state: { end: false, end_modal_text: '', end_modal_title: 'Game is over', init_time: 300 },
+    game_config: { game_mode: 'bot', game_role: 0 },
 };
 
 const Wrapper = (props: any) => {
