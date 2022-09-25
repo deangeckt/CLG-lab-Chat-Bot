@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { ChatMsg, MapCellIdx } from './Wrapper';
+import { ChatMsg, gameMode, MapCellIdx } from './Wrapper';
 
 export const baseUrl = 'http://localhost:8080/api/v1/';
 
@@ -42,14 +42,15 @@ export const callHuman = async (msg: ChatMsg) => {
     }
 };
 
-export const assign_role = async (update: Function) => {
+export const register = async (mode: gameMode, update: Function) => {
     try {
         const response = (await axios.request({
-            url: baseUrl + 'assign_roles',
-            method: 'GET',
+            url: baseUrl + 'register',
+            method: 'POST',
+            data: { mode },
         })) as AxiosResponse;
-        update(response.data.res);
+        update(response.data);
     } catch (error: any) {
-        console.log('Server not connected');
+        update(null);
     }
 };

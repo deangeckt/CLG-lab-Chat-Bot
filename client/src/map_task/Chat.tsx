@@ -3,6 +3,7 @@ import { AppContext } from '../AppContext';
 import { Box, CircularProgress, IconButton, List, ListItem, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import { useChat } from './useChat';
+import { main_blue, main_gray } from '../common/colors';
 import './Chat.css';
 
 function Chat(): JSX.Element {
@@ -23,7 +24,7 @@ function Chat(): JSX.Element {
             <List id="chat_list" style={{ height: '90%', overflowY: 'auto' }}>
                 {state.chat.map(function (c, idx) {
                     const direction = c.id != state.game_config.game_role ? 'row' : 'row-reverse';
-                    const color = c.id != state.game_config.game_role ? '#484644' : '#3f51b5';
+                    const color = c.id != state.game_config.game_role ? main_gray : main_blue;
 
                     return (
                         <ListItem key={idx}>
@@ -37,7 +38,7 @@ function Chat(): JSX.Element {
                                         fontSize: '18px',
                                     }}
                                 >
-                                    {c.message}
+                                    {c.msg}
                                 </span>
                             </div>
                         </ListItem>
@@ -45,7 +46,7 @@ function Chat(): JSX.Element {
                 })}
                 {botType ? (
                     <Box sx={{ display: 'flex', marginLeft: '16px' }}>
-                        <CircularProgress style={{ color: '#484644', width: '30px', height: '30px' }} />
+                        <CircularProgress style={{ color: main_gray, width: '30px', height: '30px' }} />
                     </Box>
                 ) : null}
             </List>

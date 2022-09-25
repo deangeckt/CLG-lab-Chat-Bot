@@ -13,7 +13,7 @@
 .App_Header {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: space-around;
   margin-bottom: 4px;;
 }
 

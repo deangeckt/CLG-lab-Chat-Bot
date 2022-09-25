@@ -1,39 +1,26 @@
-import React, { useEffect } from 'react';
-import { Button, MenuItem, TextField } from '@material-ui/core';
+import React from 'react';
+import { Box, Button, CircularProgress } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
-import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
-import { UserMetadata } from '../Wrapper';
+import { gameMode } from '../Wrapper';
 import Header from '../common/Header';
-import { assign_role } from '../api';
+import { useApp } from '../map_task/useApp';
+import { register } from '../api';
+import Form from './Form';
+import { main_blue } from '../common/colors';
 import './Home.css';
-
-const genders = ['Male', 'Female', 'Other'];
 
 function Home(): JSX.Element {
     const { state, setState } = useContext(AppContext);
-    const navigate = useNavigate();
-    const routeChange = () => {
-        const path = '/map_task';
-        navigate(path);
-    };
+    const { register_cb } = useApp();
 
-    const update_role = (r: number) => {
-        console.log('setting role:', r);
+    const register_click = (mode: gameMode) => {
         const game_config = state.game_config;
-        game_config.game_role = r;
+        game_config.registerd = 'load';
+        game_config.game_mode = mode;
         setState({ ...state, game_config });
-    };
-
-    useEffect(() => {
-        assign_role(update_role);
-    }, []);
-
-    const simple_set = (e: any, field: keyof UserMetadata) => {
-        const metadata = state.user_metadata;
-        metadata[field] = e.target.value.toString();
-        setState({ ...state, metadata: metadata });
+        register(mode, register_cb);
     };
 
     return (
@@ -42,37 +29,39 @@ function Home(): JSX.Element {
 
             <div className="Home_Container">
                 <Typography variant="h4">Welcome to CLG map task</Typography>
-                <Typography variant="h5">Fill in your details por favor</Typography>
-                <TextField
-                    id="outlined-basic"
-                    label="Name"
-                    variant="outlined"
-                    onChange={(event) => simple_set(event, 'name')}
-                />
-                <TextField
-                    id="outlined-basic"
-                    label="Age"
-                    type="number"
-                    variant="outlined"
-                    onChange={(event) => simple_set(event, 'age')}
-                />
-                <TextField
-                    variant="outlined"
-                    id="outlined-basic"
-                    select
-                    label="Select"
-                    value={state.user_metadata.gender}
-                    onChange={(event) => simple_set(event, 'gender')}
-                >
-                    {genders.map((option) => (
-                        <MenuItem key={option} value={option}>
-                            {option}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                <Button style={{ textTransform: 'none' }} variant="outlined" color="primary" onClick={routeChange}>
-                    Start
-                </Button>
+                {state.game_config.registerd == 'yes' ? <Form /> : null}
+                {state.game_config.registerd == 'load' ? (
+                    <Box sx={{ display: 'flex', marginLeft: '16px' }}>
+                        <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
+                    </Box>
+                ) : null}
+                {state.game_config.registerd == 'no' ? (
+                    <div style={{ width: '50%' }}>
+                        <Typography variant="h5" style={{ margin: '16px' }}>
+                            Choose game mode
+                        </Typography>
+                        <div className="home_Register">
+                            <Button
+                                className="register_btn"
+                                style={{ textTransform: 'none' }}
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => register_click('bot')}
+                            >
+                                Bot
+                            </Button>
+                            <Button
+                                className="register_btn"
+                                style={{ textTransform: 'none' }}
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => register_click('human')}
+                            >
+                                Human
+                            </Button>
+                        </div>
+                    </div>
+                ) : null}
             </div>
         </div>
     );

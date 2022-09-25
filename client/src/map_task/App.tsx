@@ -1,7 +1,16 @@
 import React from 'react';
 import MapCanvas from './MapCanvas';
 import Chat from './Chat';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@material-ui/core';
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Slide,
+    Typography,
+} from '@material-ui/core';
 import Timer from './Timer';
 import { useContext } from 'react';
 import { TransitionProps } from '@material-ui/core/transitions';
@@ -9,6 +18,7 @@ import { AppContext } from '../AppContext';
 import { useApp } from './useApp';
 import Header from '../common/Header';
 import './App.css';
+import { role_strings } from '../Wrapper';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -22,6 +32,7 @@ const Transition = React.forwardRef(function Transition(
 function App(): JSX.Element {
     const { state } = useContext(AppContext);
     const { navigate_to_end_page } = useApp();
+    const role_string = role_strings[state.game_config.game_role];
 
     return (
         <div className="App">
@@ -49,7 +60,8 @@ function App(): JSX.Element {
             </Dialog>
 
             <div className="App_Header">
-                <Timer />
+                <Typography variant="h4">Your role: {role_string}</Typography>
+                {state.game_config.game_mode == 'bot' ? <Timer /> : null}
             </div>
             <div className="App_Container">
                 <MapCanvas />

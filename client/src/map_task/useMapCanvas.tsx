@@ -36,6 +36,7 @@ export function useMapCanvas() {
     const radius = canvas_width / 65;
 
     const init_matrix = () => {
+        if (state.game_config.game_role == 1) return;
         const canvas = canvasRef.current;
         const context = (canvas as any).getContext('2d');
 

@@ -12,7 +12,9 @@ app = Flask(__name__)
 CORS(app)
 
 chat_bot = ruleBasedBot()
-server = Server()
+hh_server = Server()
+
+game_roles = {'navigator': 0, 'instructor': 1}
 
 
 @app.route('/api/v1/call_bot', methods=['POST'])
@@ -31,9 +33,9 @@ def call_human():
     try:
         params = request.get_json()
         id_ = params['id']
-        msg = params['message']
+        msg = params['msg']
         to_other_msg = f"{id_}__{msg}"
-        server.announce(to_other_msg)
+        hh_server.announce(to_other_msg)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print(e)
@@ -43,7 +45,7 @@ def call_human():
 @app.route('/api/v1/event')
 def event():
     def stream():
-        messages = server.listen()  # returns a queue.Queue
+        messages = hh_server.listen()  # returns a queue.Queue
         while True:
             msg = messages.get()  # blocks until a new message arrives
             yield msg
@@ -51,10 +53,26 @@ def event():
     return Response(stream(), mimetype='text/event-stream')
 
 
-@app.route('/api/v1/assign_roles', methods=['GET'])
-def health():
-    role = server.assign_role_api()
-    return json.dumps({'res': role}), 200, {'Content-Type': 'application/json'}
+@app.route('/api/v1/register', methods=['POST'])
+def register():
+    try:
+        game_mode = request.get_json()['mode']
+        if game_mode not in ['bot', 'human']:
+            raise 'Invalid game mode'
+
+        resp = {}
+        if game_mode == 'bot':
+            resp['role'] = game_roles['navigator']
+        elif game_mode == 'human':
+            role = hh_server.assign_role_api()
+            resp['role'] = game_roles[role]
+
+        resp['map_src'] = 'map1'
+        return resp, 200, {'Content-Type': 'application/json'}
+
+    except Exception as e:
+        print(e)
+        return "Server error", 500, {'Content-Type': 'application/json'}
 
 
 if __name__ == "__main__":

@@ -18,5 +18,27 @@ export function useApp() {
         navigate(path);
     };
 
-    return { open_ending_modal, navigate_to_end_page };
+    const register_cb = (data: any) => {
+        const game_config = state.game_config;
+        const map_metadata = state.map_metadata;
+        game_config.registerd = 'yes';
+
+        if (data) {
+            game_config.game_role = data.role;
+            map_metadata.im_src = `${data.map_src}_${data.role}.jpg`;
+        } else {
+            console.warn('Server not connected - using mock bot mode');
+            game_config.game_mode = 'bot';
+        }
+        let chat = [...state.chat];
+        if (game_config.game_mode == 'bot') {
+            chat = chat.concat([{ id: 1, msg: 'Welcome!' }]);
+        }
+        console.log(game_config);
+        console.log(map_metadata);
+
+        setState({ ...state, game_config, chat, map_metadata });
+    };
+
+    return { open_ending_modal, navigate_to_end_page, register_cb };
 }

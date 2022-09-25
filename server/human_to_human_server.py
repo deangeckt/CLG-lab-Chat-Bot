@@ -29,10 +29,10 @@ class Server:
 
     def assign_role_api(self):
         # session = self.sessions[self.curr_session]
-        if '0' not in self.session:
-            self.session['0'] = '0'
-            return 0
-        elif '1' not in self.session:
+        if 'navigator' not in self.session:
+            self.session['navigator'] = ''
+            return 'navigator'
+        elif 'instructor' not in self.session:
             self.session = {}
-            return 1
+            return 'instructor'
 

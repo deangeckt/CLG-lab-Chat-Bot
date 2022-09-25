@@ -26,7 +26,12 @@ export interface MapMetadata {
 }
 
 export type gameMode = 'bot' | 'human';
-export type gameRole = number; // 0 : navigator, 1 instructor
+export type gameRegister = 'yes' | 'no' | 'load';
+export type gameRole = number;
+interface Dictionary {
+    [Key: number]: string;
+}
+export const role_strings: Dictionary = { 0: 'navigator', 1: 'instructor' };
 
 export interface GameState {
     end: boolean;
@@ -38,11 +43,12 @@ export interface GameState {
 export interface GameConfig {
     game_mode: gameMode;
     game_role: gameRole;
+    registerd: gameRegister;
 }
 
 export interface ChatMsg {
     id: gameRole;
-    message: string;
+    msg: string;
 }
 
 export interface IAppState {
@@ -56,12 +62,12 @@ export interface IAppState {
 }
 
 export const init_app_state: IAppState = {
-    chat: [{ id: 1, message: 'Welcome!' }],
+    chat: [],
     user_metadata: { name: '', age: '', gender: 'Male' },
     map_metadata: {
         im_width: 1413,
         im_height: 1052,
-        im_src: 'map1.png',
+        im_src: 'map1_0.jpg',
         rows: 18,
         cols: 24,
         end_cell: { r: 16, c: 7 },
@@ -69,7 +75,7 @@ export const init_app_state: IAppState = {
     user_map_path: [{ r: 2, c: 23 }],
     user_survey: { free_text: '' },
     game_state: { end: false, end_modal_text: '', end_modal_title: 'Game is over', init_time: 300 },
-    game_config: { game_mode: 'bot', game_role: 0 },
+    game_config: { game_mode: 'bot', game_role: 0, registerd: 'no' },
 };
 
 const Wrapper = (props: any) => {
