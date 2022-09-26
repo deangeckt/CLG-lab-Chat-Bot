@@ -1,5 +1,6 @@
 import { useContext, useRef, useState } from 'react';
 import { AppContext } from '../AppContext';
+import { path_cell_color, next_cells_color } from '../common/colors';
 import { MapCellIdx } from '../Wrapper';
 import { useApp } from './useApp';
 
@@ -23,20 +24,44 @@ const get_canvas_size = (im_width: number, im_height: number) => {
     return { canvas_width, canvas_height };
 };
 
-const path_cell_color = 'rgba(63, 81, 181, 0.8)';
-const next_cells_color = 'rgba(22, 196, 59, 0.4)';
-
 export function useMapCanvas() {
     const { open_ending_modal } = useApp();
     const { state, setState } = useContext(AppContext);
     const [matrix, setMatrix] = useState(Array<Array<Path2D>>);
     const [neighbors, setNeighbors] = useState<Set<string>>(new Set());
-    const canvasRef = useRef(null);
     const { canvas_width, canvas_height } = get_canvas_size(state.map_metadata.im_width, state.map_metadata.im_height);
+    const canvasRef = useRef(null);
+    const [im, setIm] = useState<HTMLImageElement>();
     const radius = canvas_width / 65;
 
+    const draw = (on_draw_cb: Function) => {
+        const canvas = canvasRef.current as any;
+        if (!canvas) {
+            return;
+        }
+        const context = canvas.getContext('2d');
+        const image = new Image();
+        image.onload = function () {
+            setIm(image);
+            context.drawImage(image, 0, 0, canvas_width, canvas_height);
+            on_draw_cb();
+        };
+        image.onerror = function (err) {
+            console.log('err', err);
+        };
+
+        image.src = require(`./maps/${state.map_metadata.im_src}`);
+    };
+
+    const init_navigator = () => {
+        draw(init_matrix);
+    };
+
+    const init_instructor = () => {
+        draw(() => null);
+    };
+
     const init_matrix = () => {
-        if (state.game_config.game_role == 1) return;
         const canvas = canvasRef.current;
         const context = (canvas as any).getContext('2d');
 
@@ -110,8 +135,6 @@ export function useMapCanvas() {
             return;
         }
 
-        // console.log(new_cell);
-
         const new_neighbors = get_neighbors(new_cell);
         setNeighbors(new_neighbors);
 
@@ -125,8 +148,7 @@ export function useMapCanvas() {
         const canvas = canvasRef.current;
         const context = (canvas as any).getContext('2d');
         context.clearRect(0, 0, canvas_width, canvas_height);
-        const image = document.getElementById('source');
-        context.drawImage(image, 0, 0, canvas_width, canvas_height);
+        context.drawImage(im, 0, 0, canvas_width, canvas_height);
 
         // color the circle object after image
         const user_map_path = [...state.user_map_path].concat(new_cell);
@@ -187,5 +209,7 @@ export function useMapCanvas() {
         init_matrix,
         onMouseClick,
         onKeyClick,
+        init_navigator,
+        init_instructor,
     };
 }

@@ -28,7 +28,7 @@ export interface MapMetadata {
 export type gameMode = 'bot' | 'human';
 export type gameRegister = 'yes' | 'no' | 'load';
 export type gameRole = number;
-interface Dictionary {
+export interface Dictionary {
     [Key: number]: string;
 }
 export const role_strings: Dictionary = { 0: 'navigator', 1: 'instructor' };

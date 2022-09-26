@@ -43,12 +43,9 @@ export function useChat() {
         setBotType(false);
     };
 
-    const addOtherHumanMsg = (msg: string) => {
-        const splited = msg.split('__');
-        const id_ = Number(splited[0]);
-        const otherMsg = splited[1];
-        if (id_ != state.game_config.game_role) {
-            updateChatState({ msg: otherMsg, id: id_ });
+    const addOtherHumanMsg = (msg: ChatMsg) => {
+        if (msg.id != state.game_config.game_role) {
+            updateChatState(msg);
         }
     };
 

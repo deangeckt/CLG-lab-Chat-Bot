@@ -9,7 +9,9 @@ export const huamn_to_human_event = async (update: Function) => {
         console.log('Connection to event server opened.');
     };
     evtSource.onmessage = function (e) {
-        update(e.data);
+        const splited = e.data.split('__');
+
+        update({ id: Number(splited[0]), msg: splited[1] });
     };
     evtSource.onerror = function (e) {
         console.log('EventSource failed.', e);
