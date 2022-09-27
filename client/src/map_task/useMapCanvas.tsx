@@ -1,4 +1,5 @@
 import { useContext, useRef, useState } from 'react';
+import { notifyHumanEnd } from '../api';
 import { AppContext } from '../AppContext';
 import { path_cell_color, next_cells_color } from '../common/colors';
 import { MapCellIdx } from '../Wrapper';
@@ -132,7 +133,7 @@ export function useMapCanvas() {
     const next_move = (new_cell: MapCellIdx) => {
         if (is_finish(new_cell)) {
             open_ending_modal('Felicidades! you found the treasue');
-            return;
+            if (state.game_config.game_mode == 'human') notifyHumanEnd(state.game_config.game_role);
         }
 
         const new_neighbors = get_neighbors(new_cell);

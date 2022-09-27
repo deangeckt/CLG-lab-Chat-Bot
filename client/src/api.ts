@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { ChatMsg, gameMode, MapCellIdx } from './Wrapper';
+import { ChatMsg, gameMode, gameRole, MapCellIdx } from './Wrapper';
 
 export const baseUrl = 'http://localhost:8080/api/v1/';
 
@@ -10,8 +10,7 @@ export const huamn_to_human_event = async (update: Function) => {
     };
     evtSource.onmessage = function (e) {
         const splited = e.data.split('__');
-
-        update({ id: Number(splited[0]), msg: splited[1] });
+        update({ id: Number(splited[0]), msg: splited[1] }, splited[2] === 'end');
     };
     evtSource.onerror = function (e) {
         console.log('EventSource failed.', e);
@@ -38,6 +37,18 @@ export const callHuman = async (msg: ChatMsg) => {
             url: baseUrl + 'call_human',
             method: 'POST',
             data: msg,
+        })) as AxiosResponse;
+    } catch (error: any) {
+        console.log('Server not connected');
+    }
+};
+
+export const notifyHumanEnd = async (id: gameRole) => {
+    try {
+        (await axios.request({
+            url: baseUrl + 'notify_end_human',
+            method: 'POST',
+            data: { id },
         })) as AxiosResponse;
     } catch (error: any) {
         console.log('Server not connected');

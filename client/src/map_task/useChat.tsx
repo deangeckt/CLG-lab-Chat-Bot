@@ -1,13 +1,15 @@
 import { useContext, useState, useEffect, useRef } from 'react';
-import { ChatMsg } from '../Wrapper';
 import { callBot, callHuman, huamn_to_human_event } from '../api';
 import { AppContext } from '../AppContext';
+import { useApp } from './useApp';
+import { ChatMsg } from '../Wrapper';
 
 export function useChat() {
     const { state, setState } = useContext(AppContext);
     const [inputTxt, setInputTxt] = useState('');
     const [botType, setBotType] = useState(false);
     const chatRef = useRef(state.chat);
+    const { open_ending_modal } = useApp();
 
     useEffect(() => {
         chatRef.current = state.chat;
@@ -43,10 +45,10 @@ export function useChat() {
         setBotType(false);
     };
 
-    const addOtherHumanMsg = (msg: ChatMsg) => {
-        if (msg.id != state.game_config.game_role) {
-            updateChatState(msg);
-        }
+    const addOtherHumanMsg = (msg: ChatMsg, other_finished: boolean) => {
+        if (msg.id == state.game_config.game_role) return;
+        if (other_finished) open_ending_modal('Felicidades! the navigator found the treasue');
+        else updateChatState(msg);
     };
 
     const onKeyPress = (e: any) => {

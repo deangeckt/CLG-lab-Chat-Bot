@@ -34,7 +34,20 @@ def call_human():
         params = request.get_json()
         id_ = params['id']
         msg = params['msg']
-        to_other_msg = f"{id_}__{msg}"
+        to_other_msg = f"{id_}__{msg}__dummy"
+        hh_server.announce(to_other_msg)
+        return '', 200, {'Content-Type': 'application/json'}
+    except Exception as e:
+        print(e)
+        return "Server error", 500, {'Content-Type': 'application/json'}
+
+
+@app.route('/api/v1/notify_end_human', methods=['POST'])
+def notify_end_human():
+    try:
+        params = request.get_json()
+        id_ = params['id']
+        to_other_msg = f"{id_}__dummy__end"
         hh_server.announce(to_other_msg)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
