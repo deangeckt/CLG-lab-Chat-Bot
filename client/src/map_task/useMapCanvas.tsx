@@ -133,7 +133,8 @@ export function useMapCanvas() {
     const next_move = (new_cell: MapCellIdx) => {
         if (is_finish(new_cell)) {
             open_ending_modal('Felicidades! you found the treasue');
-            if (state.game_config.game_mode == 'human') notifyHumanEnd(state.game_config.game_role);
+            if (state.game_config.game_mode == 'human')
+                notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
         }
 
         const new_neighbors = get_neighbors(new_cell);

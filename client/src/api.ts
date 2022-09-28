@@ -3,14 +3,17 @@ import { ChatMsg, gameMode, gameRole, MapCellIdx } from './Wrapper';
 
 export const baseUrl = 'http://localhost:8080/api/v1/';
 
-export const huamn_to_human_event = async (update: Function) => {
-    const evtSource = new EventSource(baseUrl + 'event');
+export const huamn_to_human_event = async (guid: string, update: Function) => {
+    const evtSource = new EventSource(baseUrl + `event?guid=${guid}`);
     evtSource.onopen = function () {
         console.log('Connection to event server opened.');
     };
     evtSource.onmessage = function (e) {
         const splited = e.data.split('__');
-        update({ id: Number(splited[0]), msg: splited[1] }, splited[2] === 'end');
+        const guid = splited[0];
+        const id = Number(splited[1]);
+        const msg = splited[2];
+        update(guid, { id, msg }, splited[3] === 'end');
     };
     evtSource.onerror = function (e) {
         console.log('EventSource failed.', e);
@@ -19,11 +22,10 @@ export const huamn_to_human_event = async (update: Function) => {
 
 export const callBot = async (msg: string, cell: MapCellIdx, update: Function) => {
     try {
-        const data = { msg, state: cell };
         const response = (await axios.request({
             url: baseUrl + 'call_bot',
             method: 'POST',
-            data: data,
+            data: { msg, state: cell },
         })) as AxiosResponse;
         update(response.data.res);
     } catch (error: any) {
@@ -31,24 +33,24 @@ export const callBot = async (msg: string, cell: MapCellIdx, update: Function) =
     }
 };
 
-export const callHuman = async (msg: ChatMsg) => {
+export const callHuman = async (guid: string, msg: ChatMsg) => {
     try {
         (await axios.request({
             url: baseUrl + 'call_human',
             method: 'POST',
-            data: msg,
+            data: { guid, ...msg },
         })) as AxiosResponse;
     } catch (error: any) {
         console.log('Server not connected');
     }
 };
 
-export const notifyHumanEnd = async (id: gameRole) => {
+export const notifyHumanEnd = async (guid: string, id: gameRole) => {
     try {
         (await axios.request({
             url: baseUrl + 'notify_end_human',
             method: 'POST',
-            data: { id },
+            data: { id, guid },
         })) as AxiosResponse;
     } catch (error: any) {
         console.log('Server not connected');

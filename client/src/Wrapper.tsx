@@ -44,6 +44,7 @@ export interface GameConfig {
     game_mode: gameMode;
     game_role: gameRole;
     registerd: gameRegister;
+    guid: string;
 }
 
 export interface ChatMsg {
@@ -75,7 +76,7 @@ export const init_app_state: IAppState = {
     user_map_path: [{ r: 2, c: 23 }],
     user_survey: { free_text: '' },
     game_state: { end: false, end_modal_text: '', end_modal_title: 'Game is over', init_time: 300 },
-    game_config: { game_mode: 'bot', game_role: 0, registerd: 'no' },
+    game_config: { game_mode: 'bot', game_role: 0, registerd: 'no', guid: '' },
 };
 
 const Wrapper = (props: any) => {

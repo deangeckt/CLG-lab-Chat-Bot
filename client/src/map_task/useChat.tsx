@@ -17,7 +17,7 @@ export function useChat() {
 
     useEffect(() => {
         if (state.game_config.game_mode != 'human') return;
-        huamn_to_human_event(addOtherHumanMsg);
+        huamn_to_human_event(state.game_config.guid, addOtherHumanMsg);
     }, []);
 
     const updateChatState = (newMsg: ChatMsg) => {
@@ -36,7 +36,7 @@ export function useChat() {
             const curr_cell = state.user_map_path[state.user_map_path.length - 1];
             callBot(inputTxt, curr_cell, addBotMsg);
         } else {
-            callHuman(selfChatMsg);
+            callHuman(state.game_config.guid, selfChatMsg);
         }
     };
 
@@ -45,8 +45,9 @@ export function useChat() {
         setBotType(false);
     };
 
-    const addOtherHumanMsg = (msg: ChatMsg, other_finished: boolean) => {
-        if (msg.id == state.game_config.game_role) return;
+    const addOtherHumanMsg = (guid: string, msg: ChatMsg, other_finished: boolean) => {
+        if (state.game_config.guid !== guid) return;
+        if (msg.id === state.game_config.game_role) return;
         if (other_finished) open_ending_modal('Felicidades! the navigator found the treasue');
         else updateChatState(msg);
     };

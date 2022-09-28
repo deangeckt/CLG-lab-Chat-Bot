@@ -1,6 +1,6 @@
 import json
 import os
-
+import uuid
 from flask import Flask, Response
 from flask import request
 from flask_cors import CORS
@@ -33,9 +33,10 @@ def call_human():
     try:
         params = request.get_json()
         id_ = params['id']
+        guid_ = params['guid']
         msg = params['msg']
-        to_other_msg = f"{id_}__{msg}__dummy"
-        hh_server.announce(to_other_msg)
+        to_other_msg = f"{guid_}__{id_}__{msg}__dummy"
+        hh_server.announce(to_other_msg, guid_)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print(e)
@@ -47,8 +48,9 @@ def notify_end_human():
     try:
         params = request.get_json()
         id_ = params['id']
-        to_other_msg = f"{id_}__dummy__end"
-        hh_server.announce(to_other_msg)
+        guid_ = params['guid']
+        to_other_msg = f"{guid_}__{id_}__dummy__end"
+        hh_server.announce(to_other_msg, guid_)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print(e)
@@ -57,13 +59,15 @@ def notify_end_human():
 
 @app.route('/api/v1/event')
 def event():
-    def stream():
-        messages = hh_server.listen()  # returns a queue.Queue
+    guid = request.args.get('guid')
+
+    def stream(guid: str):
+        messages = hh_server.listen(guid)  # returns a queue.Queue
         while True:
             msg = messages.get()  # blocks until a new message arrives
             yield msg
 
-    return Response(stream(), mimetype='text/event-stream')
+    return Response(stream(guid), mimetype='text/event-stream')
 
 
 @app.route('/api/v1/register', methods=['POST'])
@@ -76,10 +80,11 @@ def register():
         resp = {}
         if game_mode == 'bot':
             resp['role'] = game_roles['navigator']
+            resp['guid'] = str(uuid.uuid4())
         elif game_mode == 'human':
-            role = hh_server.assign_role_api()
+            role, guid = hh_server.assign_role_api()
             resp['role'] = game_roles[role]
-
+            resp['guid'] = guid
         resp['map_src'] = 'map1'
         return resp, 200, {'Content-Type': 'application/json'}
 

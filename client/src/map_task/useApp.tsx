@@ -25,6 +25,7 @@ export function useApp() {
 
         if (data) {
             game_config.game_role = data.role;
+            game_config.guid = data.guid;
             map_metadata.im_src = `${data.map_src}_${data.role}.jpg`;
         } else {
             console.warn('Server not connected - using mock bot mode');
