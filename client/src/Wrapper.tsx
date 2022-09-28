@@ -65,8 +65,8 @@ export const init_app_state: IAppState = {
     chat: [],
     user_metadata: { name: '', age: '', gender: 'Male' },
     map_metadata: {
-        im_width: 1413,
-        im_height: 1052,
+        im_width: 2304,
+        im_height: 1728,
         im_src: 'map1_0.jpg',
         rows: 18,
         cols: 24,
