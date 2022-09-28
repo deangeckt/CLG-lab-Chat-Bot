@@ -10,6 +10,7 @@ import { register } from '../api';
 import Form from './Form';
 import { main_blue } from '../common/colors';
 import './Home.css';
+import GameInstructionsDialog from '../common/GameInstructionsDialog';
 
 function Home(): JSX.Element {
     const { state, setState } = useContext(AppContext);
@@ -28,15 +29,19 @@ function Home(): JSX.Element {
             <Header />
 
             <div className="Home_Container">
-                <Typography variant="h4">Welcome to CLG map task</Typography>
+                <Typography variant="h4" style={{ marginTop: '16px' }}>
+                    Welcome to CLG map task
+                </Typography>
                 {state.game_config.registerd == 'yes' ? <Form /> : null}
+                {state.game_config.registerd == 'yes' ? <GameInstructionsDialog /> : null}
+
                 {state.game_config.registerd == 'load' ? (
-                    <Box sx={{ display: 'flex', marginLeft: '16px' }}>
+                    <Box sx={{ display: 'flex', margin: '16px' }}>
                         <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
                     </Box>
                 ) : null}
                 {state.game_config.registerd == 'no' ? (
-                    <div style={{ width: '50%' }}>
+                    <div style={{ width: '50%', marginTop: '16px' }}>
                         <Typography variant="h5" style={{ margin: '16px' }}>
                             Choose game mode
                         </Typography>

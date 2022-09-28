@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { UserMetadata } from '../Wrapper';
+import './Home.css';
 
 const genders = ['Male', 'Female', 'Other'];
 
@@ -24,7 +25,7 @@ function Form(): JSX.Element {
     };
 
     return (
-        <>
+        <div className="form">
             <Typography variant="h5">Fill in your details por favor</Typography>
             <TextField
                 id="outlined-basic"
@@ -56,7 +57,7 @@ function Form(): JSX.Element {
             <Button style={{ textTransform: 'none' }} variant="outlined" color="primary" onClick={routeChange}>
                 Start
             </Button>
-        </>
+        </div>
     );
 }
 
