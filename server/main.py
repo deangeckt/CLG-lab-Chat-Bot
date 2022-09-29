@@ -6,6 +6,7 @@ from flask import request
 from flask_cors import CORS
 
 from bots.rule_based.rule_based_bot import ruleBasedBot
+from google_drive.google_drive import upload
 from human_to_human_server import Server
 
 app = Flask(__name__)
@@ -88,6 +89,19 @@ def register():
         resp['map_src'] = 'map1'
         return resp, 200, {'Content-Type': 'application/json'}
 
+    except Exception as e:
+        print(e)
+        return "Server error", 500, {'Content-Type': 'application/json'}
+
+
+@app.route('/api/v1/upload', methods=['POST'])
+def upload_api():
+    try:
+        params = request.get_json()
+        if 'guid' not in params:
+            raise 'Missing guid!'
+        upload(params)
+        return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print(e)
         return "Server error", 500, {'Content-Type': 'application/json'}

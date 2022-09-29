@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { ChatMsg, gameMode, gameRole, MapCellIdx } from './Wrapper';
+import { ChatMsg, gameMode, gameRole, IAppState, MapCellIdx } from './Wrapper';
 
 export const baseUrl = 'http://localhost:8080/api/v1/';
 
@@ -67,5 +67,22 @@ export const register = async (mode: gameMode, update: Function) => {
         update(response.data);
     } catch (error: any) {
         update(null);
+    }
+};
+
+export const upload = async (state: IAppState, update: Function) => {
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { map_metadata, game_state, ...all } = state;
+        (await axios.request({
+            url: baseUrl + 'upload',
+            method: 'POST',
+            data: { ...all, guid: all.game_config.guid },
+        })) as AxiosResponse;
+        update();
+        console.log('uploaded successfully');
+    } catch (error: any) {
+        console.log('Server not connected');
+        update();
     }
 };

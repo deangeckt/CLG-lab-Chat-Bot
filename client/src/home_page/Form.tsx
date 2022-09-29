@@ -19,9 +19,9 @@ function Form(): JSX.Element {
     };
 
     const simple_set = (e: any, field: keyof UserMetadata) => {
-        const metadata = state.user_metadata;
-        metadata[field] = e.target.value.toString();
-        setState({ ...state, metadata: metadata });
+        const user_metadata = state.user_metadata;
+        user_metadata[field] = e.target.value.toString();
+        setState({ ...state, user_metadata });
     };
 
     return (

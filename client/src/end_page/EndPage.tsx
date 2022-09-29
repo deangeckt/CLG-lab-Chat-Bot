@@ -1,39 +1,56 @@
-import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Box, Button, CircularProgress, TextField } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import Header from '../common/Header';
 import { UserSurvey } from '../Wrapper';
+import { upload } from '../api';
 import './EndPage.css';
+import { main_blue } from '../common/colors';
 
 function EndPage(): JSX.Element {
     const { state, setState } = useContext(AppContext);
+    const [reg, SetReg] = useState('not_sent');
+    console.log(state);
 
     const simple_set = (e: any, field: keyof UserSurvey) => {
-        const metadata = state.user_survey;
-        metadata[field] = e.target.value.toString();
-        setState({ ...state, metadata: metadata });
+        const user_survey = state.user_survey;
+        user_survey[field] = e.target.value.toString();
+        setState({ ...state, user_survey });
     };
 
     const send = () => {
-        console.log('send');
+        upload(state, () => {
+            SetReg('done');
+        });
+        SetReg('loading');
     };
 
     return (
         <div className="End">
             <Header />
             <div className="End_Container">
-                <Typography variant="h4">Gracias for participating</Typography>
-                <TextField
-                    id="outlined-basic"
-                    label="What did you think?"
-                    variant="outlined"
-                    onChange={(event) => simple_set(event, 'free_text')}
-                />
-                <Button style={{ textTransform: 'none' }} variant="outlined" color="primary" onClick={send}>
-                    Send
-                </Button>
+                {reg == 'not_sent' ? (
+                    <>
+                        <Typography variant="h4">Gracias for participating</Typography>
+                        <TextField
+                            id="outlined-basic"
+                            label="What did you think?"
+                            variant="outlined"
+                            onChange={(event) => simple_set(event, 'free_text')}
+                        />
+                        <Button style={{ textTransform: 'none' }} variant="outlined" color="primary" onClick={send}>
+                            Send
+                        </Button>
+                    </>
+                ) : null}
+                {reg == 'loading' ? (
+                    <Box sx={{ display: 'flex', margin: '16px' }}>
+                        <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
+                    </Box>
+                ) : null}
+                {reg == 'done' ? <Typography variant="h4">Thank you</Typography> : null}
             </div>
         </div>
     );
