@@ -100,7 +100,13 @@ def upload_api():
         params = request.get_json()
         if 'guid' not in params:
             raise 'Missing guid!'
-        upload(params)
+        if params['game_config']['game_mode'] == 'human':
+            upload_data = hh_server.upload(params)
+        else:
+            upload_data = params
+
+        if upload_data is not None:
+            upload(upload_data)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print(e)
