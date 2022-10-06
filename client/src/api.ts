@@ -77,7 +77,7 @@ export const upload = async (state: IAppState, update: Function) => {
         (await axios.request({
             url: baseUrl + 'upload',
             method: 'POST',
-            data: { ...all, guid: all.game_config.guid },
+            data: { ...all, guid: all.game_config.guid, time: game_state.game_time },
         })) as AxiosResponse;
         update();
         console.log('uploaded successfully');

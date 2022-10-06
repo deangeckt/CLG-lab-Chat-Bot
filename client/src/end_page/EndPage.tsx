@@ -6,12 +6,13 @@ import { AppContext } from '../AppContext';
 import Header from '../common/Header';
 import { UserSurvey } from '../Wrapper';
 import { upload } from '../api';
-import './EndPage.css';
 import { main_blue } from '../common/colors';
+import './EndPage.css';
 
 function EndPage(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
+    console.log(state);
 
     const simple_set = (e: any, field: keyof UserSurvey) => {
         const user_survey = state.user_survey;

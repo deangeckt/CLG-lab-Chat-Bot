@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTimer } from 'react-timer-hook';
 import { useApp } from './useApp';
 import { useContext } from 'react';
@@ -6,7 +6,7 @@ import { AppContext } from '../AppContext';
 import './Timer.css';
 
 function Timer(): JSX.Element {
-    const { state } = useContext(AppContext);
+    const { state, setState } = useContext(AppContext);
     const { open_ending_modal } = useApp();
 
     const init_time = state.game_state.end ? 0 : state.game_state.init_time;
@@ -20,6 +20,15 @@ function Timer(): JSX.Element {
             open_ending_modal('Time is up');
         },
     });
+
+    useEffect(() => {
+        if (!state.game_state.end) return;
+
+        const total_seconds = minutes * 60 + seconds;
+        const game_state = state.game_state;
+        game_state.game_time = game_state.init_time - total_seconds;
+        setState({ ...state, game_state });
+    }, [state.game_state.end]);
 
     const right = seconds % 10;
     const left = Math.floor(seconds / 10);

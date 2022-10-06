@@ -38,6 +38,7 @@ export interface GameState {
     end_modal_text: string;
     end_modal_title: string;
     init_time: number;
+    game_time: number;
     open_instructions: boolean;
 }
 
@@ -81,6 +82,7 @@ export const init_app_state: IAppState = {
         end_modal_text: '',
         end_modal_title: 'Game is over',
         init_time: 300,
+        game_time: 0,
         open_instructions: true,
     },
     game_config: { game_mode: 'bot', game_role: 0, registerd: 'no', guid: '' },
