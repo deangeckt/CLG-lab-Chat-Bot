@@ -9,6 +9,8 @@ from bots.rule_based.rule_based_bot import ruleBasedBot
 from google_storage.storage import upload
 from human_to_human_server import Server
 
+VERSION = '1.0.0'
+
 app = Flask(__name__)
 CORS(app)
 
@@ -106,6 +108,7 @@ def upload_api():
             upload_data = params
 
         if upload_data is not None:
+            upload_data['server_version'] = VERSION
             upload(upload_data)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
