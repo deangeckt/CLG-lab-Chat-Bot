@@ -6,7 +6,7 @@ from flask import request
 from flask_cors import CORS
 
 from bots.rule_based.rule_based_bot import ruleBasedBot
-from google_drive.google_drive import upload
+from google_storage.storage import upload
 from human_to_human_server import Server
 
 app = Flask(__name__)
