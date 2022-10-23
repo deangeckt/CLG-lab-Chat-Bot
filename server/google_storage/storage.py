@@ -9,7 +9,7 @@ def upload(result):
     bucket = storage_client.bucket(bucket_name)
 
     file_name = result.get('guid')
-    blob = bucket.blob(file_name)
+    blob = bucket.blob(file_name + '.json')
 
     with blob.open("w") as f:
         json.dump(result, f)

@@ -62,7 +62,7 @@ export interface IAppState {
     user_survey: UserSurvey;
     game_state: GameState;
     game_config: GameConfig;
-    version: string;
+    clinet_version: string;
 }
 
 export const init_app_state: IAppState = {
@@ -87,7 +87,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_mode: 'bot', game_role: 0, registerd: 'no', guid: '' },
-    version: '1.0.0',
+    clinet_version: '1.0.0',
 };
 
 const Wrapper = (props: any) => {
