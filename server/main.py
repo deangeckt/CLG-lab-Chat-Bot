@@ -9,7 +9,7 @@ from bots.rule_based.rule_based_bot import ruleBasedBot
 from google_storage.storage import upload
 from human_to_human_server import Server
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 app = Flask(__name__)
 CORS(app)
@@ -18,6 +18,7 @@ chat_bot = ruleBasedBot()
 hh_server = Server()
 
 game_roles = {'navigator': 0, 'instructor': 1}
+game_roles_reverse = {0: 'navigator', 1: 'instructor'}
 
 
 @app.route('/api/v1/call_bot', methods=['POST'])
@@ -108,6 +109,10 @@ def upload_api():
             upload_data = params
 
         if upload_data is not None:
+            chat = upload_data['chat']
+            for c in chat:
+                c['id'] = game_roles_reverse[c['id']]
+            upload_data['game_config']['game_role'] = game_roles_reverse[upload_data['game_config']['game_role']]
             upload_data['server_version'] = VERSION
             upload(upload_data)
         return '', 200, {'Content-Type': 'application/json'}
