@@ -48,7 +48,7 @@ export function useChat() {
     const addOtherHumanMsg = (guid: string, msg: ChatMsg, other_finished: boolean) => {
         if (state.game_config.guid !== guid) return;
         if (msg.id === state.game_config.game_role) return;
-        if (other_finished) open_ending_modal('Felicidades! the navigator found the treasue');
+        if (other_finished) open_ending_modal('The other participant has finished the game');
         else updateChatState(msg);
     };
 

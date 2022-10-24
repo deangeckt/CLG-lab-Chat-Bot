@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { useNavigate } from 'react-router-dom';
+import { notifyHumanEnd } from '../api';
 
 export function useApp() {
     const { state, setState } = useContext(AppContext);
@@ -11,6 +12,14 @@ export function useApp() {
         game_state.end = true;
         game_state.end_modal_text = text;
         setState({ ...state, game_state });
+    };
+
+    const finish_early = () => {
+        const game_state = state.game_state;
+        game_state.end = true;
+        setState({ ...state, game_state });
+        if (state.game_config.game_mode == 'human') notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
+        navigate_to_end_page();
     };
 
     const navigate_to_end_page = () => {
@@ -41,5 +50,5 @@ export function useApp() {
         setState({ ...state, game_config, chat, map_metadata });
     };
 
-    return { open_ending_modal, navigate_to_end_page, register_cb };
+    return { open_ending_modal, navigate_to_end_page, register_cb, finish_early };
 }

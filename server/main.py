@@ -9,7 +9,7 @@ from bots.rule_based.rule_based_bot import ruleBasedBot
 from google_storage.storage import upload
 from human_to_human_server import Server
 
-VERSION = '1.0.1'
+VERSION = '1.0.2'
 
 app = Flask(__name__)
 CORS(app)
@@ -112,7 +112,8 @@ def upload_api():
             chat = upload_data['chat']
             for c in chat:
                 c['id'] = game_roles_reverse[c['id']]
-            upload_data['game_config']['game_role'] = game_roles_reverse[upload_data['game_config']['game_role']]
+            if 'game_role' in upload_data['game_config']:
+                upload_data['game_config']['game_role'] = game_roles_reverse[upload_data['game_config']['game_role']]
             upload_data['server_version'] = VERSION
             upload(upload_data)
         return '', 200, {'Content-Type': 'application/json'}
