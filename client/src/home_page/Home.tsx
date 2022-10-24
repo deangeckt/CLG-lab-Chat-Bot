@@ -9,8 +9,8 @@ import { useApp } from '../map_task/useApp';
 import { register } from '../api';
 import Form from './Form';
 import { main_blue } from '../common/colors';
-import './Home.css';
 import GameInstructionsDialog from '../common/GameInstructionsDialog';
+import './Home.css';
 
 function Home(): JSX.Element {
     const { state, setState } = useContext(AppContext);

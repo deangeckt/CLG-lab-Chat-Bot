@@ -87,11 +87,11 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_mode: 'bot', game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.0.0',
+    clinet_version: '1.0.1',
 };
 
 const Wrapper = (props: any) => {
-    const [state, setState] = useState<IAppState>(init_app_state);
+    const [state, setState] = useState<IAppState>(JSON.parse(JSON.stringify(init_app_state)));
 
     return <AppContext.Provider value={{ state, setState }}>{props.children}</AppContext.Provider>;
 };

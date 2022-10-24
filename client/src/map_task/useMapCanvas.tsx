@@ -6,9 +6,9 @@ import { MapCellIdx } from '../Wrapper';
 import { useApp } from './useApp';
 
 const get_canvas_size = (im_width: number, im_height: number) => {
-    // map canvas is 75% width, the app container is 90% width
-    const container_width = 0.75 * 0.9 * window.innerWidth;
-    const container_height = 0.75 * 0.9 * window.innerHeight;
+    // map canvas is 75% width
+    const container_width = 0.75 * window.innerWidth;
+    const container_height = 0.75 * window.innerHeight;
 
     const ratio_w = container_width / im_width;
     const ratio_h = container_height / im_height;
