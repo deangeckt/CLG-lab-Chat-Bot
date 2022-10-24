@@ -27,8 +27,8 @@ export function useChat() {
 
     const sendUserMsg = () => {
         if (!inputTxt) return;
-        const selfChatMsg = { msg: inputTxt, id: state.game_config.game_role };
-        updateChatState({ msg: inputTxt, id: state.game_config.game_role });
+        const selfChatMsg = { msg: inputTxt, id: state.game_config.game_role, timestamp: Date.now() };
+        updateChatState(selfChatMsg);
         setInputTxt('');
 
         if (state.game_config.game_mode == 'bot') {
@@ -41,7 +41,7 @@ export function useChat() {
     };
 
     const addBotMsg = (msg: string) => {
-        updateChatState({ msg: msg, id: 1 - state.game_config.game_role });
+        updateChatState({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() });
         setBotType(false);
     };
 

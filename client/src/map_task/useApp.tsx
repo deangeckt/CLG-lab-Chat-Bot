@@ -33,7 +33,7 @@ export function useApp() {
         }
         let chat = [...state.chat];
         if (game_config.game_mode == 'bot') {
-            chat = chat.concat([{ id: 1, msg: 'Welcome!' }]);
+            chat = chat.concat([{ id: 1, msg: 'Welcome!', timestamp: Date.now() }]);
         }
         console.log(game_config);
         console.log(map_metadata);

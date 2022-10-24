@@ -13,7 +13,7 @@ export const huamn_to_human_event = async (guid: string, update: Function) => {
         const guid = splited[0];
         const id = Number(splited[1]);
         const msg = splited[2];
-        update(guid, { id, msg }, splited[3] === 'end');
+        update(guid, { id, msg, timestamp: Date.now() }, splited[3] === 'end');
     };
     evtSource.onerror = function (e) {
         console.log('EventSource failed.', e);

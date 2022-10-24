@@ -52,6 +52,7 @@ export interface GameConfig {
 export interface ChatMsg {
     id: gameRole;
     msg: string;
+    timestamp: number;
 }
 
 export interface IAppState {
@@ -87,7 +88,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_mode: 'bot', game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.0.1',
+    clinet_version: '1.0.2',
 };
 
 const Wrapper = (props: any) => {
