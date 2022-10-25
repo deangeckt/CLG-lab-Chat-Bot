@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { ChatMsg, gameMode, gameRole, IAppState, MapCellIdx } from './Wrapper';
 
-export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/'; // 'http://localhost:8080/api/v1/'
+export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/'; //'http://localhost:8080/api/v1/';
 
 export const huamn_to_human_event = async (guid: string, update: Function) => {
     const evtSource = new EventSource(baseUrl + `event?guid=${guid}`);
@@ -57,23 +57,23 @@ export const notifyHumanEnd = async (guid: string, id: gameRole) => {
     }
 };
 
-export const register = async (mode: gameMode, update: Function) => {
+export const register = async (mode: gameMode, update: Function, map_index: number) => {
     try {
         const response = (await axios.request({
             url: baseUrl + 'register',
             method: 'POST',
-            data: { mode },
+            data: { mode, map_index },
         })) as AxiosResponse;
-        update(response.data);
+        update(response.data, map_index);
     } catch (error: any) {
-        update(null);
+        update(null, map_index);
     }
 };
 
 export const upload = async (state: IAppState, update: Function) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { map_metadata, game_state, ...all } = state;
+        const { game_state, ...all } = state;
         (await axios.request({
             url: baseUrl + 'upload',
             method: 'POST',

@@ -5,7 +5,7 @@ from collections import defaultdict
 
 class Server:
     def __init__(self):
-        self.sessions_roles = [{}]
+        self.sessions_roles = {}
         self.sessions_resp = {}
         self.listeners = defaultdict(list)
 
@@ -27,16 +27,16 @@ class Server:
             except queue.Full:
                 del self.listeners[guid][i]
 
-    def assign_role_api(self):
-        session = self.sessions_roles[-1]
-        if 'navigator' not in session:
+    def assign_role_api(self, map_index):
+        if map_index not in self.sessions_roles:
             guid = str(uuid.uuid4())
-            session['navigator'] = guid
+            self.sessions_roles[map_index] = {'guid': guid}
             self.sessions_resp[guid] = {}
             return 'navigator', guid
-        elif 'instructor' not in session:
-            self.sessions_roles.append({})
-            return 'instructor', session['navigator']
+        else:
+            guid = self.sessions_roles[map_index]['guid']
+            del self.sessions_roles[map_index]
+            return 'instructor', guid
 
     def upload(self, data):
         guid = data['guid']
