@@ -60,5 +60,8 @@ class Server:
             combined_data['instructor_metadata'] = instructor_data['user_metadata']
             combined_data['instructor_survey'] = instructor_data['user_survey']
 
+            combined_data['clinet_version'] = data['clinet_version']
+            combined_data['map_metadata'] = data['map_metadata']
+
             del self.sessions_resp[guid]
             return combined_data
