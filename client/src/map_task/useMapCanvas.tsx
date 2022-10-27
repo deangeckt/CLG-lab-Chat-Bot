@@ -131,8 +131,9 @@ export function useMapCanvas() {
     };
 
     const next_move = (new_cell: MapCellIdx) => {
+        // console.log(new_cell);
         if (is_finish(new_cell)) {
-            open_ending_modal('Felicidades! you found the treasue');
+            open_ending_modal('Felicidades! you found the last object');
             if (state.game_config.game_mode == 'human')
                 notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
         }

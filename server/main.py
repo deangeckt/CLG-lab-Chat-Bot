@@ -6,10 +6,10 @@ from flask import request
 from flask_cors import CORS
 
 from bots.rule_based.rule_based_bot import ruleBasedBot
-from google_storage.storage import upload
+from storage import upload
 from human_to_human_server import Server
 
-VERSION = '1.0.1'
+VERSION = '1.0.5'
 
 app = Flask(__name__)
 CORS(app)
@@ -77,7 +77,10 @@ def event():
 @app.route('/api/v1/register', methods=['POST'])
 def register():
     try:
-        game_mode = request.get_json()['mode']
+        params = request.get_json()
+
+        game_mode = params['mode']
+        map_index = params['map_index']
         if game_mode not in ['bot', 'human']:
             raise 'Invalid game mode'
 
@@ -86,10 +89,9 @@ def register():
             resp['role'] = game_roles['navigator']
             resp['guid'] = str(uuid.uuid4())
         elif game_mode == 'human':
-            role, guid = hh_server.assign_role_api()
+            role, guid = hh_server.assign_role_api(map_index)
             resp['role'] = game_roles[role]
             resp['guid'] = guid
-        resp['map_src'] = 'map1'
         return resp, 200, {'Content-Type': 'application/json'}
 
     except Exception as e:
@@ -112,7 +114,9 @@ def upload_api():
             chat = upload_data['chat']
             for c in chat:
                 c['id'] = game_roles_reverse[c['id']]
-            upload_data['game_config']['game_role'] = game_roles_reverse[upload_data['game_config']['game_role']]
+            if 'game_role' in upload_data['game_config']:
+                upload_data['game_config']['game_role'] = game_roles_reverse[upload_data['game_config']['game_role']]
+
             upload_data['server_version'] = VERSION
             upload(upload_data)
         return '', 200, {'Content-Type': 'application/json'}

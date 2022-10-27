@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { useNavigate } from 'react-router-dom';
+import { notifyHumanEnd } from '../api';
+import { maps } from '../Wrapper';
 
 export function useApp() {
     const { state, setState } = useContext(AppContext);
@@ -13,20 +15,29 @@ export function useApp() {
         setState({ ...state, game_state });
     };
 
+    const finish_early = () => {
+        const game_state = state.game_state;
+        game_state.end = true;
+        setState({ ...state, game_state });
+        if (state.game_config.game_mode == 'human') notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
+        navigate_to_end_page();
+    };
+
     const navigate_to_end_page = () => {
         const path = '/survey';
         navigate(path);
     };
 
-    const register_cb = (data: any) => {
+    const register_cb = (data: any, map_index: number) => {
+        const map_metadata = maps[map_index];
         const game_config = state.game_config;
-        const map_metadata = state.map_metadata;
         game_config.registerd = 'yes';
 
         if (data) {
             game_config.game_role = data.role;
             game_config.guid = data.guid;
-            map_metadata.im_src = `${data.map_src}_${data.role}.jpg`;
+            const map = map_metadata.im_src.split('_')[0];
+            map_metadata.im_src = `${map}_${data.role}.jpg`;
         } else {
             console.warn('Server not connected - using mock bot mode');
             game_config.game_mode = 'bot';
@@ -36,10 +47,15 @@ export function useApp() {
             chat = chat.concat([{ id: 1, msg: 'Welcome!', timestamp: Date.now() }]);
         }
         console.log(game_config);
-        console.log(map_metadata);
 
-        setState({ ...state, game_config, chat, map_metadata });
+        setState({
+            ...state,
+            game_config,
+            chat,
+            map_metadata,
+            user_map_path: [maps[map_index].start_cell],
+        });
     };
 
-    return { open_ending_modal, navigate_to_end_page, register_cb };
+    return { open_ending_modal, navigate_to_end_page, register_cb, finish_early };
 }

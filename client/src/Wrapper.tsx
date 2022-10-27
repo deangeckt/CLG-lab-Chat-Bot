@@ -23,10 +23,11 @@ export interface MapMetadata {
     rows: number;
     cols: number;
     end_cell: MapCellIdx;
+    start_cell: MapCellIdx;
 }
 
 export type gameMode = 'bot' | 'human';
-export type gameRegister = 'yes' | 'no' | 'load';
+export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map';
 export type gameRole = number;
 export interface Dictionary {
     [Key: number]: string;
@@ -66,18 +67,59 @@ export interface IAppState {
     clinet_version: string;
 }
 
-export const init_app_state: IAppState = {
-    chat: [],
-    user_metadata: { name: '', age: '', gender: 'Male' },
-    map_metadata: {
+export const maps: MapMetadata[] = [
+    {
         im_width: 2304,
         im_height: 1728,
         im_src: 'map1_0.jpg',
         rows: 18,
         cols: 24,
         end_cell: { r: 16, c: 7 },
+        start_cell: { r: 2, c: 23 },
     },
-    user_map_path: [{ r: 2, c: 23 }],
+    {
+        im_width: 2304,
+        im_height: 1728,
+        im_src: 'map2_0.jpg',
+        rows: 18,
+        cols: 24,
+        end_cell: { r: 12, c: 6 },
+        start_cell: { r: 2, c: 20 },
+    },
+    {
+        im_width: 2304,
+        im_height: 1728,
+        im_src: 'map3_0.jpg',
+        rows: 18,
+        cols: 24,
+        end_cell: { r: 13, c: 9 },
+        start_cell: { r: 3, c: 9 },
+    },
+    {
+        im_width: 2304,
+        im_height: 1728,
+        im_src: 'map4_0.jpg',
+        rows: 18,
+        cols: 24,
+        end_cell: { r: 7, c: 0 },
+        start_cell: { r: 3, c: 23 },
+    },
+    {
+        im_width: 2304,
+        im_height: 1728,
+        im_src: 'map5_0.jpg',
+        rows: 18,
+        cols: 24,
+        end_cell: { r: 16, c: 9 },
+        start_cell: { r: 1, c: 1 },
+    },
+];
+
+export const init_app_state: IAppState = {
+    chat: [],
+    user_metadata: { name: '', age: '', gender: 'Male' },
+    map_metadata: maps[0],
+    user_map_path: [],
     user_survey: { free_text: '' },
     game_state: {
         end: false,
@@ -88,7 +130,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_mode: 'bot', game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.0.2',
+    clinet_version: '1.0.3',
 };
 
 const Wrapper = (props: any) => {
