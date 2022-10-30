@@ -163,7 +163,6 @@ export function useMapCanvas() {
     };
 
     const onKeyClick = (e: any) => {
-        console.log(state.user_map_path);
         const curr_map_cell: MapCellIdx = state.user_map_path[state.user_map_path.length - 1];
         let row = curr_map_cell.r;
         let col = curr_map_cell.c;

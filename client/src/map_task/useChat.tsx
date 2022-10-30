@@ -8,7 +8,6 @@ export function useChat() {
     const { state, setState } = useContext(AppContext);
     const [inputTxt, setInputTxt] = useState('');
     const [botType, setBotType] = useState(false);
-    const [otherMsg, setOtherMsg] = useState(false);
     const stateRef = useRef(state);
     const { open_ending_modal } = useApp();
 
@@ -22,11 +21,9 @@ export function useChat() {
     }, []);
 
     const updateChatState = (newMsg: ChatMsg) => {
-        // const chat = [...stateRef.current.chat].concat([newMsg]);
-        stateRef.current.chat.push(newMsg);
-        console.log(stateRef.current.chat);
-        console.log(stateRef.current.user_map_path);
-        setState(stateRef.current);
+        const chat = [...stateRef.current.chat];
+        chat.push(newMsg);
+        setState({ ...stateRef.current, chat });
     };
 
     const sendUserMsg = () => {
@@ -52,11 +49,12 @@ export function useChat() {
     const addOtherHumanMsg = (guid: string, msg: ChatMsg, other_finished: boolean) => {
         if (state.game_config.guid !== guid) return;
         if (msg.id === state.game_config.game_role) return;
-        if (other_finished) open_ending_modal('The other participant has finished the game');
-        else {
-            setOtherMsg(!otherMsg);
-            updateChatState(msg);
-        }
+        if (other_finished) {
+            console.log({ ...stateRef.current });
+
+            setState({ ...stateRef.current });
+            open_ending_modal('The other participant has finished the game');
+        } else updateChatState(msg);
     };
 
     const onKeyPress = (e: any) => {

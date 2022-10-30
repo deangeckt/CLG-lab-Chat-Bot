@@ -12,7 +12,6 @@ function MapCanvas() {
 
     useEffect(() => {
         if (state.game_state.end) return;
-        console.log('wtf init');
         init_func();
     }, []);
 

@@ -13,7 +13,7 @@ import './EndPage.css';
 function EndPage(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
-
+    console.log(state);
     const navigate = useNavigate();
     const startOver = () => {
         setState(init_app_state);
