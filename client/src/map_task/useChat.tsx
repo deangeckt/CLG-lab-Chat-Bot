@@ -50,9 +50,7 @@ export function useChat() {
         if (state.game_config.guid !== guid) return;
         if (msg.id === state.game_config.game_role) return;
         if (other_finished) {
-            console.log({ ...stateRef.current });
-
-            setState({ ...stateRef.current });
+            localStorage.setItem('state', JSON.stringify(stateRef.current));
             open_ending_modal('The other participant has finished the game');
         } else updateChatState(msg);
     };

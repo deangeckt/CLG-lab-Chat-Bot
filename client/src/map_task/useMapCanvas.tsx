@@ -48,7 +48,7 @@ export function useMapCanvas() {
             on_draw_cb();
         };
         image.onerror = function (err) {
-            console.log('err', err);
+            console.log('img load err', err);
         };
 
         image.src = require(`./maps/${state.map_metadata.im_src}`);
@@ -140,7 +140,6 @@ export function useMapCanvas() {
 
         const new_neighbors = get_neighbors(new_cell);
         setNeighbors(new_neighbors);
-        // console.log(new_neighbors);
 
         const curr_map_cell: MapCellIdx = state.user_map_path[state.user_map_path.length - 1];
 

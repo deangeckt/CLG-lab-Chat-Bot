@@ -34,7 +34,7 @@ function GameInstructionsDialog({}): JSX.Element {
             setIm(image);
         };
         image.onerror = function (err) {
-            console.log('err', err);
+            console.log('img load err', err);
         };
 
         image.src = require(`../map_task/maps/${state.map_metadata.im_src}`);
