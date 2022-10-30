@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, TextField } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import Header from '../common/Header';
-import { init_app_state, UserSurvey } from '../Wrapper';
+import { IAppState, init_app_state, UserSurvey } from '../Wrapper';
 import { upload } from '../api';
 import { main_blue } from '../common/colors';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,15 @@ import './EndPage.css';
 function EndPage(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
+
+    useEffect(() => {
+        if (state.game_config.game_mode != 'human') return;
+        const state_str = localStorage.getItem('state');
+        if (!state_str) return;
+        const state_obj = JSON.parse(state_str) as IAppState;
+        setState(state_obj);
+        localStorage.removeItem('state');
+    }, []);
 
     const navigate = useNavigate();
     const startOver = () => {

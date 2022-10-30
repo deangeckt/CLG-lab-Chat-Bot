@@ -6,9 +6,9 @@ import { MapCellIdx } from '../Wrapper';
 import { useApp } from './useApp';
 
 const get_canvas_size = (im_width: number, im_height: number) => {
-    // map canvas is 75% width
+    // map canvas is 75% width and app container height is 0.9
     const container_width = 0.75 * window.innerWidth;
-    const container_height = 0.75 * window.innerHeight;
+    const container_height = 0.75 * 0.9 * window.innerHeight;
 
     const ratio_w = container_width / im_width;
     const ratio_h = container_height / im_height;
@@ -48,7 +48,7 @@ export function useMapCanvas() {
             on_draw_cb();
         };
         image.onerror = function (err) {
-            console.log('err', err);
+            console.log('img load err', err);
         };
 
         image.src = require(`./maps/${state.map_metadata.im_src}`);
@@ -192,6 +192,7 @@ export function useMapCanvas() {
         // console.log(e.nativeEvent.offsetX / canvas_width, e.nativeEvent.offsetY / canvas_height);
         const canvas = canvasRef.current;
         const context = (canvas as any).getContext('2d');
+
         for (const neighbor_str of neighbors) {
             const neighbor = neighbor_str_to_cell(neighbor_str);
             const cell = matrix[neighbor.r][neighbor.c];
