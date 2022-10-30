@@ -28,7 +28,15 @@ export function useChat() {
 
     const sendUserMsg = () => {
         if (!inputTxt) return;
-        const selfChatMsg = { msg: inputTxt, id: state.game_config.game_role, timestamp: Date.now() };
+        const curr_cell = state.user_map_path[state.user_map_path.length - 1];
+
+        const selfChatMsg: ChatMsg = {
+            msg: inputTxt,
+            id: state.game_config.game_role,
+            timestamp: Date.now(),
+            curr_nav_cell: curr_cell,
+        };
+
         updateChatState(selfChatMsg);
         setInputTxt('');
 
