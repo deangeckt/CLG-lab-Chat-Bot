@@ -7,8 +7,8 @@ import { useApp } from './useApp';
 
 const get_canvas_size = (im_width: number, im_height: number) => {
     // map canvas is 75% width
-    const container_width = 0.75 * window.innerWidth;
-    const container_height = 0.75 * window.innerHeight;
+    const container_width = 0.75 * 0.9 * window.innerWidth;
+    const container_height = 0.75 * 0.9 * window.innerHeight;
 
     const ratio_w = container_width / im_width;
     const ratio_h = container_height / im_height;
@@ -140,6 +140,7 @@ export function useMapCanvas() {
 
         const new_neighbors = get_neighbors(new_cell);
         setNeighbors(new_neighbors);
+        // console.log(new_neighbors);
 
         const curr_map_cell: MapCellIdx = state.user_map_path[state.user_map_path.length - 1];
 
@@ -162,6 +163,7 @@ export function useMapCanvas() {
     };
 
     const onKeyClick = (e: any) => {
+        console.log(state.user_map_path);
         const curr_map_cell: MapCellIdx = state.user_map_path[state.user_map_path.length - 1];
         let row = curr_map_cell.r;
         let col = curr_map_cell.c;
@@ -192,6 +194,7 @@ export function useMapCanvas() {
         // console.log(e.nativeEvent.offsetX / canvas_width, e.nativeEvent.offsetY / canvas_height);
         const canvas = canvasRef.current;
         const context = (canvas as any).getContext('2d');
+
         for (const neighbor_str of neighbors) {
             const neighbor = neighbor_str_to_cell(neighbor_str);
             const cell = matrix[neighbor.r][neighbor.c];

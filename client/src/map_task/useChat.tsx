@@ -8,12 +8,13 @@ export function useChat() {
     const { state, setState } = useContext(AppContext);
     const [inputTxt, setInputTxt] = useState('');
     const [botType, setBotType] = useState(false);
-    const chatRef = useRef(state.chat);
+    const [otherMsg, setOtherMsg] = useState(false);
+    const stateRef = useRef(state);
     const { open_ending_modal } = useApp();
 
     useEffect(() => {
-        chatRef.current = state.chat;
-    }, [state.chat]);
+        stateRef.current = state;
+    }, [state]);
 
     useEffect(() => {
         if (state.game_config.game_mode != 'human') return;
@@ -21,8 +22,11 @@ export function useChat() {
     }, []);
 
     const updateChatState = (newMsg: ChatMsg) => {
-        const chat = [...chatRef.current].concat([newMsg]);
-        setState({ ...state, chat: chat });
+        // const chat = [...stateRef.current.chat].concat([newMsg]);
+        stateRef.current.chat.push(newMsg);
+        console.log(stateRef.current.chat);
+        console.log(stateRef.current.user_map_path);
+        setState(stateRef.current);
     };
 
     const sendUserMsg = () => {
@@ -49,7 +53,10 @@ export function useChat() {
         if (state.game_config.guid !== guid) return;
         if (msg.id === state.game_config.game_role) return;
         if (other_finished) open_ending_modal('The other participant has finished the game');
-        else updateChatState(msg);
+        else {
+            setOtherMsg(!otherMsg);
+            updateChatState(msg);
+        }
     };
 
     const onKeyPress = (e: any) => {
