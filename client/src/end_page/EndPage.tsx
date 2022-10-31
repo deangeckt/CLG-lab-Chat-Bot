@@ -19,6 +19,8 @@ function EndPage(): JSX.Element {
         const state_str = localStorage.getItem('state');
         if (!state_str) return;
         const state_obj = JSON.parse(state_str) as IAppState;
+        if (state.game_config.game_role != state_obj.game_config.game_role) return;
+        console.log('using local strg');
         setState(state_obj);
         localStorage.removeItem('state');
     }, []);
