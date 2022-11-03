@@ -16,11 +16,12 @@ export function useApp() {
     };
 
     const finish_early = () => {
-        const game_state = state.game_state;
-        game_state.end = true;
-        setState({ ...state, game_state });
-        if (state.game_config.game_mode == 'human') notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
-        navigate_to_end_page();
+        if (state.game_config.game_mode == 'human') {
+            notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
+            navigate_to_end_page();
+        } else {
+            open_ending_modal('Please add you final review new page');
+        }
     };
 
     const navigate_to_end_page = () => {

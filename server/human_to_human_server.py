@@ -1,6 +1,8 @@
 import queue
+import time
 import uuid
 from collections import defaultdict
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 class Server:
@@ -8,6 +10,28 @@ class Server:
         self.sessions_roles = {}
         self.sessions_resp = {}
         self.listeners = defaultdict(list)
+
+        self.role_timeout = 180
+        self.scheduler = BackgroundScheduler()
+        self.scheduler.add_job(func=self.__clear_roles, trigger="interval", seconds=self.role_timeout+10)
+        self.scheduler.start()
+
+    def __clear_roles(self):
+        del_keys = []
+        for k in self.sessions_roles:
+            time_since = time.time() - self.sessions_roles[k]['time']
+            print('time since: ', time_since)
+            if time_since > self.role_timeout:
+                del_keys.append(k)
+
+        for dk in del_keys:
+            print('clearing: ', dk)
+            del_guid = self.sessions_roles[dk]['guid']
+            del self.sessions_resp[del_guid]
+            del self.sessions_roles[dk]
+        print(self.sessions_roles)
+        print(self.sessions_resp)
+
 
     @staticmethod
     def __format_sse(data: str):
@@ -30,7 +54,7 @@ class Server:
     def assign_role_api(self, map_index):
         if map_index not in self.sessions_roles:
             guid = str(uuid.uuid4())
-            self.sessions_roles[map_index] = {'guid': guid}
+            self.sessions_roles[map_index] = {'guid': guid, 'time': time.time()}
             self.sessions_resp[guid] = {}
             return 'navigator', guid
         else:
