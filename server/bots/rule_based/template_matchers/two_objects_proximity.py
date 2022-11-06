@@ -1,4 +1,6 @@
 import re
+from typing import Union
+
 from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
 
 
@@ -35,7 +37,7 @@ class TwoObjectsProximity(TemplateMatcher):
                 return mapping
         raise "can't find direction mapping!"
 
-    def match(self, user_msg, user_state=None):
+    def match(self, user_msg, user_state=None) -> Union[list[str], None]:
         yn_direction = self.__get_direction_in_yn_question(user_msg)
         detected_objects = self.shared.get_objects_in_user_msg(user_msg)
 
@@ -50,12 +52,12 @@ class TwoObjectsProximity(TemplateMatcher):
             return None
 
         if direction != 'binary':
-            return 'yes' if second_obj in self.kb_prox[first_obj][direction] else 'no'
+            return ['yes'] if second_obj in self.kb_prox[first_obj][direction] else ['no']
         else:
             for dir_ in self.kb_prox[first_obj]:
                 if dir_ == 'on':
                     continue
                 if second_obj in self.kb_prox[first_obj][dir_]:
-                    return 'yes'
-            return 'no'
+                    return ['yes']
+            return ['no']
 

@@ -1,5 +1,7 @@
 import re
 import random
+from typing import Union
+
 from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
 
 
@@ -28,7 +30,7 @@ class SingleObjectLocation(TemplateMatcher):
 
         return direction_phrase
 
-    def match(self, user_msg, user_state=None):
+    def match(self, user_msg, user_state=None) -> Union[list[str], None]:
         detected_objects = self.shared.get_objects_in_user_msg(user_msg)
         is_match = self.__is_match(user_msg)
 
@@ -43,4 +45,4 @@ class SingleObjectLocation(TemplateMatcher):
         next_obj = random.choice(self.kb_prox[obj][direction])
 
         direction_phrase = self.__get_direction_phrase(direction_word)
-        return f'the {obj} is {direction_phrase} {next_obj}'
+        return [f'the {obj} is {direction_phrase} {next_obj}']

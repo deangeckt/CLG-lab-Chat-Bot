@@ -20,9 +20,8 @@ export function useChat() {
         huamn_to_human_event(state.game_config.guid, addOtherHumanMsg);
     }, []);
 
-    const updateChatState = (newMsg: ChatMsg) => {
-        const chat = [...stateRef.current.chat];
-        chat.push(newMsg);
+    const updateChatState = (newMsg: ChatMsg[]) => {
+        const chat = [...stateRef.current.chat].concat(newMsg);
         setState({ ...stateRef.current, chat });
     };
 
@@ -37,7 +36,7 @@ export function useChat() {
             curr_nav_cell: curr_cell,
         };
 
-        updateChatState(selfChatMsg);
+        updateChatState([selfChatMsg]);
         setInputTxt('');
 
         if (state.game_config.game_mode == 'bot') {
@@ -49,8 +48,9 @@ export function useChat() {
         }
     };
 
-    const addBotMsg = (msg: string) => {
-        updateChatState({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() });
+    const addBotMsg = (msgs: string[]) => {
+        const chatMsgs = msgs.map((msg) => ({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() }));
+        updateChatState(chatMsgs);
         setBotType(false);
     };
 
@@ -60,7 +60,7 @@ export function useChat() {
         if (other_finished) {
             localStorage.setItem('state', JSON.stringify(stateRef.current));
             open_ending_modal('The other participant has finished the game');
-        } else updateChatState(msg);
+        } else updateChatState([msg]);
     };
 
     const onKeyPress = (e: any) => {

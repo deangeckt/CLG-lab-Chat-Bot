@@ -1,6 +1,7 @@
 import math
 import re
 import random
+from typing import Union
 
 from bots.rule_based.template_matchers.single_object_location import SingleObjectLocation
 from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
@@ -84,7 +85,7 @@ class GeneralInformation(TemplateMatcher):
                 closest_obj = obj
         return closest_obj
 
-    def match(self, user_msg, user_state=None):
+    def match(self, user_msg, user_state=None) -> Union[list[str], None]:
         if user_state is None:
             return
 
@@ -92,7 +93,7 @@ class GeneralInformation(TemplateMatcher):
             self.engaged = False
             if user_msg in ['yes', 'yep', 'ye', 'yeah', 'y']:
                 response = self.__informative1()
-                return f'{response} from it'
+                return [f'{response} from it']
             elif user_msg in ['no', 'nope']:
                 return self.single_obj_loc_matcher.match(f'where is the {self.closest_obj}')
 
@@ -102,13 +103,13 @@ class GeneralInformation(TemplateMatcher):
 
         self.closest_obj = self.__find_closest_object((user_state['r'], user_state['c']))
         if self.closest_obj == 'treasure':
-            return 'you found the treasure!'
+            return ['you found the treasure!']
         self.next_direction = random.choice(self.shared.kb_abs[self.closest_obj]['next_direction'])
         if self.next_direction in self.shared.direction_mapping:
             if self.closest_obj in ['start']:
                 strategy = random.choice(self.strategies_wo_engage)
             else:
                 strategy = random.choice(self.strategies)
-            return strategy()
+            return [strategy()]
         else:
-            return self.next_direction
+            return [self.next_direction]

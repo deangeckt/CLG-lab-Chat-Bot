@@ -3,6 +3,7 @@ from bots.bot import Bot
 import json
 import math
 
+from bots.rule_based.template_matchers.end import EndMatcher
 from bots.rule_based.template_matchers.game_instructions import GameInstructions
 from bots.rule_based.template_matchers.general_information import GeneralInformation
 from bots.rule_based.template_matchers.greetings import Greetings
@@ -28,7 +29,8 @@ class ruleBasedBot(Bot):
                                           SingleObjectLocation(shared),
                                           SingleObjectOn(shared),
                                           GeneralInformation(shared),
-                                          GameInstructions(shared)]
+                                          GameInstructions(shared),
+                                          EndMatcher(shared)]
 
     def __is_finished(self, user_state):
         user_coord = (user_state['r'], user_state['c'])
@@ -37,16 +39,16 @@ class ruleBasedBot(Bot):
 
     def __match_and_respond(self, user_msg, user_state=None):
         if self.__is_finished(user_state):
-            return 'you found the treasure!'
+            return ['you found the treasure!']
 
         for template_matcher in self.ordered_template_matchers:
             resp = template_matcher.match(user_msg, user_state)
             if resp is not None:
                 return resp
 
-        return "i'm not sure"
+        return ["i'm not sure"]
 
-    def call(self, user_msg, user_state=None):
+    def call(self, user_msg, user_state=None) -> list[str]:
         self.chat.append({'speaker': 'user', 'text': user_msg})
         bot_msg = self.__match_and_respond(user_msg, user_state)
         self.chat.append({'speaker': 'bot', 'text': bot_msg})
