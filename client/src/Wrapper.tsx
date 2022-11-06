@@ -27,7 +27,7 @@ export interface MapMetadata {
 }
 
 export type gameMode = 'bot' | 'human';
-export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map';
+export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map' | 'err';
 export type gameRole = number;
 export interface Dictionary {
     [Key: number]: string;
@@ -131,7 +131,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_mode: 'bot', game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.0.8',
+    clinet_version: '1.0.9',
 };
 
 const Wrapper = (props: any) => {

@@ -40,8 +40,7 @@ export function useApp() {
             const map = map_metadata.im_src.split('_')[0];
             map_metadata.im_src = `${map}_${data.role}.jpg`;
         } else {
-            console.warn('Server not connected - using mock bot mode');
-            game_config.game_mode = 'bot';
+            game_config.registerd = 'err';
         }
         let chat = [...state.chat];
         if (game_config.game_mode == 'bot') {

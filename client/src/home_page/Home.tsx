@@ -37,6 +37,12 @@ function Home(): JSX.Element {
                     Welcome to CLG map task
                 </Typography>
                 {state.game_config.registerd == 'yes' ? <Form /> : null}
+                {state.game_config.registerd == 'err' ? (
+                    <Typography variant="h5" style={{ margin: '16px' }}>
+                        An errur occured, please try again later
+                    </Typography>
+                ) : null}
+
                 {state.game_config.registerd == 'yes' ? <GameInstructionsDialog /> : null}
                 {state.game_config.registerd == 'load' ? (
                     <Box sx={{ display: 'flex', margin: '32px' }}>
