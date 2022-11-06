@@ -8,8 +8,8 @@ class GameInstructions(TemplateMatcher):
     """
     e.g.: 'what are the green and blue dots?' -> ‘the green dot is your location...’
     """
-    response = ['the green dot is your - the navigator location on the map',
-                'the blue dots are for you to navigate with your mouse device'
+    response = ['the blue dot is your location on the map',
+                'the green dots are for you to navigate with your mouse device'
                 ]
 
     @staticmethod
