@@ -15,6 +15,3 @@ class TemplateMatcher(ABC):
         param user_state: current coordinate of user on the map
         :return: generated template string in case of a match, else None
         """
-
-
-# TODO; template: what's below the tiger?

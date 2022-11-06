@@ -28,6 +28,8 @@ class GeneralInformation(TemplateMatcher):
         t = text.lower()
         match = bool(re.match("(where (to|now))(.*)", t))
         match |= bool(re.match("(where should i (go|head))(.*)", t))
+        match |= bool(re.match("(now (what| where)?)", t))
+        match |= bool(re.match("(where do i go)(.*)", t))
         match |= bool(re.match("(i (do not|don't) know)(.*)", t))
         return match
 
@@ -88,10 +90,10 @@ class GeneralInformation(TemplateMatcher):
 
         if self.engaged:
             self.engaged = False
-            if 'yes' in user_msg:
+            if user_msg in ['yes', 'yep', 'ye', 'yeah', 'y']:
                 response = self.__informative1()
                 return f'{response} from it'
-            elif 'no' in user_msg:
+            elif user_msg in ['no', 'nope']:
                 return self.single_obj_loc_matcher.match(f'where is the {self.closest_obj}')
 
         is_match = self.__is_match(user_msg)

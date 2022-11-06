@@ -3,6 +3,7 @@ from bots.bot import Bot
 import json
 import math
 
+from bots.rule_based.template_matchers.game_instructions import GameInstructions
 from bots.rule_based.template_matchers.general_information import GeneralInformation
 from bots.rule_based.template_matchers.greetings import Greetings
 from bots.rule_based.template_matchers.single_object_location import SingleObjectLocation
@@ -26,7 +27,8 @@ class ruleBasedBot(Bot):
                                           TwoObjectsProximity(shared),
                                           SingleObjectLocation(shared),
                                           SingleObjectOn(shared),
-                                          GeneralInformation(shared)]
+                                          GeneralInformation(shared),
+                                          GameInstructions(shared)]
 
     def __is_finished(self, user_state):
         user_coord = (user_state['r'], user_state['c'])
