@@ -9,7 +9,7 @@ from bots.rule_based.rule_based_bot import ruleBasedBot
 from storage import upload
 from human_to_human_server import Server
 
-VERSION = '1.0.10'
+VERSION = '1.0.11'
 
 app = Flask(__name__)
 CORS(app)
@@ -28,7 +28,7 @@ def call_bot():
         res = chat_bot.call(params['msg'], params['state'])
         return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
     except Exception as e:
-        print(e)
+        print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
 
 
@@ -43,7 +43,7 @@ def call_human():
         hh_server.announce(to_other_msg, guid_)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
-        print(e)
+        print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
 
 
@@ -57,7 +57,7 @@ def notify_end_human():
         hh_server.announce(to_other_msg, guid_)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
-        print(e)
+        print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
 
 
@@ -82,7 +82,7 @@ def register():
         game_mode = params['mode']
         map_index = params['map_index']
         if game_mode not in ['bot', 'human']:
-            raise 'Invalid game mode'
+            raise Exception('Invalid game mode')
 
         resp = {}
         if game_mode == 'bot':
@@ -95,7 +95,7 @@ def register():
         return resp, 200, {'Content-Type': 'application/json'}
 
     except Exception as e:
-        print(e)
+        print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
 
 
@@ -104,7 +104,7 @@ def upload_api():
     try:
         params = request.get_json()
         if 'guid' not in params:
-            raise 'Missing guid!'
+            raise Exception('Missing guid!')
         if params['game_config']['game_mode'] == 'human':
             upload_data = hh_server.upload(params)
         else:
@@ -121,7 +121,7 @@ def upload_api():
             upload(upload_data)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
-        print(e)
+        print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
 
 

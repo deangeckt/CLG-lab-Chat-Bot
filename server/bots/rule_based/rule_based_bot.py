@@ -44,13 +44,16 @@ class ruleBasedBot(Bot):
         return math.dist(user_coord, treasure_coord) < 3
 
     def __match_and_respond(self, user_msg, user_state=None):
-        if self.__is_finished(user_state):
-            return random.choice(['you found the treasure!', ['you are near the treasure, go to it!']])
+        try:
+            if self.__is_finished(user_state):
+                return random.choice(['you found the treasure!', ['you are near the treasure, go to it!']])
 
-        for template_matcher in self.ordered_template_matchers:
-            resp = template_matcher.match(user_msg, user_state)
-            if resp is not None:
-                return resp
+            for template_matcher in self.ordered_template_matchers:
+                resp = template_matcher.match(user_msg, user_state)
+                if resp is not None:
+                    return resp
+        except Exception as e:
+            print('err:', e)
 
         return ["i'm not sure"]
 

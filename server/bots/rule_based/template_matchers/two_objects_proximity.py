@@ -35,7 +35,7 @@ class TwoObjectsProximity(TemplateMatcher):
                 return mapping
             if dir_word in self.shared.direction_mapping[mapping]:
                 return mapping
-        raise "can't find direction mapping!"
+        raise Exception("can't find direction mapping!")
 
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:
         yn_direction = self.__get_direction_in_yn_question(user_msg)
