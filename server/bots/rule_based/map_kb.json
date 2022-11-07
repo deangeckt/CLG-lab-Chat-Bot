@@ -189,16 +189,15 @@
 			"r": 2,
 			"c": 23,
 			"next_direction": [
-				"left",
 				"go left towards the tiger",
-				"go left on the branches on the water"
+				"go left on the branches on the water",
+				"go across the bridge towards the tiger"
 			]
 		},
 		"tiger": {
 			"r": 2,
 			"c": 17,
 			"next_direction": [
-				"left",
 				"pass the branch below the tiger, to the left",
 				"pass the branch to the left"
 			]
@@ -207,16 +206,15 @@
 			"r": 6,
 			"c": 7,
 			"next_direction": [
-				"right",
-				"left"
+				"if you didn't pass near the frog yet, head over the gray rocks towards it",
+				"if you did pass near the frog already and the crocodile, keep west towards the giraph, over the gray rocks"
 			]
 		},
 		"giraph": {
 			"r": 8,
 			"c": 1,
 			"next_direction": [
-				"down",
-				"head south east from the giraph",
+				"head south east from the giraph, towards the snake",
 				"below the giraph, continue on the branches right"
 			]
 		},
@@ -224,24 +222,21 @@
 			"r": 6,
 			"c": 11,
 			"next_direction": [
-				"right",
-				"walk over the gray rocks",
-				"go around the parrot over the gray rocks"
+				"go around the parrot above it, then head to the gray rocks below the parrot",
+				"surround the parrot over it, then continue east over the gray rocks"
 			]
 		},
 		"butterfly": {
 			"r": 7,
 			"c": 21,
 			"next_direction": [
-				"left",
-				"above the butterfly, continue of the branches left"
+				"above the butterfly, continue on the branches left of the tiger"
 			]
 		},
 		"tarantula": {
 			"r": 1,
 			"c": 3,
 			"next_direction": [
-				"down",
 				"go down thorough the gray rocks towards the parrot"
 			]
 		},
@@ -249,25 +244,22 @@
 			"r": 11,
 			"c": 19,
 			"next_direction": [
-				"left",
-				"keep going left on the crocodile",
-				"do a slight u-turn near the frog"
+				"head very closely to the frog and then turn back and head west to the crocodile",
+				"do a slight u-turn near the frog, and keep west towards the crocodile"
 			]
 		},
 		"crocodile": {
 			"r": 12,
 			"c": 11,
 			"next_direction": [
-				"left",
 				"continue on the crocodile to the rock below the elephant",
-				"go over the crocodile towards the elephant, on the rocks"
+				"go over the crocodile towards the elephant, then on the rocks"
 			]
 		},
 		"snake": {
 			"r": 15,
 			"c": 2,
 			"next_direction": [
-				"right",
 				"continue east to the treasure!"
 			]
 		},
@@ -275,5 +267,8 @@
 			"r": 16,
 			"c": 7
 		}
-	}
+	},
+	"order": ["start", "tiger", "parrot", "gray rocks",
+		"frog", "crocodile", "black rock", "elephant",
+	"gray rocks", "giraph", "snake", "treasure"]
 }

@@ -27,11 +27,14 @@ class GeneralInformation(TemplateMatcher):
     @staticmethod
     def __is_match(text):
         t = text.lower()
-        match = bool(re.match("(where (to|now))(.*)", t))
+        match = bool(re.match("(.*)(where (to|now))(.*)", t))
         match |= bool(re.match("(where should i (go|head))(.*)", t))
         match |= bool(re.match("(now (what| where)?)", t))
         match |= bool(re.match("(where do i go)(.*)", t))
         match |= bool(re.match("(i (do not|don't) know)(.*)", t))
+        match |= bool(re.match("(.*)(now?)", t))
+        match |= bool(re.match("(ok now (what|where)(.*))", t))
+        match |= bool(re.match("(how to continue?)", t))
         return match
 
     def __informative1(self):
@@ -72,19 +75,6 @@ class GeneralInformation(TemplateMatcher):
         self.engaged = True
         return f'do you see the {self.closest_obj}?'
 
-    def __find_closest_object(self, user_coord):
-        min_dist = 1000
-        closest_obj = ''
-        for obj in self.shared.kb_abs:
-            r = self.shared.kb_abs[obj]['r']
-            c = self.shared.kb_abs[obj]['c']
-            obj_coord = (r, c)
-            curr_dist = math.dist(user_coord, obj_coord)
-            if curr_dist < min_dist:
-                min_dist = curr_dist
-                closest_obj = obj
-        return closest_obj
-
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:
         if user_state is None:
             return
@@ -101,7 +91,7 @@ class GeneralInformation(TemplateMatcher):
         if not is_match:
             return None
 
-        self.closest_obj = self.__find_closest_object((user_state['r'], user_state['c']))
+        self.closest_obj = self.shared.find_closest_object((user_state['r'], user_state['c']))
         if self.closest_obj == 'treasure':
             return ['you found the treasure!']
         self.next_direction = random.choice(self.shared.kb_abs[self.closest_obj]['next_direction'])

@@ -10,6 +10,7 @@ from bots.rule_based.template_matchers.greetings import Greetings
 from bots.rule_based.template_matchers.single_object_location import SingleObjectLocation
 from bots.rule_based.template_matchers.single_object_on import SingleObjectOn
 from bots.rule_based.template_matchers.template_matcher_share import TemplateMatcherShare
+from bots.rule_based.template_matchers.towards import Towards
 from bots.rule_based.template_matchers.two_objects_proximity import TwoObjectsProximity
 
 
@@ -30,7 +31,8 @@ class ruleBasedBot(Bot):
                                           SingleObjectOn(shared),
                                           GeneralInformation(shared),
                                           GameInstructions(shared),
-                                          EndMatcher(shared)]
+                                          EndMatcher(shared),
+                                          Towards(shared)]
 
     def __is_finished(self, user_state):
         user_coord = (user_state['r'], user_state['c'])
