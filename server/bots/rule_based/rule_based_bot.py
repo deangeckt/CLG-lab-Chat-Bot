@@ -33,10 +33,10 @@ class ruleBasedBot(Bot):
                                           SingleObjectLocation(shared),
                                           SingleObjectOn(shared),
                                           GeneralInformation(shared),
-                                          GameInstructions(shared),
                                           EndMatcher(shared),
                                           Towards(shared),
-                                          Near(shared)]
+                                          Near(shared),
+                                          GameInstructions(shared)]
 
     def __is_finished(self, user_state):
         user_coord = (user_state['r'], user_state['c'])

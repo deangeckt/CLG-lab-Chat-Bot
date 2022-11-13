@@ -23,7 +23,7 @@ function GameInstructionsDialog({}): JSX.Element {
 
     const role_string = role_strings[state.game_config.game_role];
     const role_instructions_dict: Dictionary = {
-        0: 'You should navigate towrads some object in the map in a specific path. to learn the path chat with the game instructor. to navigate on the map you can either use the keyboard or the mouse - click on the green dots',
+        0: 'You should navigate towrads some object in the map in a specific path. to learn the path chat with the game instructor. to navigate on the map you can either use the keyboard or the mouse - click on the purple dots',
         1: 'You should instruct the naviagator to follow the path via the chat. the path is only visable to you.',
     };
     const role_instructions = role_instructions_dict[state.game_config.game_role];

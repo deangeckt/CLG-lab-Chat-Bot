@@ -23,7 +23,7 @@ class TemplateMatcherShare:
             self.all_objects.add(obj)
             for dir_ in self.kb_prox[obj]:
                 self.all_objects = self.all_objects.union(set(self.kb_prox[obj][dir_]))
-        print(self.all_objects)
+        # print(self.all_objects)
 
     def get_objects_in_user_msg(self, user_msg):
         detected_objects = []

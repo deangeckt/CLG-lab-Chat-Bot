@@ -12,7 +12,7 @@ class Near(TemplateMatcher):
     def is_match(self, text):
         t = text.lower()
         for obj in self.shared.all_objects:
-            if bool(re.match(f"((.*)(i'm|im|i am) (near|on|at) the {obj}(.*))", t)):
+            if bool(re.match(f"((.*)(i'm|im|i am|i) (near|on|at|see) the {obj}(.*))", t)):
                 return obj
         return False
 
