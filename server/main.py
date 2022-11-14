@@ -9,7 +9,7 @@ from bots.rule_based.rule_based_bot import ruleBasedBot
 from storage import upload
 from human_to_human_server import Server
 
-VERSION = '1.0.12'
+VERSION = '1.0.13'
 
 app = Flask(__name__)
 CORS(app)

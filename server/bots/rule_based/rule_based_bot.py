@@ -5,7 +5,7 @@ from bots.bot import Bot
 import json
 import math
 
-from bots.rule_based.template_matchers.end import EndMatcher
+from bots.rule_based.template_matchers.goal import GoalMatcher
 from bots.rule_based.template_matchers.game_instructions import GameInstructions
 from bots.rule_based.template_matchers.general_information import GeneralInformation
 from bots.rule_based.template_matchers.greetings import Greetings
@@ -33,7 +33,7 @@ class ruleBasedBot(Bot):
                                           SingleObjectLocation(shared),
                                           SingleObjectOn(shared),
                                           GeneralInformation(shared),
-                                          EndMatcher(shared),
+                                          GoalMatcher(shared),
                                           Towards(shared),
                                           Near(shared),
                                           GameInstructions(shared)]

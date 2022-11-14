@@ -35,6 +35,8 @@ class GeneralInformation(TemplateMatcher):
         match |= bool(re.match("(.*)(now?)", t))
         match |= bool(re.match("(ok now (what|where)(.*))", t))
         match |= bool(re.match("(how to continue?)", t))
+        match |= bool(re.match("(what next?)", t))
+        match |= bool(re.match("(where)", t))
         return match
 
     def __informative1(self):
