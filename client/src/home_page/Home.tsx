@@ -76,7 +76,7 @@ function Home(): JSX.Element {
                                 color="primary"
                                 onClick={() => register_click('bot', 0)}
                             >
-                                Bot
+                                Chat with a bot
                             </Button>
                             <Button
                                 className="register_btn"
@@ -85,7 +85,7 @@ function Home(): JSX.Element {
                                 color="primary"
                                 onClick={() => set_register_state('choose_map', 'human')}
                             >
-                                Human
+                                Chat with a huamn
                             </Button>
                         </div>
                     </div>
