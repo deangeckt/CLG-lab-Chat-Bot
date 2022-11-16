@@ -1,7 +1,7 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { notifyHumanEnd } from '../api';
 import { AppContext } from '../AppContext';
-import { path_cell_color, next_cells_color } from '../common/colors';
+import { path_cell_color, next_cells_color, flicker_color } from '../common/colors';
 import { MapCellIdx } from '../Wrapper';
 import { useApp } from './useApp';
 
@@ -34,6 +34,26 @@ export function useMapCanvas() {
     const canvasRef = useRef(null);
     const [im, setIm] = useState<HTMLImageElement>();
     const radius = canvas_width / 65;
+
+    useEffect(() => {
+        let anim_path_color = flicker_color;
+        let next_color = flicker_color;
+        let anim_c = 0;
+        const interval = setInterval(() => {
+            if (matrix.length > 0) {
+                const user_map_path = [...state.user_map_path];
+                const ui_new_neighbors_list = Array.from(neighbors).map((n) => neighbor_str_to_cell(n));
+                color_change(ui_new_neighbors_list, next_color);
+                color_change(user_map_path, anim_path_color);
+                anim_path_color = anim_path_color == path_cell_color ? flicker_color : path_cell_color;
+                next_color = next_color == next_cells_color ? flicker_color : next_cells_color;
+
+                anim_c += 1;
+                if (anim_c === 6) clearInterval(interval);
+            }
+        }, 300);
+        return () => clearInterval(interval);
+    }, [matrix]);
 
     const draw = (on_draw_cb: Function) => {
         const canvas = canvasRef.current as any;
@@ -205,7 +225,6 @@ export function useMapCanvas() {
 
     return {
         canvasRef,
-        matrix,
         canvas_width,
         canvas_height,
         neighbor_str_to_cell,
