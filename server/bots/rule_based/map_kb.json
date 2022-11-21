@@ -144,6 +144,5 @@
 		}
 	},
 
-	"goal_object": "treasure",
 	"outside_path": ["tarantula", "butterfly"]
 }

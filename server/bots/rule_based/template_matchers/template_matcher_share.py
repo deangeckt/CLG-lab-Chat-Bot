@@ -7,11 +7,9 @@ class TemplateMatcherShare:
     def __init__(self, kb, chat):
         self.chat = chat
 
-        self.goal_object = kb['goal_object']
-        self.goal_object_loc = kb['absolute'][self.goal_object]
-
         self.kb_abs = kb['absolute']
         self.kb_path_order = list(self.kb_abs.keys())
+        self.goal_object = self.kb_path_order[-1]
         self.outside_path = kb['outside_path']
 
         self.all_objects = set(self.kb_path_order)
