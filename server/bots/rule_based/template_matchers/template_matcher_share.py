@@ -4,14 +4,6 @@ import string
 
 
 class TemplateMatcherShare:
-    angle_directions = ['east', 'west', 'south', 'north']
-    prepositions_directions = ['above', 'below']
-    direction_mapping = {'right': ['east', 'right'],
-                         'left': ['west', 'left'],
-                         'up': ['north', 'above'],
-                         'down': ['south', 'below'],
-                         'on': ['on']}
-
     def __init__(self, kb, chat):
         self.chat = chat
 
@@ -26,7 +18,6 @@ class TemplateMatcherShare:
         self.all_objects = self.all_objects.union(set(self.outside_path))
 
         self.closest_obj = None
-        print(self.all_objects)
 
     def find_closest_object(self, user_coord):
         """

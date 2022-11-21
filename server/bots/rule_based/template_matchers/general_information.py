@@ -13,13 +13,8 @@ class GeneralInformation(TemplateMatcher):
     e.g.: nav: 'where should I go now?', 'ins': engage question , nav: at /near at/ the X, ins: NEAR matcher'
     """
 
-    verb_options = ['keep going', 'continue']
-
     def __init__(self, share: TemplateMatcherShare):
         super().__init__(share)
-        self.closest_obj = None
-        self.next_obj_in_path = None
-        self.next_direction = None
 
     @staticmethod
     def __is_match(text):
@@ -35,9 +30,6 @@ class GeneralInformation(TemplateMatcher):
         match |= bool(re.match("(.*)(what next?)", t))
         match |= bool(re.match("(where)", t))
         return match
-
-    def __next_random_dir_to_closest_obj(self):
-        return random.choice(self.shared.kb_abs[self.closest_obj]['next_direction'])
 
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:
         if user_state is None:

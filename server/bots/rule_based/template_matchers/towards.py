@@ -11,7 +11,7 @@ class Towards(TemplateMatcher):
     def is_match(self, text):
         t = text.lower()
         for obj in self.shared.all_objects:
-            if bool(re.match(f"((.*)(should|do) i (continue to|go towards|go toward|go to|head to) the {obj}(.*))", t)) or \
+            if bool(re.match(f"((.*)(should|do) i (continue to|go towards|go toward|go to|head to|walk to) the {obj}(.*))", t)) or \
                     bool(re.match(f"((.*)(towards|toward) the {obj}(.*))", t)):
                 return obj
         return False
@@ -32,9 +32,12 @@ class Towards(TemplateMatcher):
         if obj_match in self.shared.outside_path:
             return [f'no, the {obj_match} is not part of the path. you should go towards the {next_obj_in_path}']
 
-        obj_match_indx = self.shared.kb_path_order.index(obj_match)
-        if closest_obj_index == obj_match_indx - 1:
+        obj_match_index = self.shared.kb_path_order.index(obj_match)
+        if closest_obj_index == obj_match_index - 1:
             return ['yes']
 
-        return [f'nope, you should go towards the {next_obj_in_path}']
+        elif obj_match_index > closest_obj_index:
+            return [f'first you should go towards the {next_obj_in_path}']
+        else:
+            return [f'nope, you should go towards the {next_obj_in_path}']
 
