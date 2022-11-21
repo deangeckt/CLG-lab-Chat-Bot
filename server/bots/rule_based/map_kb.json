@@ -1,189 +1,4 @@
 {
-	"proximity": {
-		"start": {
-			"right": [
-				"tiger",
-				"path"
-			],
-			"left": [
-				"end of map"
-			],
-			"up": [
-				"water"
-			],
-			"down": [
-				"end of map"
-			],
-			"on": [
-				"start"
-			]
-		},
-		"tiger": {
-			"right": [
-				"parrot",
-				"path"
-			],
-			"left": [
-				"start",
-				"path"
-			],
-			"up": [
-				"water"
-			],
-			"down": [
-				"end of the map"
-			],
-			"on": [
-				"island with 2 dark rocks"
-			]
-		},
-		"elephant": {
-			"right": [
-				"giraph",
-				"gray rocks"
-			],
-			"left": [
-				"parrot",
-				"trees",
-				"path"
-			],
-			"up": [
-				"black rock"
-			],
-			"down": [
-				"gray rocks"
-			],
-			"on": [
-				"green island"
-			]
-		},
-		"giraph": {
-			"right": [
-				"end of map"
-			],
-			"left": [
-				"gray rocks",
-				"path"
-			],
-			"up": [
-				"path"
-			],
-			"down": [
-				"water"
-			],
-			"on": [
-				"green island"
-			]
-		},
-		"parrot": {
-			"right": [
-				"elephant"
-			],
-			"left": [
-				"gray rocks",
-				"path",
-				"tiger"
-			],
-			"up": [
-				"path",
-				"crocodile"
-			],
-			"down": [
-				"water"
-			],
-			"on": [
-				"tree"
-			]
-		},
-		"butterfly": {
-			"right": [
-				"water"
-			],
-			"left": [
-				"end of map"
-			],
-			"up": [
-				"water"
-			],
-			"down": [
-				"start",
-				"water"
-			],
-			"on": [
-				"island in the edge"
-			]
-		},
-		"tarantula": {
-			"right": [
-				"end of the map"
-			],
-			"left": [
-				"gray rocks"
-			],
-			"up": [
-				"water"
-			],
-			"down": [
-				"end of the map"
-			],
-			"on": [
-				"island in the top left edge of the map"
-			]
-		},
-		"frog": {
-			"right": [
-				"crocodile"
-			],
-			"left": [
-				"end of the map"
-			],
-			"up": [
-				"island"
-			],
-			"down": [
-				"butterfly"
-			],
-			"on": [
-				"island with 2 trees"
-			]
-		},
-		"crocodile": {
-			"right": [
-					"snake",
-					"treasure"
-			],
-			"left": [
-				"frog"
-			],
-			"up": [
-				"water"
-			],
-			"down": [
-				"parrot",
-				"elephant"
-			],
-			"on": [
-				"water"
-			]
-		},
-		"snake": {
-			"right": [
-					"treasure"
-			],
-			"left": [
-				"end of the map"
-			],
-			"up": [
-				"end of the map"
-			],
-			"down": [
-				"giraph"
-			],
-			"on": [
-				"tree"
-			]
-		}
-	},
 	"absolute": {
 		"start": {
 			"r": 2,
@@ -192,6 +7,11 @@
 				"go left towards the tiger",
 				"go left on the branches on the water",
 				"go across the bridge towards the tiger"
+			],
+			"clarification": [
+				"you should navigate using keyboard/ mouse towards the tiger",
+				"you should navigate using keyboard/ mouse towards the tiger, go on the branches",
+				"you should navigate using keyboard/ mouse towards the tiger, go on the branches"
 			]
 		},
 		"tiger": {
@@ -200,44 +20,34 @@
 			"next_direction": [
 				"pass the branch below the tiger, to the left",
 				"pass the branch to the left"
-			]
-		},
-		"elephant": {
-			"r": 6,
-			"c": 7,
-			"next_direction": [
-				"if you didn't pass near the frog yet, head over the gray rocks towards it",
-				"if you did pass near the frog already and the crocodile, keep west towards the giraph, over the gray rocks"
-			]
-		},
-		"giraph": {
-			"r": 8,
-			"c": 1,
-			"next_direction": [
-				"head south east from the giraph, towards the snake",
-				"below the giraph, continue on the branches right"
+			],
+			"clarification": [
+				"there is another branch left to the tiger, pass ot towards the parrot",
+				"there is another branch left to the tiger, pass ot towards the parrot"
 			]
 		},
 		"parrot": {
-			"r": 6,
+			"r": 5,
 			"c": 11,
 			"next_direction": [
 				"go around the parrot above it, then head to the gray rocks below the parrot",
 				"surround the parrot over it, then continue east over the gray rocks"
+			],
+			"clarification": [
+				"you need to surround the parrot, start above it, then between the parrot and the elephant, and then below it, towards the 2 gray rocks",
+				"you need to surround the parrot, start above it, then between the parrot and the elephant, and then below it, towards the 2 gray rocks"
 			]
 		},
-		"butterfly": {
-			"r": 7,
-			"c": 21,
+		"3 rocks": {
+			"r": 8,
+			"c": 13,
 			"next_direction": [
-				"above the butterfly, continue on the branches left of the tiger"
-			]
-		},
-		"tarantula": {
-			"r": 1,
-			"c": 3,
-			"next_direction": [
-				"go down thorough the gray rocks towards the parrot"
+				"step over the 3 rocks and head to the frog",
+				"go over the three rocks that are east of the parrot, and continue towards the frog"
+			],
+			"clarification": [
+				"once you finished surrounding the parrot, you should be below it. now to right of it are 3 rocks, go over those rock to the frog",
+				"once you finished surrounding the parrot, you should be below it. now to right of it are 3 rocks, go over those rock to the frog"
 			]
 		},
 		"frog": {
@@ -246,14 +56,70 @@
 			"next_direction": [
 				"head very closely to the frog and then turn back and head west to the crocodile",
 				"do a slight u-turn near the frog, and keep west towards the crocodile"
+			],
+			"clarification": [
+				"you should almost touch the frog, but below it, then do a slight u-turn and continue left of it, towards the crocodile",
+				"you should almost touch the frog, but below it, then do a slight u-turn and continue left of it, towards the crocodile"
 			]
 		},
 		"crocodile": {
 			"r": 12,
-			"c": 11,
+			"c": 15,
 			"next_direction": [
 				"continue on the crocodile to the rock below the elephant",
 				"go over the crocodile towards the elephant, then on the rocks"
+			],
+			"clarification": [
+				"you should walk over the crocodile itself, and then on the black rock left to it",
+				"you should walk over the crocodile itself, and then on the black rock left to it"
+			]
+		},
+		"big rock": {
+			"r": 11,
+			"c": 8,
+			"next_direction": [
+				"go over the big rock, the one that is on the crocodile's head. continue west until you see 2 grays rocks",
+				"there is a big rock next to the crocodile's head, step on it and continue left"
+			],
+			"clarification": [
+				"you should walk over the crocodile itself, and then on the black rock left to it",
+				"you should walk over the crocodile itself, and then on the black rock left to it"
+			]
+		},
+		"elephant": {
+			"r": 6,
+			"c": 7,
+			"next_direction": [
+				"if you didn't pass near the frog yet, head over the gray rocks towards it",
+				"if you did pass near the frog already and the crocodile, keep west towards the giraph, over the gray rocks"
+			],
+			"clarification": [
+				"i'm not sure where you came from as i don't see you, but next you should continue on the 2 gray rocks towards the frog",
+				"i'm not sure where you came from as i don't see you, but next you should continue on the 2 gray rocks towards the giraph"
+			]
+		},
+		"2 gray rocks": {
+			"r": 10,
+			"c": 5,
+			"next_direction": [
+				"continue on the crocodile to the rock below the elephant",
+				"go over the crocodile towards the elephant, then on the rocks"
+			],
+			"clarification": [
+				"you should walk over the crocodile itself, and then on the black rock left to it",
+				"you should walk over the crocodile itself, and then on the black rock left to it"
+			]
+		},
+		"giraph": {
+			"r": 8,
+			"c": 1,
+			"next_direction": [
+				"head south east from the giraph, towards the snake",
+				"below the giraph, continue on the branches right"
+			],
+			"clarification": [
+				"go below the giraph, and pass to the island where the snake is, go on top of the snake",
+				"go below the giraph, and pass to the island where the snake is, go on top of the snake"
 			]
 		},
 		"snake": {
@@ -261,14 +127,23 @@
 			"c": 2,
 			"next_direction": [
 				"continue east to the treasure!"
+			],
+			"clarification": [
+				"keep going on the snake in the right direction, then to the treasure!, almost there!"
 			]
 		},
 		"treasure": {
 			"r": 16,
-			"c": 7
+			"c": 7,
+			"next_direction": [
+				"continue towards the treasure - the last object!"
+			],
+			"clarification": [
+				"almost there! just step on the treasure"
+			]
 		}
 	},
-	"order": ["start", "tiger", "parrot", "gray rocks",
-		"frog", "crocodile", "black rock", "elephant",
-	"gray rocks", "giraph", "snake", "treasure"]
+
+	"goal_object": "treasure",
+	"outside_path": ["tarantula", "butterfly"]
 }

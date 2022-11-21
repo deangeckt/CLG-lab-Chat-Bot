@@ -3,55 +3,58 @@ import random
 from pkg_resources import resource_filename
 from bots.bot import Bot
 import json
-import math
-
+import random
+from bots.rule_based.template_matchers.clarification import Clarification
+from bots.rule_based.template_matchers.done import Done
 from bots.rule_based.template_matchers.goal import GoalMatcher
 from bots.rule_based.template_matchers.game_instructions import GameInstructions
 from bots.rule_based.template_matchers.general_information import GeneralInformation
 from bots.rule_based.template_matchers.greetings import Greetings
 from bots.rule_based.template_matchers.near import Near
-from bots.rule_based.template_matchers.single_object_location import SingleObjectLocation
-from bots.rule_based.template_matchers.single_object_on import SingleObjectOn
 from bots.rule_based.template_matchers.template_matcher_share import TemplateMatcherShare
 from bots.rule_based.template_matchers.towards import Towards
-from bots.rule_based.template_matchers.two_objects_proximity import TwoObjectsProximity
 
 
 class ruleBasedBot(Bot):
     def __init__(self):
         super().__init__()
         self.chat = []
+        self.no_resp_prefix = ["i'm not sure but maybe this will help:",
+                               "hmm not too sure about that, but maybe this will help:"]
+
         kb_path = resource_filename('bots', 'rule_based/map_kb.json')
         with open(kb_path, 'r') as f:
             self.kb = json.load(f)
 
-        self.treasure_loc = self.kb['absolute']['treasure']
-
         shared = TemplateMatcherShare(self.kb, self.chat)
-        self.ordered_template_matchers = [Greetings(shared),
-                                          TwoObjectsProximity(shared),
-                                          SingleObjectLocation(shared),
-                                          SingleObjectOn(shared),
-                                          GeneralInformation(shared),
-                                          GoalMatcher(shared),
-                                          Towards(shared),
-                                          Near(shared),
-                                          GameInstructions(shared)]
-
-    def __is_finished(self, user_state):
-        user_coord = (user_state['r'], user_state['c'])
-        treasure_coord = (self.treasure_loc['r'], self.treasure_loc['c'])
-        return math.dist(user_coord, treasure_coord) < 3
+        self.shared = shared
+        self.ordered_template_matchers = [
+            GameInstructions(shared),
+            GoalMatcher(shared),
+            Greetings(shared),
+            Clarification(shared),
+            Done(shared),
+            GeneralInformation(shared),
+            Towards(shared),
+            Near(shared),
+        ]
 
     def __match_and_respond(self, user_msg, user_state=None):
         try:
-            if self.__is_finished(user_state):
-                return random.choice(['you found the treasure!', ['you are near the treasure, go to it!']])
+            self.shared.find_closest_object((user_state['r'], user_state['c']))
+
+            if self.shared.closest_obj == self.shared.goal_object:
+                return [random.choice([f'you are close to the {self.shared.goal_object}!, head over there!',
+                                       f'you are near the {self.shared.goal_object}, go to it!'])]
 
             for template_matcher in self.ordered_template_matchers:
                 resp = template_matcher.match(user_msg, user_state)
                 if resp is not None:
                     return resp
+
+            return [random.choice(self.no_resp_prefix),
+                    random.choice(self.shared.kb_abs[self.shared.closest_obj]['next_direction'])]
+
         except Exception as e:
             print('err:', e)
 

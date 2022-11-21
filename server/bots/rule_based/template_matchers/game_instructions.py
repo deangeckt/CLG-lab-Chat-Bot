@@ -16,7 +16,7 @@ class GameInstructions(TemplateMatcher):
     def __is_match(text):
         t = text.lower()
         match = bool(re.match("(.*)((yellow|purple) dots?)(.*)", t))
-        match |= bool(re.match("(what are the dots?)", t))
+        match |= bool(re.match("(what are (the|those) dots?)", t))
         match |= bool(re.match("(.*)(yellow and purple dots?)(.*)", t))
         match |= bool(re.match("(.*)(purple and yellow dots?)(.*)", t))
         return match

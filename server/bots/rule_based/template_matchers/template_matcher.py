@@ -7,8 +7,6 @@ from bots.rule_based.template_matchers.template_matcher_share import TemplateMat
 class TemplateMatcher(ABC):
     def __init__(self, share: TemplateMatcherShare):
         self.shared = share
-        self.kb_prox = self.shared.kb_prox
-        self.chat = self.shared.chat
 
     @abstractmethod
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:
