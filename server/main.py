@@ -8,7 +8,7 @@ from bot_server import BotServer
 from storage import upload
 from human_server import HumanServer
 
-VERSION = '1.1.1'
+VERSION = '1.1.2'
 
 app = Flask(__name__)
 CORS(app)

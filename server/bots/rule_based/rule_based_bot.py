@@ -1,6 +1,3 @@
-import math
-import random
-
 from pkg_resources import resource_filename
 from bots.bot import Bot
 import json
@@ -16,15 +13,15 @@ from bots.rule_based.template_matchers.template_matcher_share import TemplateMat
 from bots.rule_based.template_matchers.towards import Towards
 
 
-class ruleBasedBot(Bot):
-    def __init__(self):
+class RuleBasedBot(Bot):
+    def __init__(self, map_id):
         super().__init__()
         self.chat = []
         self.visited_on = {}
         self.no_resp_prefix = ["i'm not sure but maybe this will help:",
                                "hmm not too sure about that, but maybe this will help:"]
 
-        kb_path = resource_filename('bots', 'rule_based/map_kb.json')
+        kb_path = resource_filename('bots', f'rule_based/maps_kb/{map_id}.json')
         with open(kb_path, 'r') as f:
             self.kb = json.load(f)
 

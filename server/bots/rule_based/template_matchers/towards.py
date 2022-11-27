@@ -12,7 +12,7 @@ class Towards(TemplateMatcher):
         t = text.lower()
         for obj in self.shared.all_objects:
             if bool(re.match(f"((.*)(should|do) i (continue to|go towards|go toward|go to|head to|walk to) the {obj}(.*))", t)) or \
-                    bool(re.match(f"((.*)(to|towards|toward) the {obj}(.*))", t)):
+                    bool(re.match(f"((.*)(towards|toward) the {obj}(.*))", t)):
                 return obj
         return False
 
