@@ -23,7 +23,7 @@ class BotServer:
 
     def call_bot(self, guid, user_msg, user_state=None):
         en_user_msg = self.__translate_to_eng(user_msg)
-        print(en_user_msg)
+        print('tr:', en_user_msg)
         en_bot_resp = self.sessions[guid]['bot'].call(en_user_msg, user_state)
         spanglish_bot_resp = self.sessions[guid]['cs'].call(user_msg, en_bot_resp)
         return spanglish_bot_resp

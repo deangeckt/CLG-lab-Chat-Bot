@@ -66,6 +66,7 @@ export interface IAppState {
     game_state: GameState;
     game_config: GameConfig;
     clinet_version: string;
+    server_version: string;
 }
 
 export const maps: MapMetadata[] = [
@@ -131,7 +132,8 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_mode: 'bot', game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.0.13',
+    clinet_version: '1.0.14',
+    server_version: '',
 };
 
 const Wrapper = (props: any) => {

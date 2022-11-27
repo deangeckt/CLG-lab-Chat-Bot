@@ -32,9 +32,11 @@ export function useApp() {
     const register_cb = (data: any, map_index: number) => {
         const map_metadata = maps[map_index];
         const game_config = state.game_config;
+        let server_version = '';
         game_config.registerd = 'yes';
 
         if (data) {
+            server_version = data.version;
             game_config.game_role = data.role;
             game_config.guid = data.guid;
             const map = map_metadata.im_src.split('_')[0];
@@ -54,6 +56,7 @@ export function useApp() {
             chat,
             map_metadata,
             user_map_path: [maps[map_index].start_cell],
+            server_version,
         });
     };
 

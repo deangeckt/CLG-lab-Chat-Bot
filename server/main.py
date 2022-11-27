@@ -97,7 +97,7 @@ def register():
         if game_mode not in ['bot', 'human']:
             raise Exception('Invalid game mode')
 
-        resp = {}
+        resp = {'version': VERSION}
         if game_mode == 'bot':
             resp['role'] = game_roles['navigator']
             guid = bot_server.register()

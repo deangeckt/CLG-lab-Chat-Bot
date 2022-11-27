@@ -21,6 +21,7 @@ function App(): JSX.Element {
 
     const role_string = role_strings[state.game_config.game_role];
     const { finish_early } = useApp();
+    const version = `client: ${state.clinet_version}\nserver: ${state.server_version}`;
 
     return (
         <div className="App">
@@ -29,9 +30,15 @@ function App(): JSX.Element {
             <GameInstructionsDialog />
 
             <div className="App_Header">
-                <IconButton onClick={() => setGameInstructions(true)}>
-                    <InfoIcon style={{ color: main_gray, fontSize: 40 }} />
-                </IconButton>
+                <div style={{ display: 'flex' }}>
+                    <Typography variant="h6" style={{ alignSelf: 'center', fontSize: '12px', whiteSpace: 'pre-line' }}>
+                        {version}
+                    </Typography>
+                    <IconButton onClick={() => setGameInstructions(true)}>
+                        <InfoIcon style={{ color: main_gray, fontSize: 40 }} />
+                    </IconButton>
+                </div>
+
                 <Typography variant="h4" style={{ alignSelf: 'center' }}>
                     Your role: {role_string}
                 </Typography>
