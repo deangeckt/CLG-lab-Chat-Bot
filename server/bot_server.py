@@ -1,10 +1,10 @@
 import uuid
 from bots.rule_based.rule_based_bot import RuleBasedBot
 from code_switch.code_switch_unit import CodeSwitchUnit
-from google.cloud import translate
+from google.cloud import translate_v2 as translate
 import html
 
-translate_client = translate.TranslationServiceClient()
+translate_client = translate.Client()
 parent = f"projects/dialogue-362312"
 
 
@@ -33,11 +33,6 @@ class BotServer:
 
     @staticmethod
     def __translate_to_eng(user_msg):
-        response = translate_client.translate_text(
-            contents=[user_msg],
-            source_language_code='es',
-            target_language_code='en',
-            parent=parent,
-        )
-        translated_text = response.translations[0].translated_text
+        response = translate_client.translate(user_msg, target_language='en', source_language='es')
+        translated_text = response['translatedText']
         return html.unescape(translated_text)
