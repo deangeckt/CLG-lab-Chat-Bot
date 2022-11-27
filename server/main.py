@@ -5,10 +5,10 @@ from flask import request
 from flask_cors import CORS
 
 from bot_server import BotServer
-from storage import upload
+from google_cloud.storage import save_to_storage
 from human_server import HumanServer
 
-VERSION = '1.1.3'
+VERSION = '1.2.0'
 
 app = Flask(__name__)
 CORS(app)
@@ -133,7 +133,7 @@ def upload_api():
                 upload_data['game_config']['game_role'] = game_roles_reverse[upload_data['game_config']['game_role']]
 
             upload_data['server_version'] = VERSION
-            upload(upload_data)
+            save_to_storage(upload_data)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)

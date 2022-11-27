@@ -1,16 +1,13 @@
 import uuid
 from bots.rule_based.rule_based_bot import RuleBasedBot
 from code_switch.code_switch_unit import CodeSwitchUnit
-from google.cloud import translate_v2 as translate
-import html
-
-translate_client = translate.Client()
-parent = f"projects/dialogue-362312"
+from google_cloud.translate import Translate
 
 
 class BotServer:
     def __init__(self):
         self.sessions = {}
+        self.translate = Translate()
 
     def register(self):
         guid = str(uuid.uuid4())
@@ -22,17 +19,10 @@ class BotServer:
         del self.sessions[guid]
 
     def call_bot(self, guid, user_msg, user_state=None):
-        en_user_msg = self.__translate_to_eng(user_msg)
-        print('tr:', en_user_msg)
+        en_user_msg = self.translate.translate_to_eng(user_msg)
         en_bot_resp = self.sessions[guid]['bot'].call(en_user_msg, user_state)
         spanglish_bot_resp = self.sessions[guid]['cs'].call(user_msg, en_bot_resp)
         return spanglish_bot_resp
 
     def call_bot_loc(self, guid, user_state=None):
         return self.sessions[guid]['bot'].location_move(user_state)
-
-    @staticmethod
-    def __translate_to_eng(user_msg):
-        response = translate_client.translate(user_msg, target_language='en', source_language='es')
-        translated_text = response['translatedText']
-        return html.unescape(translated_text)

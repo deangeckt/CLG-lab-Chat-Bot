@@ -5,7 +5,7 @@ storage_client = storage.Client()
 bucket_name = "dialogue-362312.appspot.com"
 
 
-def upload(result):
+def save_to_storage(result):
     bucket = storage_client.bucket(bucket_name)
 
     file_name = result.get('guid')
@@ -16,4 +16,4 @@ def upload(result):
 
 
 if __name__ == '__main__':
-    upload(result={'test': 'test2', 'guid': 'guid_test.json'})
+    save_to_storage(result={'test': 'test2', 'guid': 'guid_test.json'})
