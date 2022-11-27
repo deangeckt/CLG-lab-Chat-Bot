@@ -20,7 +20,7 @@ class GeneralInformation(TemplateMatcher):
     def __is_match(text):
         t = text.lower()
         match = bool(re.match("(.*)(where (to|now))(.*)", t))
-        match |= bool(re.match("(where should i (go|head))(.*)", t))
+        match |= bool(re.match("(where (do|should) i (go|head|need to go))(.*)", t))
         match |= bool(re.match("(now (what| where)?)", t))
         match |= bool(re.match("(where do i go)(.*)", t))
         match |= bool(re.match("(i (do not|don't) know)(.*)", t))

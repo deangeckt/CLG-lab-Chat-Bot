@@ -1,21 +1,20 @@
 import json
 import os
-import uuid
 from flask import Flask, Response
 from flask import request
 from flask_cors import CORS
 
-from bots.rule_based.rule_based_bot import ruleBasedBot
+from bot_server import BotServer
 from storage import upload
-from human_to_human_server import Server
+from human_server import HumanServer
 
-VERSION = '1.1.0'
+VERSION = '1.1.1'
 
 app = Flask(__name__)
 CORS(app)
 
-chat_bot = ruleBasedBot()
-hh_server = Server()
+human_server = HumanServer()
+bot_server = BotServer()
 
 game_roles = {'navigator': 0, 'instructor': 1}
 game_roles_reverse = {0: 'navigator', 1: 'instructor'}
@@ -25,7 +24,21 @@ game_roles_reverse = {0: 'navigator', 1: 'instructor'}
 def call_bot():
     try:
         params = request.get_json()
-        res = chat_bot.call(params['msg'], params['state'])
+        res = bot_server.call_bot(params['guid'], params['msg'], params['state'])
+        return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
+    except Exception as e:
+        print('err:', e)
+        return "Server error", 500, {'Content-Type': 'application/json'}
+
+
+@app.route('/api/v1/call_bot_loc', methods=['POST'])
+def call_bot_loc():
+    """
+    empty string of list will not generate text on the UI
+    """
+    try:
+        params = request.get_json()
+        res = bot_server.call_bot_loc(params['guid'], params['state'])
         return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)
@@ -40,7 +53,7 @@ def call_human():
         guid_ = params['guid']
         msg = params['msg']
         to_other_msg = f"{guid_}__{id_}__{msg}__dummy"
-        hh_server.announce(to_other_msg, guid_)
+        human_server.announce(to_other_msg, guid_)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)
@@ -54,7 +67,7 @@ def notify_end_human():
         id_ = params['id']
         guid_ = params['guid']
         to_other_msg = f"{guid_}__{id_}__dummy__end"
-        hh_server.announce(to_other_msg, guid_)
+        human_server.announce(to_other_msg, guid_)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)
@@ -66,7 +79,7 @@ def event():
     guid = request.args.get('guid')
 
     def stream(guid: str):
-        messages = hh_server.listen(guid)  # returns a queue.Queue
+        messages = human_server.listen(guid)  # returns a queue.Queue
         while True:
             msg = messages.get()  # blocks until a new message arrives
             yield msg
@@ -87,9 +100,10 @@ def register():
         resp = {}
         if game_mode == 'bot':
             resp['role'] = game_roles['navigator']
-            resp['guid'] = str(uuid.uuid4())
+            guid = bot_server.register()
+            resp['guid'] = guid
         elif game_mode == 'human':
-            role, guid = hh_server.assign_role_api(map_index)
+            role, guid = human_server.assign_role_api(map_index)
             resp['role'] = game_roles[role]
             resp['guid'] = guid
         return resp, 200, {'Content-Type': 'application/json'}
@@ -106,9 +120,10 @@ def upload_api():
         if 'guid' not in params:
             raise Exception('Missing guid!')
         if params['game_config']['game_mode'] == 'human':
-            upload_data = hh_server.upload(params)
+            upload_data = human_server.upload(params)
         else:
             upload_data = params
+            bot_server.un_register(params['guid'])
 
         if upload_data is not None:
             chat = upload_data['chat']

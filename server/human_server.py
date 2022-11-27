@@ -5,7 +5,7 @@ from collections import defaultdict
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-class Server:
+class HumanServer:
     def __init__(self):
         self.sessions_roles = {}
         self.sessions_resp = {}
@@ -31,7 +31,6 @@ class Server:
             del self.sessions_roles[dk]
         print(self.sessions_roles)
         print(self.sessions_resp)
-
 
     @staticmethod
     def __format_sse(data: str):

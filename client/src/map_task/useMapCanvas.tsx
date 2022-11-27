@@ -1,9 +1,10 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { notifyHumanEnd } from '../api';
+import { callBotLocationMove, notifyHumanEnd } from '../api';
 import { AppContext } from '../AppContext';
 import { path_cell_color, next_cells_color, flicker_color } from '../common/colors';
 import { MapCellIdx } from '../Wrapper';
 import { useApp } from './useApp';
+import { useChat } from './useChat';
 
 const get_canvas_size = (im_width: number, im_height: number) => {
     // map canvas is 75% width and app container height is 0.9
@@ -26,6 +27,7 @@ const get_canvas_size = (im_width: number, im_height: number) => {
 };
 
 export function useMapCanvas() {
+    const { updateChatState } = useChat();
     const { open_ending_modal } = useApp();
     const { state, setState } = useContext(AppContext);
     const [matrix, setMatrix] = useState(Array<Array<Path2D>>);
@@ -179,6 +181,15 @@ export function useMapCanvas() {
         color_change(user_map_path, path_cell_color);
 
         setState({ ...state, user_map_path: user_map_path });
+        if (state.game_config.game_mode == 'bot') {
+            callBotLocationMove(state.game_config.guid, new_cell, handle_bot_msg_on_move);
+        }
+    };
+
+    const handle_bot_msg_on_move = (msgs: string[]) => {
+        if (msgs.length == 0) return;
+        const chatMsgs = msgs.map((msg) => ({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() }));
+        updateChatState(chatMsgs);
     };
 
     const onKeyClick = (e: any) => {

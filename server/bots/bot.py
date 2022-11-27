@@ -12,3 +12,10 @@ class Bot(metaclass=ABCMeta):
         param user_state: current coordinate of user on the map
         :return: generated string in a list
         """
+
+    @abstractmethod
+    def location_move(self, user_state) -> list[str]:
+        """
+        param user_state: current coordinate of user on the map
+        :return: generated string in a list
+        """

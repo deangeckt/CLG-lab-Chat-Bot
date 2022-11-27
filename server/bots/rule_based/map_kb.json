@@ -64,7 +64,7 @@
 		},
 		"crocodile": {
 			"r": 12,
-			"c": 15,
+			"c": 12,
 			"next_direction": [
 				"continue on the crocodile to the rock below the elephant",
 				"go over the crocodile towards the elephant, then on the rocks"
@@ -91,11 +91,11 @@
 			"c": 7,
 			"next_direction": [
 				"if you didn't pass near the frog yet, head over the gray rocks towards it",
-				"if you did pass near the frog already and the crocodile, keep west towards the giraph, over the gray rocks"
+				"if you did pass near the frog already and the crocodile, keep west towards the giraffe, over the gray rocks"
 			],
 			"clarification": [
 				"i'm not sure where you came from as i don't see you, but next you should continue on the 2 gray rocks towards the frog",
-				"i'm not sure where you came from as i don't see you, but next you should continue on the 2 gray rocks towards the giraph"
+				"i'm not sure where you came from as i don't see you, but next you should continue on the 2 gray rocks towards the giraffe"
 			]
 		},
 		"2 gray rocks": {
@@ -110,16 +110,16 @@
 				"you should walk over the crocodile itself, and then on the black rock left to it"
 			]
 		},
-		"giraph": {
+		"giraffe": {
 			"r": 8,
 			"c": 1,
 			"next_direction": [
-				"head south east from the giraph, towards the snake",
-				"below the giraph, continue on the branches right"
+				"head south east from the giraffe, towards the snake",
+				"below the giraffe, continue on the branches right"
 			],
 			"clarification": [
-				"go below the giraph, and pass to the island where the snake is, go on top of the snake",
-				"go below the giraph, and pass to the island where the snake is, go on top of the snake"
+				"go below the giraffe, and pass to the island where the snake is, go on top of the snake",
+				"go below the giraffe, and pass to the island where the snake is, go on top of the snake"
 			]
 		},
 		"snake": {

@@ -20,12 +20,25 @@ export const huamn_to_human_event = async (guid: string, update: Function) => {
     };
 };
 
-export const callBot = async (msg: string, cell: MapCellIdx, update: Function) => {
+export const callBot = async (guid: string, msg: string, cell: MapCellIdx, update: Function) => {
     try {
         const response = (await axios.request({
             url: baseUrl + 'call_bot',
             method: 'POST',
-            data: { msg, state: cell },
+            data: { guid, msg, state: cell },
+        })) as AxiosResponse;
+        update(response.data.res);
+    } catch (error: any) {
+        update('Bot not connected');
+    }
+};
+
+export const callBotLocationMove = async (guid: string, cell: MapCellIdx, update: Function) => {
+    try {
+        const response = (await axios.request({
+            url: baseUrl + 'call_bot_loc',
+            method: 'POST',
+            data: { guid, state: cell },
         })) as AxiosResponse;
         update(response.data.res);
     } catch (error: any) {

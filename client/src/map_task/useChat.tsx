@@ -42,7 +42,7 @@ export function useChat() {
         if (state.game_config.game_mode == 'bot') {
             setBotType(true);
             const curr_cell = state.user_map_path[state.user_map_path.length - 1];
-            callBot(inputTxt, curr_cell, addBotMsg);
+            callBot(state.game_config.guid, inputTxt, curr_cell, addBotMsg);
         } else {
             callHuman(state.game_config.guid, selfChatMsg);
         }
@@ -69,5 +69,5 @@ export function useChat() {
         }
     };
 
-    return { onKeyPress, botType, sendUserMsg, inputTxt, setInputTxt };
+    return { updateChatState, onKeyPress, botType, sendUserMsg, inputTxt, setInputTxt };
 }
