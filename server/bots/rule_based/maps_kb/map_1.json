@@ -6,12 +6,14 @@
 			"next_direction": [
 				"go left towards the tiger",
 				"go left on the branches on the water",
-				"go across the bridge towards the tiger"
+				"go across the bridge towards the tiger",
+				"follow the bridge and go towards the tiger"
 			],
 			"clarification": [
 				"you should navigate using keyboard/ mouse towards the tiger",
 				"you should navigate using keyboard/ mouse towards the tiger, go on the branches",
-				"you should navigate using keyboard/ mouse towards the tiger, go on the branches"
+				"you should navigate using keyboard/ mouse towards the tiger, go on the branches",
+				"use the keyboard/mouse to go to the tiger"
 			]
 		},
 		"tiger": {
