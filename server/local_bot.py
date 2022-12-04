@@ -1,7 +1,7 @@
 from bot_server import BotServer
 
 server = BotServer()
-guid = server.register()
+guid = server.register(1)
 
 while True:
     rsp = server.call_bot(guid, input('user: '), {'r': 2, 'c': 23})

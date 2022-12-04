@@ -1,0 +1,92 @@
+{
+	"absolute": {
+		"dog": {
+			"r": 2,
+			"c": 20,
+			"next_direction": [
+              "go few steps to the left and back to the branch near the dog",
+              "go few steps to the left and do a u-turn and go on the branch, below the dog"
+            ],
+			"clarification": [
+              "start by going left few steps away from the dog, then return to the branch and walk over it, below the dog.",
+              "start by going left few steps away from the dog, then return to the branch and walk over it, below the dog."
+            ]
+		},
+		"branch": {
+			"r": 3,
+			"c": 19,
+			"next_direction": [
+				"walk on the branch, and head south to the picnic",
+				"south to the first brown branch there is a picnic, head there"
+			],
+			"clarification": [
+				"pass the first brown branch near the dog, and head down to the picnic",
+				"pass the first brown branch near the dog, and head down to the picnic"
+			]
+		},
+		"picnic": {
+			"r": 13,
+			"c": 19,
+			"next_direction": [
+				"walk over the picnic blanket and head to the 2nd branch to the north",
+				"north to the picnic blanket there is another branch, walk over it to the north"
+			],
+			"clarification": [
+				"next to the picnic blanket there is another branch or log, walk over it and pass the creek",
+				"next to the picnic blanket there is another branch or log, walk over it and pass the creek"
+			]
+		},
+		"bush": {
+			"r": 10,
+			"c": 13,
+			"next_direction": [
+				"walk around the bush and head west towards the bridge",
+				"there are 2 bushes, big and small, walk between them and head west towards the bridge"
+			],
+			"clarification": [
+				"after the log, in the north part of the creek there are 2 bushes, walk between them, and then head left towards the bridge",
+				"after the log, in the north part of the creek there are 2 bushes, walk between them, and then head left towards the bridge"
+			]
+		},
+		"bridge": {
+			"r": 7,
+			"c": 12,
+			"next_direction": [
+				"pass the bridge with the people on the bicycle, head west towards the elderly that read a book",
+				"keep going ont the bridge with people on the bicycle, head towards the elderly that read a book"
+
+			],
+			"clarification": [
+				"on the bridge there are 2 people that ride a bicycle - walk over the bridge to left until you reach the elderly man",
+				"on the bridge there are 2 people that ride a bicycle - walk over the bridge to left until you reach the elderly man"
+			]
+		},
+		"people": {
+			"r": 7,
+			"c": 4,
+			"next_direction": [
+				"go between the elderly man and the brown log, until the gap between the log and the bush",
+				"go south of the elderly man, the brown log should be on your right side, then stop next to the bush"
+			],
+			"clarification": [
+				"next to the elderly man there is a brown log, pass between them until you are in the gap between the log and a bush",
+				"next to the elderly man there is a brown log, pass between them until you are in the gap between the log and a bush"
+			]
+		},
+		"deer": {
+			"r": 13,
+			"c": 3,
+			"next_direction": [
+				"after the gap go slightly north east to the head of the deer and you are done!",
+				"after the gap go slightly north east towards the head of the deer and you are done!"
+
+			],
+			"clarification": [
+				"the final objective is to reach the deer's head - you should go diagonally",
+				"the final objective is to reach the deer's head - you should go diagonally"
+			]
+		}
+	},
+
+	"outside_path": ["fish", "cart", "wagon", "stand", "creek", "water", "river", "stream"]
+}
