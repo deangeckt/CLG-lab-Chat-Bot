@@ -18,8 +18,8 @@ class RuleBasedBot(Bot):
         super().__init__()
         self.chat = []
         self.visited_on = {}
-        self.no_resp_prefix = ["i'm not sure but maybe this will help:",
-                               "hmm not too sure about that, but maybe this will help:"]
+        self.no_resp_prefix = ["i'm not sure what you mean but maybe this will help:",
+                               "not too sure about that, but maybe this will help:"]
 
         kb_path = resource_filename('bots', f'rule_based/maps_kb/{map_id}.json')
         with open(kb_path, 'r') as f:
