@@ -2,12 +2,12 @@ import json
 import random
 from dataclasses import dataclass
 from typing import List
+from google_cloud.translate import Translate
 
 import langid
 
 from code_switch.utils import hazard
 
-LANG_CODES = {'en': 'eng', 'es': 'spa'}
 langid.set_languages(langs=['es', 'en'])
 
 
@@ -21,9 +21,9 @@ class CSOption:
 class CodeSwitchUnit:
     def __init__(self, cs_strategy: str):
         self.params = {
-            "eng": CSOption(probability=0.7, transitions={'spa': 1.0},
+            "eng": CSOption(probability=0.7, transitions={'es': 1.0},
                             r=[0, 0.6, 0.2, 0.1, 0.5, 0.5]),
-            "spa": CSOption(probability=0.3, transitions={'eng': 1.0},
+            "spa": CSOption(probability=0.3, transitions={'en': 1.0},
                             r=[0, 0.8, 0.15, 0.5])
         }
 
@@ -34,30 +34,33 @@ class CodeSwitchUnit:
         self.user_msg = None
         self.strategy = {'goldfish': self.__goldfish_cs_strategy,
                          'random': self.__random_strategy}
+        self.translation = {}
 
-    def call(self, user_msg: str, en_bot_resp: List[str]) -> List[str]:
+    def call(self, user_msg: str, en_bot_resp: List[str], translate: Translate) -> List[str]:
         """
         param user_msg: last user chat message in spanglish
         param en_bot_resp: the generated messages (list) the bot generated in english
         :return: spanglish generated string in a list
         """
         self.user_msg = user_msg
+        self.translation = {'en': translate.translate_to_eng, 'es': translate.translate_to_spa()}
         self.__identify_incoming_cs_state()
-        new_cs_state = self.__predict_next_cs_state()
-        self.__update_cs_state(new_cs_state)
-        # HERE GOES THE TRANSLATION OF THE CHATBOT's RESPONSE!!!
-        return en_bot_resp
+        spanglish_bot_response_list = []
+        for eng_resp in en_bot_resp:
+            new_cs_state = self.__predict_next_cs_state()
+            spanglish_bot_response = self.translation[new_cs_state](eng_resp)
+            self.__update_cs_state(new_cs_state)
+            spanglish_bot_response_list.append(spanglish_bot_response)
+        return spanglish_bot_response_list
 
     def __identify_incoming_cs_state(self):
-        identified_lang_langid = langid.classify(self.user_msg)[0]
-        self.current_cs_state = LANG_CODES[identified_lang_langid]
+        self.current_cs_state = langid.classify(self.user_msg)[0]
 
     def __predict_next_cs_state(self):
         if self.current_cs_state is None:  # not-initialized
             return self.__random_strategy()
 
         return self.strategy[self.cs_strategy]()
-
 
     def __update_cs_state(self, new_state):
         self.current_cs_state = new_state
@@ -98,12 +101,12 @@ class CodeSwitchUnit:
 def test_codeswitchunit():
     cs_strategy = "goldfish"
     csunit = CodeSwitchUnit(cs_strategy)
-
+    translate = Translate()
     for _ in range(3):
         user_msg = "me gusta comer sushi"
-        csunit.call(user_msg, en_bot_resp=["nice!"])
+        csunit.call(user_msg, en_bot_resp=["nice!"], translate=translate)
         user_msg = "it is nice to live in america"
-        csunit.call(user_msg, en_bot_resp=["nice!"])
+        csunit.call(user_msg, en_bot_resp=["nice!"], translate=translate)
     print(csunit.cs_history)
 
 
