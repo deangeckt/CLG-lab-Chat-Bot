@@ -21,3 +21,9 @@ class Translate:
         translated_text = html.unescape(translated_text)
         print('tr:', translated_text)
         return translated_text
+
+    def translate_to_spa(self, en_msg: str):
+        response = self.translate_client.translate(en_msg, target_language='es', source_language='en')
+        translated_text = response['translatedText']
+        translated_text = html.unescape(translated_text)
+        return translated_text
