@@ -13,7 +13,7 @@ class BotServer:
         map_id = f'map_{map_index + 1}'
         guid = str(uuid.uuid4())
         self.sessions[guid] = {'bot': RuleBasedBot(map_id),
-                               'cs': CodeSwitchUnit()}
+                               'cs': CodeSwitchUnit("goldfish")}
         return guid
 
     def un_register(self, guid):
