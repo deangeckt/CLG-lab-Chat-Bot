@@ -7,7 +7,6 @@ from singleton_decorator import singleton
 class Translate:
     def __init__(self):
         self.translate_client = translate.Client()
-        print('init tr')
 
     def translate_to_eng(self, user_msg):
         detected_lng = self.translate_client.detect_language(user_msg)

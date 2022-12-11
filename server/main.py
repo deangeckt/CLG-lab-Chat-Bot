@@ -8,7 +8,7 @@ from bot_server import BotServer
 from google_cloud.storage import save_to_storage
 from human_server import HumanServer
 
-VERSION = '1.2.1'
+VERSION = '1.2.2'
 
 app = Flask(__name__)
 CORS(app)

@@ -99,6 +99,7 @@ export const maps: MapMetadata[] = [
         cols: 24,
         end_cell: { r: 13, c: 9 },
         start_cell: { r: 3, c: 9 },
+        bot_support: true,
     },
     {
         im_width: 2304,
@@ -135,7 +136,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.0.16',
+    clinet_version: '1.0.17',
     server_version: '',
 };
 
