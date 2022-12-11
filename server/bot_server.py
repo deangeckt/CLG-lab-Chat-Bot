@@ -9,9 +9,10 @@ class BotServer:
         self.sessions = {}
         self.translate = Translate()
 
-    def register(self):
+    def register(self, map_index):
+        map_id = f'map_{map_index + 1}'
         guid = str(uuid.uuid4())
-        self.sessions[guid] = {'bot': RuleBasedBot('map_1'),
+        self.sessions[guid] = {'bot': RuleBasedBot(map_id),
                                'cs': CodeSwitchUnit()}
         return guid
 

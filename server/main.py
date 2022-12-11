@@ -8,7 +8,7 @@ from bot_server import BotServer
 from google_cloud.storage import save_to_storage
 from human_server import HumanServer
 
-VERSION = '1.2.0'
+VERSION = '1.2.3'
 
 app = Flask(__name__)
 CORS(app)
@@ -100,7 +100,7 @@ def register():
         resp = {'version': VERSION}
         if game_mode == 'bot':
             resp['role'] = game_roles['navigator']
-            guid = bot_server.register()
+            guid = bot_server.register(map_index)
             resp['guid'] = guid
         elif game_mode == 'human':
             role, guid = human_server.assign_role_api(map_index)

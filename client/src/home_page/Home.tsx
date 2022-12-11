@@ -3,30 +3,16 @@ import { Box, Button, CircularProgress, ImageList, ImageListItem } from '@materi
 import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
-import { gameMode, gameRegister, maps } from '../Wrapper';
 import Header from '../common/Header';
-import { useApp } from '../map_task/useApp';
-import { register } from '../api';
 import Form from './Form';
 import { main_blue } from '../common/colors';
 import GameInstructionsDialog from '../common/GameInstructionsDialog';
+import { useHome } from './useHome';
 import './Home.css';
 
 function Home(): JSX.Element {
-    const { state, setState } = useContext(AppContext);
-    const { register_cb } = useApp();
-
-    const register_click = (mode: gameMode, map_index: number) => {
-        set_register_state('load', mode);
-        register(mode, register_cb, map_index);
-    };
-
-    const set_register_state = (r: gameRegister, m: gameMode) => {
-        const game_config = state.game_config;
-        game_config.registerd = r;
-        game_config.game_mode = m;
-        setState({ ...state, game_config });
-    };
+    const { state } = useContext(AppContext);
+    const { set_register_state, map_chosen_click, filteredMaps } = useHome();
 
     return (
         <div className="Home">
@@ -55,8 +41,8 @@ function Home(): JSX.Element {
                             Choose map
                         </Typography>
                         <ImageList cols={2} rowHeight={400}>
-                            {maps.map((item, index) => (
-                                <ImageListItem key={item.im_src} onClick={() => register_click('human', index)}>
+                            {filteredMaps.map((item, index) => (
+                                <ImageListItem key={item.im_src} onClick={() => map_chosen_click(index)}>
                                     <img src={require(`../map_task/maps/${item.im_src}`)} loading="lazy" />
                                 </ImageListItem>
                             ))}
@@ -74,7 +60,7 @@ function Home(): JSX.Element {
                                 style={{ textTransform: 'none' }}
                                 variant="outlined"
                                 color="primary"
-                                onClick={() => register_click('bot', 0)}
+                                onClick={() => set_register_state('bot')}
                             >
                                 Chat with a bot
                             </Button>
@@ -83,7 +69,7 @@ function Home(): JSX.Element {
                                 style={{ textTransform: 'none' }}
                                 variant="outlined"
                                 color="primary"
-                                onClick={() => set_register_state('choose_map', 'human')}
+                                onClick={() => set_register_state('human')}
                             >
                                 Chat with a huamn
                             </Button>
