@@ -43,7 +43,18 @@ class CodeSwitchUnit:
         """
         self.user_msg = user_msg
         self.__identify_incoming_cs_state()
+        return self.__generate_response(en_bot_resp)
 
+
+    def location_move(self, en_bot_resp: List[str]) -> List[str]:
+        """
+        param en_bot_resp: the generated messages (list) the bot generated in english
+        :return: spanglish generated string in a list
+        """
+        return self.__generate_response(en_bot_resp)
+
+
+    def __generate_response(self, en_bot_resp: List[str]) -> List[str]:
         spanglish_bot_response_list = []
         for eng_resp in en_bot_resp:
             new_cs_state = self.__predict_next_cs_state()

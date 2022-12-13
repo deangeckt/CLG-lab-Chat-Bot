@@ -27,4 +27,9 @@ class BotServer:
         return spanglish_bot_resp
 
     def call_bot_loc(self, guid, user_state=None):
-        return self.sessions[guid]['bot'].location_move(user_state)
+        en_bot_resp =  self.sessions[guid]['bot'].location_move(user_state)
+        if not en_bot_resp:
+            return []
+
+        spanglish_bot_resp = self.sessions[guid]['cs'].location_move(en_bot_resp)
+        return spanglish_bot_resp
