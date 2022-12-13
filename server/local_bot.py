@@ -1,6 +1,6 @@
 from bot_server import BotServer
 
-server = BotServer()
+server = BotServer("goldfish")
 guid = server.register(2)
 
 while True:

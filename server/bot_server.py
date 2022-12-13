@@ -5,15 +5,16 @@ from google_cloud.translate import Translate
 
 
 class BotServer:
-    def __init__(self):
+    def __init__(self, cs_strategy: str):
         self.sessions = {}
         self.translate = Translate()
+        self.cs_strategy = cs_strategy
 
     def register(self, map_index):
         map_id = f'map_{map_index + 1}'
         guid = str(uuid.uuid4())
         self.sessions[guid] = {'bot': RuleBasedBot(map_id),
-                               'cs': CodeSwitchUnit()}
+                               'cs': CodeSwitchUnit(self.cs_strategy)}
         return guid
 
     def un_register(self, guid):
@@ -26,4 +27,9 @@ class BotServer:
         return spanglish_bot_resp
 
     def call_bot_loc(self, guid, user_state=None):
-        return self.sessions[guid]['bot'].location_move(user_state)
+        en_bot_resp =  self.sessions[guid]['bot'].location_move(user_state)
+        if not en_bot_resp:
+            return []
+
+        spanglish_bot_resp = self.sessions[guid]['cs'].location_move(en_bot_resp)
+        return spanglish_bot_resp

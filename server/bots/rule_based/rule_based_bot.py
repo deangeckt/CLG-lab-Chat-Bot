@@ -57,7 +57,7 @@ class RuleBasedBot(Bot):
         except Exception as e:
             print('err:', e)
 
-        return ["i'm not sure"]
+        return random.choice(["i'm not sure", "i'm not 100% sure"])
 
     def __append_bot_messages(self, bot_msgs: list[str]):
         for bot_msg in bot_msgs:
