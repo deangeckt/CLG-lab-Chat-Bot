@@ -1,11 +1,8 @@
-import json
 import random
 from dataclasses import dataclass
 from typing import List
 from google_cloud.translate import Translate
-
 import langid
-
 from code_switch.utils import hazard
 
 langid.set_languages(langs=['es', 'en'])
@@ -35,7 +32,8 @@ class CodeSwitchUnit:
         self.strategy = {'goldfish': self.__goldfish_cs_strategy,
                          'random': self.__random_strategy}
         self.translate = Translate()
-        self.translation = {'en': self.translate.translate_to_eng, 'es': self.translate.translate_to_spa}
+        self.translation = {'en': lambda x: x,
+                            'es': self.translate.translate_to_spa}
 
     def call(self, user_msg: str, en_bot_resp: List[str]) -> List[str]:
         """
@@ -44,13 +42,13 @@ class CodeSwitchUnit:
         :return: spanglish generated string in a list
         """
         self.user_msg = user_msg
-
         self.__identify_incoming_cs_state()
+
         spanglish_bot_response_list = []
         for eng_resp in en_bot_resp:
             new_cs_state = self.__predict_next_cs_state()
-            spanglish_bot_response = self.translation[new_cs_state](eng_resp)
             self.__update_cs_state(new_cs_state)
+            spanglish_bot_response = self.translation[new_cs_state](eng_resp)
             spanglish_bot_response_list.append(spanglish_bot_response)
         return spanglish_bot_response_list
 
@@ -97,24 +95,3 @@ class CodeSwitchUnit:
             cs_option: CSOption = self.params[lang]
             weights.append(cs_option.probability)
         return random.choices(list(self.params.keys()), weights)[0]
-
-
-def test_codeswitchunit():
-    cs_strategy = "goldfish"
-    csunit = CodeSwitchUnit(cs_strategy)
-    for _ in range(3):
-        user_msg = "me gusta comer sushi"
-        csunit.call(user_msg, en_bot_resp=["nice!"])
-        user_msg = "it is nice to live in america"
-        csunit.call(user_msg, en_bot_resp=["nice!"])
-    print(csunit.cs_history)
-
-
-
-def run_tests():
-    test_codeswitchunit()
-
-
-if __name__ == '__main__':
-    run_tests()
-    print("success!")

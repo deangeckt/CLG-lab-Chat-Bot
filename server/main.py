@@ -9,12 +9,13 @@ from google_cloud.storage import save_to_storage
 from human_server import HumanServer
 
 VERSION = '1.3.0'
+cs_strategy = "goldfish"
 
 app = Flask(__name__)
 CORS(app)
 
 human_server = HumanServer()
-bot_server = BotServer()
+bot_server = BotServer(cs_strategy)
 
 game_roles = {'navigator': 0, 'instructor': 1}
 game_roles_reverse = {0: 'navigator', 1: 'instructor'}
@@ -124,6 +125,7 @@ def upload_api():
         else:
             upload_data = params
             bot_server.un_register(params['guid'])
+            upload_data['cs_strategy'] = cs_strategy
 
         if upload_data is not None:
             chat = upload_data['chat']
