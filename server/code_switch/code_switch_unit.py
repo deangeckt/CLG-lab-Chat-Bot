@@ -23,14 +23,20 @@ class CodeSwitchUnit:
             "es": CSOption(probability=0.3, transitions={'en': 1.0},
                             r=[0, 0.8, 0.15, 0.5])
         }
-
         self.cs_strategy = cs_strategy
+
+        self.default_lang = 'en'
         self.cs_history = []
         self.current_cs_state = None
         self.len_of_current_subsequence = 1
         self.user_msg = None
         self.strategy = {'goldfish': self.__goldfish_cs_strategy,
-                         'random': self.__random_strategy}
+                         'random': self.__random_strategy,
+                         'tit_for_tat': self.__tit_for_tat_strategy,
+                         'english_only': self.__english_only_strategy,
+                         'spanish_only': self.__spanish_only_strategy
+                        }
+
         self.translate = Translate()
         self.translation = {'en': lambda x: x,
                             'es': self.translate.translate_to_spa}
@@ -45,14 +51,12 @@ class CodeSwitchUnit:
         self.__identify_incoming_cs_state()
         return self.__generate_response(en_bot_resp)
 
-
     def location_move(self, en_bot_resp: List[str]) -> List[str]:
         """
         param en_bot_resp: the generated messages (list) the bot generated in english
         :return: spanglish generated string in a list
         """
         return self.__generate_response(en_bot_resp)
-
 
     def __generate_response(self, en_bot_resp: List[str]) -> List[str]:
         spanglish_bot_response_list = []
@@ -106,3 +110,20 @@ class CodeSwitchUnit:
             cs_option: CSOption = self.params[lang]
             weights.append(cs_option.probability)
         return random.choices(list(self.params.keys()), weights)[0]
+
+    def __tit_for_tat_strategy(self):
+        next_state = self.default_lang
+        previous_user_lang = langid.classify(self.user_msg)[0]
+        if previous_user_lang is not None:
+            next_state = previous_user_lang
+        return next_state
+
+    @staticmethod
+    def __english_only_strategy():
+        return 'en'
+
+    @staticmethod
+    def __spanish_only_strategy():
+        return 'es'
+
+
