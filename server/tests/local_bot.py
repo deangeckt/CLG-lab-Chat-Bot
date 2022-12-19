@@ -1,5 +1,8 @@
 from bot_server import BotServer
 
+'''
+Notice this code use the google translation without a mock - be aware of usage consumption 
+'''
 server = BotServer("goldfish")
 guid = server.register(2)
 
