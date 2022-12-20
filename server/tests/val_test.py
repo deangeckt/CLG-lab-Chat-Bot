@@ -17,6 +17,7 @@ def translate_mock(msg: str) -> str:
         return sp_to_en_translations[msg]
     return f'cs needed to translate to SP: {msg}'
 
+
 @patch.object(Translate.__wrapped__, 'translate_to_eng', new=lambda self, user_msg: translate_mock(user_msg))
 @patch.object(Translate.__wrapped__, 'translate_to_spa', new=lambda self, en_msg: translate_mock(en_msg))
 def test_cs_strategies():
