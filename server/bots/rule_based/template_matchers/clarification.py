@@ -21,7 +21,7 @@ class Clarification(TemplateMatcher):
         is_match = self.__is_match(user_msg)
         if not is_match:
             return None
-        print('Clarification matcher')
+        print('match: Clarification matcher')
 
         last_bot_msg = self.shared.chat[-2]['text']
 

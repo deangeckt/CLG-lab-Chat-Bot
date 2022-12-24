@@ -38,7 +38,7 @@ class GeneralInformation(TemplateMatcher):
         if not is_match:
             return None
 
-        print('general matcher')
+        print('match: general matcher')
 
         if random.random() > 0.5:
             return [random.choice(self.shared.kb_abs[self.shared.closest_obj]['next_direction'])]

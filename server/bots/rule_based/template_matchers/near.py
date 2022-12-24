@@ -28,7 +28,7 @@ class Near(TemplateMatcher):
         if not obj_match:
             return None
 
-        print('near matcher')
+        print('match: near matcher')
 
         # 1st priority - use the object in the user text
         if obj_match in self.shared.kb_abs:

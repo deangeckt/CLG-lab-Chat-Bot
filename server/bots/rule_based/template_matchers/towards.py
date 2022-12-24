@@ -22,7 +22,7 @@ class Towards(TemplateMatcher):
         obj_match = self.is_match(user_msg)
         if not obj_match:
             return None
-        print('tow matcher')
+        print('match: tow matcher')
 
         if obj_match == self.shared.goal_object:
             return ['in general yes, but you should follow path instruction']
