@@ -51,6 +51,7 @@ def run_mock_chat(strategy: str):
         for r in rsp:
             print('bot:', r)
 
+    print('cs history: ', server.sessions[guid]['cs'].cs_history)
     print('\n')
 
 if __name__ == '__main__':
