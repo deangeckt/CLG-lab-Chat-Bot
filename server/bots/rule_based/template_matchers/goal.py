@@ -10,8 +10,7 @@ class GoalMatcher(TemplateMatcher):
     e.g.: 'where is the end?' -> ‘the end is some object in the map, you should follow’
     """
     end_response = [['the end is some object on the map', 'you should follow my orders to reach it'],
-                    ["the end is some object on the map", "i'll instruct you through"]
-                    ]
+                    ["the end is some object on the map", "i'll instruct you through"]]
     goal_response = [
         ['the goal is to reach some object on the map in a specific path',
          'you should follow my orders to reach it'],
