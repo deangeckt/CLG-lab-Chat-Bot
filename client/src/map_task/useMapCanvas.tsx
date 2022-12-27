@@ -153,7 +153,7 @@ export function useMapCanvas() {
     };
 
     const next_move = (new_cell: MapCellIdx) => {
-        // console.log(new_cell);
+        console.log(new_cell);
         if (is_finish(new_cell)) {
             open_ending_modal('Felicidades! you found the last object');
             if (state.game_config.game_mode == 'human')

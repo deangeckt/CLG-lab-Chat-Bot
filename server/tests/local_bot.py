@@ -5,7 +5,7 @@ Translate.__wrapped__.translate_to_eng = lambda self, x: x
 Translate.__wrapped__.translate_to_spa = lambda self, x: x
 
 server = BotServer("goldfish")
-guid = server.register(2)
+guid = server.register(3)
 
 
 while True:

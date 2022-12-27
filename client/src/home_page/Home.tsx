@@ -8,11 +8,12 @@ import Form from './Form';
 import { main_blue } from '../common/colors';
 import GameInstructionsDialog from '../common/GameInstructionsDialog';
 import { useHome } from './useHome';
+import { maps } from '../Wrapper';
 import './Home.css';
 
 function Home(): JSX.Element {
     const { state } = useContext(AppContext);
-    const { set_register_state, map_chosen_click, filteredMaps } = useHome();
+    const { set_register_state, map_chosen_click } = useHome();
 
     return (
         <div className="Home">
@@ -41,7 +42,7 @@ function Home(): JSX.Element {
                             Choose map
                         </Typography>
                         <ImageList cols={2} rowHeight={400}>
-                            {filteredMaps.map((item, index) => (
+                            {maps.map((item, index) => (
                                 <ImageListItem key={item.im_src} onClick={() => map_chosen_click(index)}>
                                     <img src={require(`../map_task/maps/${item.im_src}`)} loading="lazy" />
                                 </ImageListItem>

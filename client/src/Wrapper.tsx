@@ -24,7 +24,6 @@ export interface MapMetadata {
     cols: number;
     end_cell: MapCellIdx;
     start_cell: MapCellIdx;
-    bot_support?: boolean;
 }
 
 export type gameMode = 'bot' | 'human';
@@ -79,7 +78,6 @@ export const maps: MapMetadata[] = [
         cols: 24,
         end_cell: { r: 16, c: 7 },
         start_cell: { r: 2, c: 23 },
-        bot_support: true,
     },
     {
         im_width: 2304,
@@ -89,7 +87,6 @@ export const maps: MapMetadata[] = [
         cols: 24,
         end_cell: { r: 12, c: 6 },
         start_cell: { r: 2, c: 20 },
-        bot_support: true,
     },
     {
         im_width: 2304,
@@ -99,7 +96,6 @@ export const maps: MapMetadata[] = [
         cols: 24,
         end_cell: { r: 13, c: 9 },
         start_cell: { r: 3, c: 9 },
-        bot_support: true,
     },
     {
         im_width: 2304,

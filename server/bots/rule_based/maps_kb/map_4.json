@@ -1,0 +1,91 @@
+{
+	"absolute": {
+		"tree": {
+			"r": 3,
+			"c": 23,
+			"next_direction": [
+              "walk over the trees few steps left then head down to the dog"
+            ],
+			"clarification": [
+              "start by going few steps left, touching the 1st and 2nd treem then go down towards the dog"
+            ]
+		},
+		"dog": {
+			"r": 8,
+			"c": 20,
+			"next_direction": [
+				"pass the dog from the left side, and head south to the gap between the rocks"
+			],
+			"clarification": [
+				"below the dog there is a crab, go there, walking between the 2 rocks"
+
+			]
+		},
+		"crab": {
+			"r": 14,
+			"c": 21,
+			"next_direction": [
+				"once at the crab, keep going west on the water next to the rock and stop before the shark"
+			],
+			"clarification": [
+				"after you reached the crab, keep going left on the water until you see the shark"
+
+			]
+		},
+		"ball": {
+			"r": 12,
+			"c": 10,
+			"next_direction": [
+				"go north between the ball and the rock"
+
+			],
+			"clarification": [
+				"go up on the sand now, between the ball and the rock"
+			]
+		},
+		"speaker": {
+			"r": 7,
+			"c": 11,
+			"next_direction": [
+				"head north on the sand towards the speaker, stop between the tent"
+			],
+			"clarification": [
+				"keep going up, slightly diagonally and stop between the speaker and the tent"
+			]
+		},
+		"tent": {
+			"r": 5,
+			"c": 10,
+			"next_direction": [
+				"circle from above the tent, then head south to the boat"
+			],
+			"clarification": [
+				"first surround the tent by going above it, then left of the tent continue down towards the boat"
+			]
+		},
+		"boat": {
+			"r": 9,
+			"c": 4,
+			"next_direction": [
+				"circle the boat from below it then head north to the green grass. try to stay on the sand"
+
+			],
+			"clarification": [
+				"first surround the boat by going below it, then left of the boat continue up towards the green grass"
+			]
+		},
+		"bush": {
+			"r": 7,
+			"c": 0,
+			"next_direction": [
+				"keep going north and you are done!"
+
+			],
+			"clarification": [
+				"the final objective is to reach the green bush - you should go up"
+			]
+		}
+	},
+
+	"outside_path": ["shark", "mountain"]
+}
