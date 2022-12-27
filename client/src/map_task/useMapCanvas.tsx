@@ -132,7 +132,7 @@ export function useMapCanvas() {
     };
 
     const next_move = (new_cell: MapCellIdx) => {
-        // console.log(new_cell);
+        console.log(new_cell);
         if (is_finish(new_cell)) {
             open_ending_modal(nav_end_model_str);
             if (state.game_config.game_mode == 'human')
