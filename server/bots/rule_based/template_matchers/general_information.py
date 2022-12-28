@@ -40,7 +40,7 @@ class GeneralInformation(TemplateMatcher):
 
         print('match: general matcher')
 
-        if random.random() > 0.5:
+        if random.random() > 0.25:
             return [random.choice(self.shared.kb_abs[self.shared.closest_obj]['next_direction'])]
         else:
             return [f'ok, {engage_next()}']
