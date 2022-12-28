@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, MenuItem, TextField } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AppContext } from '../AppContext';
 import { UserMetadata } from '../Wrapper';
 import './Home.css';
@@ -11,6 +11,7 @@ const genders = ['Male', 'Female', 'Other'];
 
 function Form(): JSX.Element {
     const { state, setState } = useContext(AppContext);
+    const [finish, setFinish] = useState(false);
 
     const navigate = useNavigate();
     const routeChange = () => {
@@ -22,6 +23,8 @@ function Form(): JSX.Element {
         const user_metadata = state.user_metadata;
         user_metadata[field] = e.target.value.toString();
         setState({ ...state, user_metadata });
+        const is_finish = user_metadata.name != '' && user_metadata.age != '';
+        setFinish(is_finish);
     };
 
     return (
@@ -54,7 +57,13 @@ function Form(): JSX.Element {
                     </MenuItem>
                 ))}
             </TextField>
-            <Button style={{ textTransform: 'none' }} variant="outlined" color="primary" onClick={routeChange}>
+            <Button
+                disabled={!finish}
+                style={{ textTransform: 'none' }}
+                variant="outlined"
+                color="primary"
+                onClick={routeChange}
+            >
                 Start
             </Button>
         </div>

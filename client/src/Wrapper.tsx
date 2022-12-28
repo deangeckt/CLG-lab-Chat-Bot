@@ -8,7 +8,8 @@ export interface UserMetadata {
 }
 
 export interface UserSurvey {
-    free_text: string;
+    survey_instructions: string;
+    survey_bot: string;
 }
 
 export interface MapCellIdx {
@@ -126,7 +127,7 @@ export const init_app_state: IAppState = {
     user_metadata: { name: '', age: '', gender: 'Male' },
     map_metadata: maps[0],
     user_map_path: [],
-    user_survey: { free_text: '' },
+    user_survey: { survey_instructions: '', survey_bot: '' },
     game_state: {
         end: false,
         end_modal_text: '',
@@ -136,7 +137,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.0.17',
+    clinet_version: '1.0.18_e',
     server_version: '',
 };
 

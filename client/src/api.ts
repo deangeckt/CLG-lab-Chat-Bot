@@ -33,19 +33,6 @@ export const callBot = async (guid: string, msg: string, cell: MapCellIdx, updat
     }
 };
 
-export const callBotLocationMove = async (guid: string, cell: MapCellIdx, update: Function) => {
-    try {
-        const response = (await axios.request({
-            url: baseUrl + 'call_bot_loc',
-            method: 'POST',
-            data: { guid, state: cell },
-        })) as AxiosResponse;
-        update(response.data.res);
-    } catch (error: any) {
-        update('Bot not connected');
-    }
-};
-
 export const callHuman = async (guid: string, msg: ChatMsg) => {
     try {
         (await axios.request({

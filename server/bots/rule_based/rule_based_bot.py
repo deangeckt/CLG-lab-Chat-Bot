@@ -17,7 +17,6 @@ class RuleBasedBot(Bot):
     def __init__(self, map_id):
         super().__init__()
         self.chat = []
-        self.visited_on = {}
         self.no_resp_prefix = ["i'm not sure what you mean but maybe this will help:",
                                "not too sure about that, but maybe this will help:"]
 
@@ -59,26 +58,9 @@ class RuleBasedBot(Bot):
 
         return random.choice(["i'm not sure", "i'm not 100% sure"])
 
-    def __append_bot_messages(self, bot_msgs: list[str]):
-        for bot_msg in bot_msgs:
-            self.chat.append({'speaker': 'bot', 'text': bot_msg})
-
     def call(self, user_msg, user_state=None) -> list[str]:
         self.chat.append({'speaker': 'user', 'text': user_msg})
         bot_msgs = self.__match_and_respond(user_msg, user_state)
-        self.__append_bot_messages(bot_msgs)
-        return bot_msgs
-
-    def location_move(self, user_state) -> list[str]:
-        on_map_obj = self.shared.is_closest_object_on_map_obj((user_state['r'], user_state['c']))
-        if on_map_obj is None:
-            return []
-        if on_map_obj in self.visited_on:
-            return []
-
-        self.visited_on[on_map_obj] = 1
-        prefix_options = ['well done', 'nice', 'awsome']
-        prefix = random.choice(prefix_options)
-        bot_msgs = [f'{prefix}! you have reached the {on_map_obj}']
-        self.__append_bot_messages(bot_msgs)
+        for bot_msg in bot_msgs:
+            self.chat.append({'speaker': 'bot', 'text': bot_msg})
         return bot_msgs

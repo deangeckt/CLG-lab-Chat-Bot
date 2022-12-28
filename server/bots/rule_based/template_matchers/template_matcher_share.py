@@ -7,7 +7,6 @@ from typing import Union
 class TemplateMatcherShare:
     def __init__(self, kb, chat):
         self.chat = chat
-
         self.kb_abs = kb['absolute']
         self.kb_path_order = list(self.kb_abs.keys())
         self.start_object = self.kb_path_order[0]
@@ -34,16 +33,6 @@ class TemplateMatcherShare:
                 min_dist = curr_dist
                 closest_obj = obj
         self.closest_obj = closest_obj
-
-    def is_closest_object_on_map_obj(self, user_coord) -> Union[str, None]:
-        self.find_closest_object(user_coord)
-        if self.closest_obj == self.start_object:
-            return None
-        r = self.kb_abs[self.closest_obj]['r']
-        c = self.kb_abs[self.closest_obj]['c']
-        closest_obj_coord = (r, c)
-        curr_dist = math.dist(user_coord, closest_obj_coord)
-        return self.closest_obj if curr_dist < 2 else None
 
     @staticmethod
     def tokenize(text):
