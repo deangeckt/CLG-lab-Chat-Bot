@@ -8,7 +8,7 @@ from bot_server import BotServer
 from google_cloud.storage import save_to_storage
 from human_server import HumanServer
 
-VERSION = '1.3.1'
+VERSION = '1.3.2'
 cs_strategy = "goldfish"
 
 app = Flask(__name__)
