@@ -50,8 +50,10 @@ class RuleBasedBot(Bot):
                 if resp is not None:
                     return resp
 
-            return [random.choice(self.no_resp_prefix),
-                    random.choice(self.shared.kb_abs[self.shared.closest_obj]['next_direction'])]
+            default_msg = [random.choice(self.no_resp_prefix)]
+            default_msg.extend(self.shared.get_kb_suggestion(self.shared.closest_obj))
+            return default_msg
+
 
         except Exception as e:
             print('err:', e)

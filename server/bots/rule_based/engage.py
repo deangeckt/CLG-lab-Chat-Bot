@@ -5,5 +5,5 @@ option_resp = ['where are you now?',
                "now, what is in front of you?"]
 
 
-def engage_next():
+def engage_next() -> str:
     return random.choice(option_resp)

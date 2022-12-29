@@ -5,10 +5,10 @@ Translate.__wrapped__.translate_to_eng = lambda self, x: x
 Translate.__wrapped__.translate_to_spa = lambda self, x: x
 
 server = BotServer("goldfish")
-guid = server.register(2)
+guid = server.register(0)
 
 
 while True:
-    rsp = server.call_bot(guid, input('user: '), {'r': 2, 'c': 23})
+    rsp = server.call_bot(guid, input('user: '), {'r': 5, 'c': 11})
     for r in rsp:
         print(f'bot: {r}')

@@ -1,7 +1,7 @@
 import math
 import re
 import string
-from typing import Union
+import random
 
 
 class TemplateMatcherShare:
@@ -33,6 +33,10 @@ class TemplateMatcherShare:
                 min_dist = curr_dist
                 closest_obj = obj
         self.closest_obj = closest_obj
+
+    def get_kb_suggestion(self, object_) -> list[str]:
+        curr_suggestion = random.choice(self.kb_abs[object_]['next_direction'])
+        return [curr_suggestion] if type(curr_suggestion) == str else curr_suggestion
 
     @staticmethod
     def tokenize(text):
