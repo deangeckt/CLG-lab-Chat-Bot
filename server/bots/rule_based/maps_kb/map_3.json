@@ -81,9 +81,9 @@
 			],
 			"clarification": [
 				"don't surround the whole path, but rather get off the path, on the green grass between the telescope and a bush",
-				"first go below the telescope until you are on the path, then go left to the house",
-				"circle the telescope (it should be to your right) and go west (left) on the lower segment on the map.",
-				"proceed toward the path segment on the south (lower) side of the map and then go on the path when the telescope is to your right"
+				["first go below the telescope until you are on the path", "then go left to the house"],
+				["circle the telescope (it should be to your right)", "go west (left) on the lower segment on the map"],
+				["proceed toward the path segment on the south (lower) side of the map", "then go on the path when the telescope is to your right"]
 			]
 		},
 		"house": {
