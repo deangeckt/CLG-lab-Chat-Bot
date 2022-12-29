@@ -12,7 +12,6 @@ class GeneralInformation(TemplateMatcher):
     e.g.: 'where should I go now?' -> pick next direction from KB abs’
     e.g.: nav: 'where should I go now?', 'ins': engage question , nav: at /near at/ the X, ins: NEAR matcher'
     """
-
     def __init__(self, share: TemplateMatcherShare):
         super().__init__(share)
 
@@ -41,6 +40,6 @@ class GeneralInformation(TemplateMatcher):
         print('match: general matcher')
 
         if random.random() > 0.25:
-            return [random.choice(self.shared.kb_abs[self.shared.closest_obj]['next_direction'])]
+            return self.shared.get_kb_suggestion(self.shared.closest_obj)
         else:
             return [f'ok, {engage_next()}']

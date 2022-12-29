@@ -27,8 +27,9 @@ class Clarification(TemplateMatcher):
 
         for key_obj in self.shared.kb_abs:
             for idx, next_dir in enumerate(self.shared.kb_abs[key_obj]['next_direction']):
-                if next_dir == last_bot_msg:
-                    return [self.shared.kb_abs[key_obj]['clarification'][idx]]
+                if last_bot_msg == next_dir or last_bot_msg in next_dir:
+                    curr_suggestion = self.shared.kb_abs[key_obj]["clarification"][idx]
+                    return [curr_suggestion] if type(curr_suggestion) == str else curr_suggestion
 
         return None
 
