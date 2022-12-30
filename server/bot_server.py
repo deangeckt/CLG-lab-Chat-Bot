@@ -21,6 +21,9 @@ class BotServer:
         del self.sessions[guid]
 
     def call_bot(self, guid, user_msg, user_state=None):
+        if guid not in self.sessions:
+            print('guid not in self!')
+            return ['oops try again']
         en_user_msg = self.translate.translate_to_eng(user_msg)
         en_bot_resp = self.sessions[guid]['bot'].call(en_user_msg, user_state)
         spanglish_bot_resp = self.sessions[guid]['cs'].call(user_msg, en_bot_resp)

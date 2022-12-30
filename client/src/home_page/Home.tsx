@@ -66,6 +66,7 @@ function Home(): JSX.Element {
                                 Chat with a bot
                             </Button>
                             <Button
+                                disabled
                                 className="register_btn"
                                 style={{ textTransform: 'none' }}
                                 variant="outlined"
