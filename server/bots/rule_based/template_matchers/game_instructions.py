@@ -8,7 +8,7 @@ class GameInstructions(TemplateMatcher):
     """
     e.g.: 'what are the dots?' -> ‘the yellow dot is your location...’
     """
-    response = ['the yellow dot is your location on the map',
+    response = ['the yellow dots show the path you traveled on the map',
                 'the purple dots are for you to navigate with your mouse device'
                 ]
 
