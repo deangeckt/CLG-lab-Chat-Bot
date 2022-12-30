@@ -43,7 +43,7 @@ export function useChat() {
         if (state.game_config.game_mode == 'bot') {
             setBotType(true);
             const curr_cell = state.user_map_path[state.user_map_path.length - 1];
-            callBot(state.game_config.guid, inputTxt, curr_cell, addBotMsg);
+            callBot(state.game_config.guid, inputTxt, curr_cell, state.map_metadata.map_idx, addBotMsg);
         } else {
             callHuman(state.game_config.guid, selfChatMsg);
         }

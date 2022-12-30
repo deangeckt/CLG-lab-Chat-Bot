@@ -10,9 +10,11 @@ class BotServer:
         self.translate = Translate()
         self.cs_strategy = cs_strategy
 
-    def register(self, map_index):
+    def register(self, map_index, guid=None):
+        if guid is None:
+            guid = str(uuid.uuid4())
+
         map_id = f'map_{map_index + 1}'
-        guid = str(uuid.uuid4())
         self.sessions[guid] = {'bot': RuleBasedBot(map_id),
                                'cs': CodeSwitchUnit(self.cs_strategy)}
         return guid
@@ -20,10 +22,11 @@ class BotServer:
     def un_register(self, guid):
         del self.sessions[guid]
 
-    def call_bot(self, guid, user_msg, user_state=None):
+    def call_bot(self, guid, user_msg, map_idx, user_state=None):
         if guid not in self.sessions:
             print('guid not in self!')
-            return ['oops try again']
+            self.register(map_index=map_idx, guid=guid)
+
         en_user_msg = self.translate.translate_to_eng(user_msg)
         en_bot_resp = self.sessions[guid]['bot'].call(en_user_msg, user_state)
         spanglish_bot_resp = self.sessions[guid]['cs'].call(user_msg, en_bot_resp)

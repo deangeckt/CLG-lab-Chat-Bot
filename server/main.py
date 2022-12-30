@@ -8,7 +8,7 @@ from bot_server import BotServer
 from google_cloud.storage import save_to_storage
 from human_server import HumanServer
 
-VERSION = '1.4.0_e' # TODO: tmp version of english only for friends
+VERSION = '1.4.1_e' # TODO: tmp version of english only for friends
 cs_strategy = "goldfish"
 
 app = Flask(__name__)
@@ -25,7 +25,8 @@ game_roles_reverse = {0: 'navigator', 1: 'instructor'}
 def call_bot():
     try:
         params = request.get_json()
-        res = bot_server.call_bot(params['guid'], params['msg'], params['state'])
+        res = bot_server.call_bot(params['guid'], params['msg'],
+                                  params['map_index'], params['state'])
         return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)

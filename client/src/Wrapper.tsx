@@ -27,6 +27,7 @@ export interface MapMetadata {
     end_cell: MapCellIdx;
     start_cell: MapCellIdx;
     bot_support?: boolean;
+    map_idx: number;
 }
 
 export type gameMode = 'bot' | 'human';
@@ -82,6 +83,7 @@ export const maps: MapMetadata[] = [
         end_cell: { r: 16, c: 7 },
         start_cell: { r: 2, c: 23 },
         bot_support: true,
+        map_idx: 0,
     },
     {
         im_width: 2304,
@@ -92,6 +94,7 @@ export const maps: MapMetadata[] = [
         end_cell: { r: 12, c: 6 },
         start_cell: { r: 2, c: 20 },
         bot_support: true,
+        map_idx: 1,
     },
     {
         im_width: 2304,
@@ -102,6 +105,7 @@ export const maps: MapMetadata[] = [
         end_cell: { r: 13, c: 9 },
         start_cell: { r: 3, c: 9 },
         bot_support: true,
+        map_idx: 2,
     },
     {
         im_width: 2304,
@@ -111,6 +115,7 @@ export const maps: MapMetadata[] = [
         cols: 24,
         end_cell: { r: 7, c: 0 },
         start_cell: { r: 3, c: 23 },
+        map_idx: 3,
     },
     {
         im_width: 2304,
@@ -120,6 +125,7 @@ export const maps: MapMetadata[] = [
         cols: 24,
         end_cell: { r: 16, c: 9 },
         start_cell: { r: 1, c: 1 },
+        map_idx: 4,
     },
 ];
 
@@ -138,7 +144,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.1.0_e',
+    clinet_version: '1.1.1_e',
     server_version: '',
 };
 
