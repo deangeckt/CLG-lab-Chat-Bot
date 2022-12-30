@@ -8,6 +8,7 @@ import Form from './Form';
 import { main_blue } from '../common/colors';
 import GameInstructionsDialog from '../common/GameInstructionsDialog';
 import { useHome } from './useHome';
+import { home_page_title1 } from '../common/strings';
 import './Home.css';
 
 function Home(): JSX.Element {
@@ -20,7 +21,7 @@ function Home(): JSX.Element {
 
             <div className="Home_Container">
                 <Typography variant="h4" style={{ marginTop: '16px', marginBottom: '16px' }}>
-                    Welcome to CLG map task
+                    {home_page_title1}
                 </Typography>
                 {state.game_config.registerd == 'yes' ? <Form /> : null}
                 {state.game_config.registerd == 'err' ? (

@@ -63,6 +63,7 @@ class RuleBasedBot(Bot):
     def call(self, user_msg, user_state=None) -> list[str]:
         self.chat.append({'speaker': 'user', 'text': user_msg})
         bot_msgs = self.__match_and_respond(user_msg, user_state)
+        bot_msgs = [m.capitalize() for m in bot_msgs]
         for bot_msg in bot_msgs:
             self.chat.append({'speaker': 'bot', 'text': bot_msg})
         return bot_msgs

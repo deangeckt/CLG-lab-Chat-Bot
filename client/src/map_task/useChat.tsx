@@ -3,6 +3,7 @@ import { callBot, callHuman, huamn_to_human_event } from '../api';
 import { AppContext } from '../AppContext';
 import { useApp } from './useApp';
 import { ChatMsg } from '../Wrapper';
+import { hh_end_modal_str } from '../common/strings';
 
 export function useChat() {
     const { state, setState } = useContext(AppContext);
@@ -59,7 +60,7 @@ export function useChat() {
         if (msg.id === state.game_config.game_role) return;
         if (other_finished) {
             localStorage.setItem('state', JSON.stringify(stateRef.current));
-            open_ending_modal('The other participant has finished the game');
+            open_ending_modal(hh_end_modal_str);
         } else updateChatState([msg]);
     };
 

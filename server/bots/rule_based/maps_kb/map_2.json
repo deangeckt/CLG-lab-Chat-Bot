@@ -4,15 +4,15 @@
 			"r": 2,
 			"c": 20,
 			"next_direction": [
-				"go few steps to the left and back to the branch near the dog",
-				"go few steps to the left and do a u-turn and go on the branch, below the dog",
+				"go a few steps to the left and back to the branch near the dog",
+				"go a few steps to the left and do a u-turn and go on the branch, below the dog",
 				["start from the dog at the top-right corner of the map", "then go west (left) just below the bench", "make a few steps on the trail until you reach the flower stand and from there return east (right) to until you reach the log bridge (near the yellow fish)"],
 				["begin at the Dalmatian dog at the upper-right corner of the map", "go to the flower stand", "return towards the log over the gorge (next to the dog of the start)"],
 				["let's start at the upper dog", "go from it left (just under the bench) to the path", "after a few steps on the path south", "return back to the starting dog", "cross the river south over the log"]
             ],
 			"clarification": [
-				"start by going left few steps away from the dog, then return to the branch and walk over it, below the dog.",
-				"start by going left few steps away from the dog, then return to the branch and walk over it, below the dog.",
+				"start by going left a few steps away from the dog, then return to the branch and walk over it, below the dog.",
+				"start by going left a few steps away from the dog, then return to the branch and walk over it, below the dog.",
 				["go left until you stand on the road", "then go down a little", "go back right to the log near the dog at the start"],
 				["go left while you are still near the bench", "then go down while you are still near the flower stand", "then go right to the log bridge crossing the gorge"],
 				["go straight left, walk a few steps down on the road (stop near the first red box)", "then go back to the starting dog"]

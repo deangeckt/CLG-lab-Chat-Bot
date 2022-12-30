@@ -8,6 +8,7 @@ import { IAppState, init_app_state, UserSurvey } from '../Wrapper';
 import { upload } from '../api';
 import { main_blue } from '../common/colors';
 import { useNavigate } from 'react-router-dom';
+import { end_page_title1_str, end_page_title2_str } from '../common/strings';
 import './EndPage.css';
 
 function EndPage(): JSX.Element {
@@ -59,8 +60,8 @@ function EndPage(): JSX.Element {
             <div className="End_Container">
                 {reg == 'not_sent' ? (
                     <>
-                        <Typography variant="h4">Gracias for participating</Typography>
-                        <Typography variant="h6">We would love to hear your comments</Typography>
+                        <Typography variant="h4">{end_page_title1_str}</Typography>
+                        <Typography variant="h6">{end_page_title2_str}</Typography>
                         <TextField
                             label="on the game instructions"
                             variant="outlined"

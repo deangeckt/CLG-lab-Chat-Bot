@@ -3,6 +3,7 @@ import { AppContext } from '../AppContext';
 import { useNavigate } from 'react-router-dom';
 import { notifyHumanEnd } from '../api';
 import { maps } from '../Wrapper';
+import { bot_welcome_str, finish_btn_modal_str } from '../common/strings';
 
 export function useApp() {
     const { state, setState } = useContext(AppContext);
@@ -20,7 +21,7 @@ export function useApp() {
             notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
             navigate_to_end_page();
         } else {
-            open_ending_modal('Please add you final review new page');
+            open_ending_modal(finish_btn_modal_str);
         }
     };
 
@@ -46,7 +47,7 @@ export function useApp() {
         }
         let chat = [...state.chat];
         if (game_config.game_mode == 'bot') {
-            chat = chat.concat([{ id: 1, msg: 'Welcome!', timestamp: Date.now() }]);
+            chat = chat.concat([{ id: 1, msg: bot_welcome_str, timestamp: Date.now() }]);
         }
         console.log(game_config);
 

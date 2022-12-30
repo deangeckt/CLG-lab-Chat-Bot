@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AppContext } from './AppContext';
+import { game_over_modal_str } from './common/strings';
 
 export interface UserMetadata {
     name: string;
@@ -131,13 +132,13 @@ export const init_app_state: IAppState = {
     game_state: {
         end: false,
         end_modal_text: '',
-        end_modal_title: 'Game is over',
+        end_modal_title: game_over_modal_str,
         init_time: 300,
         game_time: 0,
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.0.18_e',
+    clinet_version: '1.0.19_e',
     server_version: '',
 };
 

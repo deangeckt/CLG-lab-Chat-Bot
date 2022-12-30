@@ -3,8 +3,9 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useContext } from 'react';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { AppContext } from '../AppContext';
-import { Dictionary, role_strings } from '../Wrapper';
+import { role_strings } from '../Wrapper';
 import { useGameInstructions } from './useGameInstructions';
+import { ins_instructions_str, nav_instructions_str, nav_sub_title_str } from './strings';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -15,6 +16,10 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
+interface Dictionary {
+    [Key: number]: string[];
+}
+
 function GameInstructionsDialog({}): JSX.Element {
     const { state } = useContext(AppContext);
     const [im, setIm] = useState<HTMLImageElement>();
@@ -23,8 +28,8 @@ function GameInstructionsDialog({}): JSX.Element {
 
     const role_string = role_strings[state.game_config.game_role];
     const role_instructions_dict: Dictionary = {
-        0: 'You should navigate towrads some object in the map in a specific path. to learn the path chat with the game instructor. to navigate on the map you can either use the keyboard or the mouse - click on the purple dots',
-        1: 'You should instruct the naviagator to follow the path via the chat. the path is only visable to you.',
+        0: nav_instructions_str,
+        1: ins_instructions_str,
     };
     const role_instructions = role_instructions_dict[state.game_config.game_role];
 
@@ -48,10 +53,17 @@ function GameInstructionsDialog({}): JSX.Element {
                 keepMounted
                 onClose={() => setGameInstructions(false)}
             >
-                <DialogTitle>Game instructions</DialogTitle>
+                <DialogTitle style={{ fontSize: '1.5rem' }}>Game instructions</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>Your role is the {role_string}.</DialogContentText>
-                    <DialogContentText>{role_instructions}</DialogContentText>
+                    <DialogContentText style={{ fontSize: '1.25rem' }}>
+                        {nav_sub_title_str} {role_string}.
+                    </DialogContentText>
+                    {role_instructions.map((e) => (
+                        <DialogContentText key={e}>{e}</DialogContentText>
+                    ))}
+
+                    <DialogContentText>Enjoy the game!</DialogContentText>
+
                     <img
                         src={im?.src}
                         width={state.map_metadata.im_width / 5}

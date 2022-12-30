@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AppContext } from '../AppContext';
 import { UserMetadata } from '../Wrapper';
+import { home_page_form_title1 } from '../common/strings';
 import './Home.css';
 
 const genders = ['Male', 'Female', 'Other'];
@@ -29,7 +30,7 @@ function Form(): JSX.Element {
 
     return (
         <div className="form">
-            <Typography variant="h5">Fill in your details por favor</Typography>
+            <Typography variant="h5">{home_page_form_title1}</Typography>
             <TextField
                 id="outlined-basic"
                 label="Name"

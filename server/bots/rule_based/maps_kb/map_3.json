@@ -4,7 +4,7 @@
 			"r": 3,
 			"c": 9,
 			"next_direction": [
-				"go south few steps towards the dog",
+				"go south a few steps towards the dog",
 				"start from the vigvam (the tent) on the upper side of the map and after that go down (south) between the wall made of stone and the dog",
 				"your starting point should be the tent and then proceed down around the dog (keep it to your left)"
             ],
@@ -18,7 +18,7 @@
 			"r": 6,
 			"c": 8,
 			"next_direction": [
-				"take few steps south until you reach the barbecue",
+				"take a few steps south until you reach the barbecue",
 				"proceed to the east (right) side of the map, between the barbeque and the dog and stand right in front of the camp fire",
 				"keep the dog to your left and go towards the camp fire"
 			],
