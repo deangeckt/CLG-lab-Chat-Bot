@@ -1,6 +1,7 @@
 import random
 from dataclasses import dataclass
 from typing import List
+from google_cloud.database import Database
 from google_cloud.translate import Translate
 import langid
 from code_switch.utils import hazard
@@ -24,11 +25,7 @@ class CodeSwitchUnit:
                             r=[0, 0.8, 0.15, 0.5])
         }
         self.cs_strategy = cs_strategy
-
         self.default_lang = 'en'
-        self.cs_history = []
-        self.current_cs_state = None
-        self.len_of_current_subsequence = 1
         self.user_msg = None
         self.strategy = {'goldfish': self.__goldfish_cs_strategy,
                          'random': self.__random_strategy,
@@ -38,18 +35,33 @@ class CodeSwitchUnit:
                         }
 
         self.translate = Translate()
+        self.database = Database()
         self.translation = {'en': lambda x: x,
                             'es': self.translate.translate_to_spa}
 
-    def call(self, user_msg: str, en_bot_resp: List[str]) -> List[str]:
+        # State
+        self.cs_history = []
+        self.current_cs_state = None
+        self.len_of_current_subsequence = 1
+
+    def call(self, guid: str, user_msg: str, en_bot_resp: List[str]) -> List[str]:
         """
+        param guid: id of the session
         param user_msg: last user chat message in spanglish
         param en_bot_resp: the generated messages (list) the bot generated in english
         :return: spanglish generated string in a list
         """
         self.user_msg = user_msg
         self.__identify_incoming_cs_state()
-        return self.__generate_response(en_bot_resp)
+        resp = self.__generate_response(en_bot_resp)
+        self.database.save_cs_state(guid, self.cs_history, self.len_of_current_subsequence)
+        return resp
+
+    def override_state_from_db(self, data: dict):
+        self.len_of_current_subsequence = data['len_of_current_subsequence']
+        self.cs_history = data['cs_history']
+        self.current_cs_state = self.cs_history[-1]
+
 
     def __generate_response(self, en_bot_resp: List[str]) -> List[str]:
         spanglish_bot_response_list = []

@@ -13,7 +13,3 @@ def save_to_storage(result):
 
     with blob.open("w") as f:
         json.dump(result, f)
-
-
-if __name__ == '__main__':
-    save_to_storage(result={'test': 'test2', 'guid': 'guid_test.json'})
