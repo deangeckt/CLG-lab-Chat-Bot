@@ -42,7 +42,14 @@ function GameInstructionsDialog({}): JSX.Element {
             console.log('img load err', err);
         };
 
-        image.src = require(`../map_task/maps/${state.map_metadata.im_src}`);
+        let img_map_name = '';
+        if (state.game_config.game_role == 1) img_map_name = state.map_metadata.im_src;
+        else {
+            const prefix = state.map_metadata.im_src.split('.jpg')[0];
+            img_map_name = prefix + '_nav.jpg';
+        }
+
+        image.src = require(`../map_task/maps/${img_map_name}`);
     }, []);
 
     return (

@@ -146,7 +146,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.2.0_e',
+    clinet_version: '1.2.1_e',
     server_version: '',
 };
 
