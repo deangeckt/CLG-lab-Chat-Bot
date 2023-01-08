@@ -13,8 +13,9 @@ function Timer(): JSX.Element {
     const expiryTimestamp = new Date();
     expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + init_time);
 
-    const { seconds, minutes } = useTimer({
+    const { seconds, minutes, start } = useTimer({
         expiryTimestamp,
+        autoStart: false,
         onExpire: () => {
             if (state.game_state.end) return;
             open_ending_modal('Time is up');
@@ -29,6 +30,10 @@ function Timer(): JSX.Element {
         game_state.game_time = game_state.init_time - total_seconds;
         setState({ ...state, game_state });
     }, [state.game_state.end]);
+
+    useEffect(() => {
+        if (state.game_state.started) start();
+    }, [state.game_state.started]);
 
     const right = seconds % 10;
     const left = Math.floor(seconds / 10);

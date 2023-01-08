@@ -6,7 +6,6 @@ import { AppContext } from '../AppContext';
 import Header from '../common/Header';
 import Form from './Form';
 import { main_blue } from '../common/colors';
-import GameInstructionsDialog from '../common/GameInstructionsDialog';
 import { useHome } from './useHome';
 import { home_page_title1 } from '../common/strings';
 import './Home.css';
@@ -23,14 +22,12 @@ function Home(): JSX.Element {
                 <Typography variant="h4" style={{ marginTop: '16px', marginBottom: '16px' }}>
                     {home_page_title1}
                 </Typography>
-                {state.game_config.registerd == 'yes' ? <Form /> : null}
+                {state.game_config.registerd == 'fill_details' ? <Form /> : null}
                 {state.game_config.registerd == 'err' ? (
                     <Typography variant="h5" style={{ margin: '16px' }}>
                         An errur occured, please try again later
                     </Typography>
                 ) : null}
-
-                {state.game_config.registerd == 'yes' ? <GameInstructionsDialog /> : null}
                 {state.game_config.registerd == 'load' ? (
                     <Box sx={{ display: 'flex', margin: '32px' }}>
                         <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />

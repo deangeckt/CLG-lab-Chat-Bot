@@ -31,7 +31,7 @@ export interface MapMetadata {
 }
 
 export type gameMode = 'bot' | 'human';
-export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map' | 'err';
+export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map' | 'fill_details' | 'err';
 export type gameRole = number;
 export interface Dictionary {
     [Key: number]: string;
@@ -40,6 +40,7 @@ export const role_strings: Dictionary = { 0: 'navigator', 1: 'instructor' };
 
 export interface GameState {
     end: boolean;
+    started: boolean;
     end_modal_text: string;
     end_modal_title: string;
     init_time: number;
@@ -137,6 +138,7 @@ export const init_app_state: IAppState = {
     user_survey: { survey_instructions: '', survey_bot: '' },
     game_state: {
         end: false,
+        started: false,
         end_modal_text: '',
         end_modal_title: game_over_modal_str,
         init_time: 300,
@@ -144,7 +146,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.1.1_e',
+    clinet_version: '1.2.0_e',
     server_version: '',
 };
 
