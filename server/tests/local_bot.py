@@ -11,10 +11,11 @@ Translate.__wrapped__.translate_to_spa = lambda self, x: x
 Database.__wrapped__.save_cs_state = lambda self, g, x, y: db_mock()
 
 server = BotServer("goldfish")
-guid = server.register(0)
+guid = server.register(map_index=2)
 
 
 while True:
-    rsp = server.call_bot(guid=guid, user_msg=input('user: '), map_idx=0, user_state={'r': 5, 'c': 11})
+    rsp = server.call_bot(guid=guid, user_msg=input('user: '), map_idx=2,
+                          user_state={'r': 3, 'c': 9})
     for r in rsp:
         print(f'bot: {r}')

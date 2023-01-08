@@ -58,7 +58,7 @@ class RuleBasedBot(Bot):
         except Exception as e:
             print('err:', e)
 
-        return random.choice(["i'm not sure", "i'm not 100% sure"])
+        return [random.choice(["i'm not sure", "i'm not 100% sure"])]
 
     def call(self, user_msg, user_state=None) -> list[str]:
         self.chat.append({'speaker': 'user', 'text': user_msg})

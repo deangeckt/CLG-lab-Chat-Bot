@@ -23,7 +23,9 @@ class Clarification(TemplateMatcher):
             return None
         print('match: Clarification matcher')
 
-        last_bot_msg = self.shared.chat[-2]['text']
+        if len(self.shared.chat) < 2:
+            return None
+        last_bot_msg = self.shared.chat[-2]['text'].lower()
 
         for key_obj in self.shared.kb_abs:
             for idx, next_dir in enumerate(self.shared.kb_abs[key_obj]['next_direction']):
