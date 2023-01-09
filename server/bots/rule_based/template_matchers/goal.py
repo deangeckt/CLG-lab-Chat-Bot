@@ -29,7 +29,9 @@ class GoalMatcher(TemplateMatcher):
         t = text.lower()
         match = bool(re.match("(.*)(what is (the|my) goal?)(.*)", t))
         match |= bool(re.match("(what (do|should) i do?)", t))
+        match |= bool(re.match("(what am i expected to do?)", t))
         match |= bool(re.match("(what to do?)", t))
+
         return match
 
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:

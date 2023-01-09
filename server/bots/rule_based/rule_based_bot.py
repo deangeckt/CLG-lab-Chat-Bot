@@ -17,8 +17,13 @@ class RuleBasedBot(Bot):
     def __init__(self, map_id):
         super().__init__()
         self.chat = []
-        self.no_resp_prefix = ["i'm not sure what you mean but maybe this will help:",
-                               "not too sure about that, but maybe this will help:"]
+        self.no_resp_prefix = ["i'm not sure what you mean but maybe this will help",
+                               "not too sure about that, but maybe this will help",
+                               "mmm... just...",
+                               "well, maybe...",
+                               "let me clarify myself",
+                               "let me rephrase that",
+                               "i meant"]
 
         kb_path = resource_filename('bots', f'rule_based/maps_kb/{map_id}.json')
         with open(kb_path, 'r') as f:
@@ -32,8 +37,8 @@ class RuleBasedBot(Bot):
             Greetings(shared),
             Clarification(shared),
             Done(shared),
-            GeneralInformation(shared),
             Towards(shared),
+            GeneralInformation(shared),
             Near(shared),
         ]
 
@@ -44,6 +49,10 @@ class RuleBasedBot(Bot):
             if self.shared.closest_obj == self.shared.goal_object:
                 return [random.choice([f'you are close to the {self.shared.goal_object}!, head over there!',
                                        f'you are near the {self.shared.goal_object}, go to it!'])]
+
+            user_msg = user_msg.lower()
+            if user_msg.endswith(('!', '.')):
+                user_msg = user_msg[:len(user_msg)-1]
 
             for template_matcher in self.ordered_template_matchers:
                 resp = template_matcher.match(user_msg, user_state)

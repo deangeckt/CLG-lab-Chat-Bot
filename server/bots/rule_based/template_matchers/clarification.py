@@ -10,7 +10,7 @@ class Clarification(TemplateMatcher):
     @staticmethod
     def __is_match(text):
         t = text.lower()
-        match = bool(re.match("(what|huh|again)", t))
+        match = bool(re.match("(what|huh|again)(\?|)$", t))
         match |= bool(re.match("(i (don't|didn't|dont|didnt)(.*)(understand|understood|follow|get|got))", t))
         match |= bool(re.match("(can you repeat)", t))
         return match

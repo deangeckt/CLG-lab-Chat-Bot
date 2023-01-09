@@ -11,7 +11,7 @@ Translate.__wrapped__.translate_to_spa = lambda self, x: x
 Database.__wrapped__.save_cs_state = lambda self, g, x, y: db_mock()
 
 server = BotServer("goldfish")
-guid = server.register(map_index=2)
+guid = server.register(map_index=0)
 
 
 while True:
