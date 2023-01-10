@@ -14,7 +14,7 @@ class Done(TemplateMatcher):
 
     def __init__(self, share: TemplateMatcherShare):
         super().__init__(share)
-        self.prefix_resp = ['awsome', 'cool', 'nice', 'well done']
+        self.prefix_resp = ['awsome', 'cool', 'nice', 'well done', 'ok']
 
     @staticmethod
     def __is_match(text):

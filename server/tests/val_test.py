@@ -1,5 +1,6 @@
 from bot_server import BotServer
 from code_switch.code_switch_unit import CodeSwitchUnit
+from google_cloud.database import Database
 from google_cloud.translate import Translate
 
 user_state_mock = {'r': 2, 'c': 23}
@@ -35,10 +36,13 @@ def translate_to_sp_mock(msg: str) -> str:
     print(f'log: translate to sp oov: "{msg}"')
     return msg
 
+def db_mock():
+    pass
 
 def run_mock_chat(strategy: str):
     Translate.__wrapped__.translate_to_eng = lambda self, user_msg: translate_to_en_mock(user_msg)
     Translate.__wrapped__.translate_to_spa = lambda self, en_msg: translate_to_sp_mock(en_msg)
+    Database.__wrapped__.save_cs_state = lambda self, g, x, y: db_mock()
 
     print('strategy:', strategy)
     server = BotServer(cs_strategy=strategy)
@@ -47,7 +51,7 @@ def run_mock_chat(strategy: str):
     for msg in user_msg_mock:
         english_msg, spanish_msg, spanglish_msg = msg
         print('user:', spanglish_msg)
-        rsp = server.call_bot(guid, spanglish_msg, user_state_mock)
+        rsp = server.call_bot(guid=guid, user_msg=spanglish_msg, map_idx=0, user_state=user_state_mock)
         for r in rsp:
             print('bot:', r)
 

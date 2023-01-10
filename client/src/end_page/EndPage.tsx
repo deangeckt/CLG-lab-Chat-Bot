@@ -8,11 +8,13 @@ import { IAppState, init_app_state, UserSurvey } from '../Wrapper';
 import { upload } from '../api';
 import { main_blue } from '../common/colors';
 import { useNavigate } from 'react-router-dom';
+import { end_page_title1_str, end_page_title2_str } from '../common/strings';
 import './EndPage.css';
 
 function EndPage(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
+    const [finish, setFinish] = useState(false);
 
     useEffect(() => {
         if (state.game_config.game_mode != 'human') return;
@@ -37,6 +39,8 @@ function EndPage(): JSX.Element {
         const user_survey = state.user_survey;
         user_survey[field] = e.target.value.toString();
         setState({ ...state, user_survey });
+        const is_finish = user_survey.survey_bot != '' && user_survey.survey_instructions != '';
+        setFinish(is_finish);
     };
 
     const onKeyClick = (e: any) => {
@@ -56,15 +60,27 @@ function EndPage(): JSX.Element {
             <div className="End_Container">
                 {reg == 'not_sent' ? (
                     <>
-                        <Typography variant="h4">Gracias for participating</Typography>
+                        <Typography variant="h4">{end_page_title1_str}</Typography>
+                        <Typography variant="h6">{end_page_title2_str}</Typography>
                         <TextField
-                            id="outlined-basic"
-                            label="What did you think?"
+                            label="on the game instructions"
                             variant="outlined"
-                            onChange={(event) => simple_set(event, 'free_text')}
+                            onChange={(event) => simple_set(event, 'survey_instructions')}
                             onKeyDown={onKeyClick}
                         />
-                        <Button style={{ textTransform: 'none' }} variant="outlined" color="primary" onClick={send}>
+                        <TextField
+                            label="on the chat"
+                            variant="outlined"
+                            onChange={(event) => simple_set(event, 'survey_bot')}
+                            onKeyDown={onKeyClick}
+                        />
+                        <Button
+                            disabled={!finish}
+                            style={{ textTransform: 'none' }}
+                            variant="outlined"
+                            color="primary"
+                            onClick={send}
+                        >
                             Send
                         </Button>
                     </>

@@ -13,7 +13,7 @@ export function useHome() {
         register(state.game_config.game_mode!, register_cb, map_index);
     };
 
-    const set_register_state = (m: gameMode, r: gameRegister = 'choose_map') => {
+    const set_register_state = (m: gameMode, r: gameRegister = 'fill_details') => {
         const game_config = state.game_config;
         game_config.registerd = r;
         game_config.game_mode = m;

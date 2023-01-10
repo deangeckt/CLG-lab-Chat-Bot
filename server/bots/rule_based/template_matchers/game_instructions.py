@@ -8,7 +8,7 @@ class GameInstructions(TemplateMatcher):
     """
     e.g.: 'what are the dots?' -> ‘the yellow dot is your location...’
     """
-    response = ['the yellow dot is your location on the map',
+    response = ['the yellow dots show the path you traveled on the map',
                 'the purple dots are for you to navigate with your mouse device'
                 ]
 
@@ -19,6 +19,8 @@ class GameInstructions(TemplateMatcher):
         match |= bool(re.match("(what are (the|those) dots?)", t))
         match |= bool(re.match("(.*)(yellow and purple dots?)(.*)", t))
         match |= bool(re.match("(.*)(purple and yellow dots?)(.*)", t))
+        match |= bool(re.match("(how (do|can) i move(\?|))$", t))
+
         return match
 
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:

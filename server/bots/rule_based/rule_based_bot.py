@@ -17,9 +17,13 @@ class RuleBasedBot(Bot):
     def __init__(self, map_id):
         super().__init__()
         self.chat = []
-        self.visited_on = {}
-        self.no_resp_prefix = ["i'm not sure what you mean but maybe this will help:",
-                               "not too sure about that, but maybe this will help:"]
+        self.no_resp_prefix = ["i'm not sure what you mean but maybe this will help",
+                               "not too sure about that, but maybe this will help",
+                               "mmm... just...",
+                               "well, maybe...",
+                               "let me clarify myself",
+                               "let me rephrase that",
+                               "i meant"]
 
         kb_path = resource_filename('bots', f'rule_based/maps_kb/{map_id}.json')
         with open(kb_path, 'r') as f:
@@ -33,8 +37,8 @@ class RuleBasedBot(Bot):
             Greetings(shared),
             Clarification(shared),
             Done(shared),
-            GeneralInformation(shared),
             Towards(shared),
+            GeneralInformation(shared),
             Near(shared),
         ]
 
@@ -46,39 +50,29 @@ class RuleBasedBot(Bot):
                 return [random.choice([f'you are close to the {self.shared.goal_object}!, head over there!',
                                        f'you are near the {self.shared.goal_object}, go to it!'])]
 
+            user_msg = user_msg.lower()
+            if user_msg.endswith(('!', '.')):
+                user_msg = user_msg[:len(user_msg)-1]
+
             for template_matcher in self.ordered_template_matchers:
                 resp = template_matcher.match(user_msg, user_state)
                 if resp is not None:
                     return resp
 
-            return [random.choice(self.no_resp_prefix),
-                    random.choice(self.shared.kb_abs[self.shared.closest_obj]['next_direction'])]
+            default_msg = [random.choice(self.no_resp_prefix)]
+            default_msg.extend(self.shared.get_kb_suggestion(self.shared.closest_obj))
+            return default_msg
+
 
         except Exception as e:
             print('err:', e)
 
-        return random.choice(["i'm not sure", "i'm not 100% sure"])
-
-    def __append_bot_messages(self, bot_msgs: list[str]):
-        for bot_msg in bot_msgs:
-            self.chat.append({'speaker': 'bot', 'text': bot_msg})
+        return [random.choice(["i'm not sure", "i'm not 100% sure"])]
 
     def call(self, user_msg, user_state=None) -> list[str]:
         self.chat.append({'speaker': 'user', 'text': user_msg})
         bot_msgs = self.__match_and_respond(user_msg, user_state)
-        self.__append_bot_messages(bot_msgs)
-        return bot_msgs
-
-    def location_move(self, user_state) -> list[str]:
-        on_map_obj = self.shared.is_closest_object_on_map_obj((user_state['r'], user_state['c']))
-        if on_map_obj is None:
-            return []
-        if on_map_obj in self.visited_on:
-            return []
-
-        self.visited_on[on_map_obj] = 1
-        prefix_options = ['well done', 'nice', 'awsome']
-        prefix = random.choice(prefix_options)
-        bot_msgs = [f'{prefix}! you have reached the {on_map_obj}']
-        self.__append_bot_messages(bot_msgs)
+        bot_msgs = [m.capitalize() for m in bot_msgs]
+        for bot_msg in bot_msgs:
+            self.chat.append({'speaker': 'bot', 'text': bot_msg})
         return bot_msgs

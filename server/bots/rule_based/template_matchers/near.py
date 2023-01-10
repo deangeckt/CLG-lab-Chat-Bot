@@ -9,7 +9,6 @@ class Near(TemplateMatcher):
     very general regex! keep last in the matcher list
     e.g. "im near the parrot" -> <next direction suggestion from abs kb>
     """
-
     def is_match(self, text):
         t = text.lower()
         for obj in self.shared.all_objects:
@@ -30,11 +29,9 @@ class Near(TemplateMatcher):
 
         print('match: near matcher')
 
-        # 1st priority - use the object in the user text
         if obj_match in self.shared.kb_abs:
-            return [random.choice(self.shared.kb_abs[obj_match]['next_direction'])]
+            return self.shared.get_kb_suggestion(obj_match)
 
-        # 2nd priority - use the closest object of the user
         if obj_match in self.shared.outside_path:
             resp = [f'the {obj_match} is not part of the path']
             closest_obj_indx = self.shared.kb_path_order.index(self.shared.closest_obj)

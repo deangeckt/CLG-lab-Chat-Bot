@@ -8,7 +8,7 @@ from bot_server import BotServer
 from google_cloud.storage import save_to_storage
 from human_server import HumanServer
 
-VERSION = '1.3.1'
+VERSION = '1.5.3_e' # TODO: tmp version of english only for friends
 cs_strategy = "goldfish"
 
 app = Flask(__name__)
@@ -25,21 +25,8 @@ game_roles_reverse = {0: 'navigator', 1: 'instructor'}
 def call_bot():
     try:
         params = request.get_json()
-        res = bot_server.call_bot(params['guid'], params['msg'], params['state'])
-        return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
-    except Exception as e:
-        print('err:', e)
-        return "Server error", 500, {'Content-Type': 'application/json'}
-
-
-@app.route('/api/v1/call_bot_loc', methods=['POST'])
-def call_bot_loc():
-    """
-    empty string of list will not generate text on the UI
-    """
-    try:
-        params = request.get_json()
-        res = bot_server.call_bot_loc(params['guid'], params['state'])
+        res = bot_server.call_bot(params['guid'], params['msg'],
+                                  params['map_index'], params['state'])
         return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)

@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { ChatMsg, gameMode, gameRole, IAppState, MapCellIdx } from './Wrapper';
 
-export const baseUrl = 'http://localhost:8080/api/v1/';
+export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/'; //'http://localhost:8080/api/v1/';
 
 export const huamn_to_human_event = async (guid: string, update: Function) => {
     const evtSource = new EventSource(baseUrl + `event?guid=${guid}`);
@@ -20,25 +20,12 @@ export const huamn_to_human_event = async (guid: string, update: Function) => {
     };
 };
 
-export const callBot = async (guid: string, msg: string, cell: MapCellIdx, update: Function) => {
+export const callBot = async (guid: string, msg: string, cell: MapCellIdx, map_index: number, update: Function) => {
     try {
         const response = (await axios.request({
             url: baseUrl + 'call_bot',
             method: 'POST',
-            data: { guid, msg, state: cell },
-        })) as AxiosResponse;
-        update(response.data.res);
-    } catch (error: any) {
-        update('Bot not connected');
-    }
-};
-
-export const callBotLocationMove = async (guid: string, cell: MapCellIdx, update: Function) => {
-    try {
-        const response = (await axios.request({
-            url: baseUrl + 'call_bot_loc',
-            method: 'POST',
-            data: { guid, state: cell },
+            data: { guid, msg, map_index, state: cell },
         })) as AxiosResponse;
         update(response.data.res);
     } catch (error: any) {

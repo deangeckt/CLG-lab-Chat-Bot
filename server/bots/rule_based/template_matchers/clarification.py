@@ -10,7 +10,7 @@ class Clarification(TemplateMatcher):
     @staticmethod
     def __is_match(text):
         t = text.lower()
-        match = bool(re.match("(what|huh|again)", t))
+        match = bool(re.match("(what|huh|again)(\?|)$", t))
         match |= bool(re.match("(i (don't|didn't|dont|didnt)(.*)(understand|understood|follow|get|got))", t))
         match |= bool(re.match("(can you repeat)", t))
         return match
@@ -23,12 +23,15 @@ class Clarification(TemplateMatcher):
             return None
         print('match: Clarification matcher')
 
-        last_bot_msg = self.shared.chat[-2]['text']
+        if len(self.shared.chat) < 2:
+            return None
+        last_bot_msg = self.shared.chat[-2]['text'].lower()
 
         for key_obj in self.shared.kb_abs:
             for idx, next_dir in enumerate(self.shared.kb_abs[key_obj]['next_direction']):
-                if next_dir == last_bot_msg:
-                    return [self.shared.kb_abs[key_obj]['clarification'][idx]]
+                if last_bot_msg == next_dir or last_bot_msg in next_dir:
+                    curr_suggestion = self.shared.kb_abs[key_obj]["clarification"][idx]
+                    return [curr_suggestion] if type(curr_suggestion) == str else curr_suggestion
 
         return None
 

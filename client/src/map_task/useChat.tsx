@@ -3,6 +3,7 @@ import { callBot, callHuman, huamn_to_human_event } from '../api';
 import { AppContext } from '../AppContext';
 import { useApp } from './useApp';
 import { ChatMsg } from '../Wrapper';
+import { hh_end_modal_str } from '../common/strings';
 
 export function useChat() {
     const { state, setState } = useContext(AppContext);
@@ -42,7 +43,7 @@ export function useChat() {
         if (state.game_config.game_mode == 'bot') {
             setBotType(true);
             const curr_cell = state.user_map_path[state.user_map_path.length - 1];
-            callBot(state.game_config.guid, inputTxt, curr_cell, addBotMsg);
+            callBot(state.game_config.guid, inputTxt, curr_cell, state.map_metadata.map_idx, addBotMsg);
         } else {
             callHuman(state.game_config.guid, selfChatMsg);
         }
@@ -59,7 +60,7 @@ export function useChat() {
         if (msg.id === state.game_config.game_role) return;
         if (other_finished) {
             localStorage.setItem('state', JSON.stringify(stateRef.current));
-            open_ending_modal('The other participant has finished the game');
+            open_ending_modal(hh_end_modal_str);
         } else updateChatState([msg]);
     };
 

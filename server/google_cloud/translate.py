@@ -9,6 +9,7 @@ class Translate:
         self.translate_client = translate.Client()
 
     def translate_to_eng(self, user_msg) -> str:
+        # TODO: tmp version of english only for friends
         return user_msg
         detected_lng = self.translate_client.detect_language(user_msg)
         # we don't translate only when the model is 100% sure that its english!
@@ -24,6 +25,7 @@ class Translate:
         return translated_text
 
     def translate_to_spa(self, en_msg: str) -> str:
+        # TODO: tmp version of english only for friends
         return en_msg
         response = self.translate_client.translate(en_msg, target_language='es', source_language='en')
         translated_text = response['translatedText']

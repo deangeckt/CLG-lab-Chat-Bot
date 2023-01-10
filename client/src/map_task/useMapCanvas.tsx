@@ -1,15 +1,15 @@
-import { useContext, useEffect, useRef, useState } from 'react';
-import { callBotLocationMove, notifyHumanEnd } from '../api';
+import { useContext, useRef, useState } from 'react';
+import { notifyHumanEnd } from '../api';
 import { AppContext } from '../AppContext';
-import { path_cell_color, next_cells_color, flicker_color } from '../common/colors';
+import { path_cell_color, next_cells_color } from '../common/colors';
+import { nav_end_model_str } from '../common/strings';
 import { MapCellIdx } from '../Wrapper';
 import { useApp } from './useApp';
-import { useChat } from './useChat';
 
 const get_canvas_size = (im_width: number, im_height: number) => {
-    // map canvas is 75% width and app container height is 0.9
+    // map canvas is 75% width and app container height is 0.8 (use 0.79)
     const container_width = 0.75 * window.innerWidth;
-    const container_height = 0.75 * 0.9 * window.innerHeight;
+    const container_height = 0.79 * window.innerHeight;
 
     const ratio_w = container_width / im_width;
     const ratio_h = container_height / im_height;
@@ -27,7 +27,6 @@ const get_canvas_size = (im_width: number, im_height: number) => {
 };
 
 export function useMapCanvas() {
-    const { updateChatState } = useChat();
     const { open_ending_modal } = useApp();
     const { state, setState } = useContext(AppContext);
     const [matrix, setMatrix] = useState(Array<Array<Path2D>>);
@@ -36,26 +35,6 @@ export function useMapCanvas() {
     const canvasRef = useRef(null);
     const [im, setIm] = useState<HTMLImageElement>();
     const radius = canvas_width / 65;
-
-    useEffect(() => {
-        let anim_path_color = flicker_color;
-        let next_color = flicker_color;
-        let anim_c = 0;
-        const interval = setInterval(() => {
-            if (matrix.length > 0) {
-                const user_map_path = [...state.user_map_path];
-                const ui_new_neighbors_list = Array.from(neighbors).map((n) => neighbor_str_to_cell(n));
-                color_change(ui_new_neighbors_list, next_color);
-                color_change(user_map_path, anim_path_color);
-                anim_path_color = anim_path_color == path_cell_color ? flicker_color : path_cell_color;
-                next_color = next_color == next_cells_color ? flicker_color : next_cells_color;
-
-                anim_c += 1;
-                if (anim_c === 6) clearInterval(interval);
-            }
-        }, 300);
-        return () => clearInterval(interval);
-    }, [matrix]);
 
     const draw = (on_draw_cb: Function) => {
         const canvas = canvasRef.current as any;
@@ -155,7 +134,7 @@ export function useMapCanvas() {
     const next_move = (new_cell: MapCellIdx) => {
         console.log(new_cell);
         if (is_finish(new_cell)) {
-            open_ending_modal('Felicidades! you found the last object');
+            open_ending_modal(nav_end_model_str);
             if (state.game_config.game_mode == 'human')
                 notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
         }
@@ -181,15 +160,6 @@ export function useMapCanvas() {
         color_change(user_map_path, path_cell_color);
 
         setState({ ...state, user_map_path: user_map_path });
-        if (state.game_config.game_mode == 'bot') {
-            callBotLocationMove(state.game_config.guid, new_cell, handle_bot_msg_on_move);
-        }
-    };
-
-    const handle_bot_msg_on_move = (msgs: string[]) => {
-        if (msgs.length == 0) return;
-        const chatMsgs = msgs.map((msg) => ({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() }));
-        updateChatState(chatMsgs);
     };
 
     const onKeyClick = (e: any) => {
