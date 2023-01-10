@@ -1,0 +1,68 @@
+{
+	"absolute": {
+		"skull": {
+			"r": 1,
+			"c": 1,
+			"next_direction": [
+              "start by circling the skull between the big camp, in the south direction"
+            ],
+			"clarification": [
+              "first surround the skull from the right side, then walk down between it and the camp"
+            ]
+		},
+		"guitar": {
+			"r": 10,
+			"c": 8,
+			"next_direction": [
+				"go between the guitar and the cactus, head north east towards the boots"
+			],
+			"clarification": [
+				"first pass the between the guitar and the cactus, head diagonally - up and right towards the boots"
+			]
+		},
+		"boots": {
+			"r": 5,
+			"c": 19,
+			"next_direction": [
+				"surround the boots in this manner: start left of it, then above it, then go down"
+			],
+			"clarification": [
+				"surround the boots in this manner: start left of it, then above it, then go down"
+			]
+		},
+		"cactus": {
+			"r": 7,
+			"c": 22,
+			"next_direction": [
+				"if you didn't pass the boots yet, head over there",
+				"if you did pass the boots already, keep south towards the horse"
+			],
+			"clarification": [
+				"i'm not sure where you came from as i don't see you, but next you should continue to the boots",
+				"i'm not sure where you came from as i don't see you, but next you should continue horse"
+			]
+		},
+		"horse": {
+			"r": 13,
+			"c": 18,
+			"next_direction": [
+				"go west towards the well, don't touch the small cactus on the way there"
+			],
+			"clarification": [
+				"go left towards the well, avoid touching the small cactus on the way"
+			]
+		},
+		"well": {
+			"r": 16,
+			"c": 9,
+			"next_direction": [
+				"keeping going west to the well"
+			],
+			"clarification": [
+				"the final objective is to reach the well"
+			]
+		}
+	},
+
+	"outside_path": ["encampment", "camp"]
+}
