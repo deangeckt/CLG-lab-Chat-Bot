@@ -125,6 +125,16 @@ export const maps: MapMetadata[] = [
         start_cell: { r: 1, c: 1 },
         map_idx: 4,
     },
+    {
+        im_width: 1754,
+        im_height: 1226,
+        im_src: 'map6_0.jpg',
+        rows: 18,
+        cols: 24,
+        end_cell: { r: 6, c: 2 },
+        start_cell: { r: 8, c: 7 },
+        map_idx: 5,
+    },
 ];
 
 export const init_app_state: IAppState = {
@@ -143,7 +153,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.2.1_e',
+    clinet_version: '1.3.0_e',
     server_version: '',
 };
 

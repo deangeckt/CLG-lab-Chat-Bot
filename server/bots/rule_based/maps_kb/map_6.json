@@ -1,0 +1,87 @@
+{
+	"absolute": {
+		"bicycle": {
+			"r": 8,
+			"c": 7,
+			"next_direction": [
+              "start by going directly north to the car, stop when the car is to your right"
+            ],
+			"clarification": [
+              ["go up towards the car and stop next to it", "it should be to your right"]
+            ]
+		},
+		"car": {
+			"r": 3,
+			"c": 8,
+			"next_direction": [
+				["keep going east to the kid, do it in straight lines:", "few steps east then south then east again"]
+			],
+			"clarification": [
+              "go right towards the kid, in straight lines fashion: right, down and right again"
+			]
+		},
+		"kid": {
+			"r": 4,
+			"c": 16,
+			"next_direction": [
+              "take a few steps east to the worker, stop above him"
+			],
+			"clarification": [
+              ["go right towards the worker", "and stop near the worker's head - at the edge of the map"]
+			]
+		},
+      "worker": {
+			"r": 8,
+			"c": 22,
+			"next_direction": [
+              ["keep going south to the wine, do it in straight lines:", "few steps south, west and south again"]
+
+			],
+			"clarification": [
+              "go down towards the glass of wine, in straight lines fashion: down and left and down again"
+			]
+		},
+		"wine": {
+			"r": 14,
+			"c": 16,
+			"next_direction": [
+				["take short steps in the direction of the crab:", "few to the left, then up"]
+			],
+			"clarification": [
+              "head to the crab in straight lines: first start left then go up"
+			]
+		},
+		"crab": {
+			"r": 14,
+			"c": 11,
+			"next_direction": [
+              ["keep going west to the doctor, do it in straight lines:", "few steps west, south and west again"]
+			],
+			"clarification": [
+              "go down towards the doctor, in straight lines fashion: left and down and left again"
+			]
+		},
+		"doctor": {
+			"r": 14,
+			"c": 4,
+			"next_direction": [
+				["last stop is the fireman - go west of the doctor near the edge of the map", "then north in a straight line"]
+			],
+			"clarification": [
+				"the final objective is to reach the fireman - head up in a straight line"
+			]
+		},
+      "fireman": {
+			"r": 6,
+			"c": 2,
+			"next_direction": [
+				"keep going north to the fireman, almost there!"
+			],
+			"clarification": [
+				"keep going up to the fireman, almost there!"
+			]
+		}
+	},
+
+	"outside_path": []
+}
