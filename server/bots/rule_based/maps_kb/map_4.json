@@ -4,20 +4,28 @@
 			"r": 3,
 			"c": 23,
 			"next_direction": [
-              "walk over the trees few steps left then head down to the dog"
+              "walk over the trees few steps left then head down to the dog",
+				["start at the right most palm tree", "cross over the middle tree and head down toward the dog"],
+				["from the starting point go under the tree next to you", "cross the trunk of the second tree and go down fro the rocks next to the third tree"]
             ],
 			"clarification": [
-              "start by going few steps left, touching the 1st and 2nd treem then go down towards the dog"
+              "start by going few steps left, touching the 1st and 2nd tree then go down towards the dog",
+				["from the tree at the top-right corner continue west (left)", "between the second and the third tree proceed down to the dog"],
+				["make a zig-zag movement between the two trees next to you", "continue down (south) near the dog's face"]
             ]
 		},
 		"dog": {
 			"r": 8,
 			"c": 20,
 			"next_direction": [
-				"pass the dog from the left side, and head south to the gap between the rocks"
+				"pass the dog from the left side, and head south to the gap between the rocks",
+				["move near the dog (keep it to your left)", "enter the sea through the gap between the biggest rock the and smallest rock"],
+				"from the dog go down towards the crab"
 			],
 			"clarification": [
-				"below the dog there is a crab, go there, walking between the 2 rocks"
+				"below the dog there is a crab, go there, walking between the 2 rocks",
+				["keep going down near the dog's face", "walk between the rocks toward the crab "],
+				["wave goodbye to the dog and proceed south (down)", "enter the sea right in front of the crab"]
 
 			]
 		},
@@ -25,32 +33,42 @@
 			"r": 14,
 			"c": 21,
 			"next_direction": [
-				"once at the crab, keep going west on the water next to the rock and stop before the shark"
+				"once at the crab, keep going west on the water next to the rock and stop before the shark",
+				"walk in the water and exit back to sea-shore between the rock and the volleyball",
+				["walk from the crab to the shark", "exit the sea back to shore"]
 			],
 			"clarification": [
 				"after you reached the crab, keep going left on the water until you see the shark"
-
+				["continue west toward the shark", "exit the water just before you reach it"],
+				["proceed west (left) on the map", "step out of the water just before the shark"]
 			]
 		},
 		"ball": {
 			"r": 12,
 			"c": 10,
 			"next_direction": [
-				"go north between the ball and the rock"
-
+				"go north between the ball and the rock",
+				"go through inbetween the ball and the rock",
+				["go up and make half a circle around the ball", "keep the ball to your left"]
 			],
 			"clarification": [
-				"go up on the sand now, between the ball and the rock"
+				"go up on the sand now, between the ball and the rock",
+				"step north-east between the volleyball and the rock",
+				"you should pass just between the rock and the ball"
 			]
 		},
 		"speaker": {
 			"r": 7,
 			"c": 11,
 			"next_direction": [
-				"head north on the sand towards the speaker, stop between the tent"
+				"head north on the sand towards the speaker, stop between the tent",
+				"pass between the loud-speaker and the tent",
+				"go inbetween the tent and the loud-speaker"
 			],
 			"clarification": [
-				"keep going up, slightly diagonally and stop between the speaker and the tent"
+				"keep going up, slightly diagonally and stop between the speaker and the tent",
+				"pass between the loud-speaker and the tent",
+				["keep going upwards", "you shall pass between the speaker and the tent"]
 			]
 		},
 		"tent": {
