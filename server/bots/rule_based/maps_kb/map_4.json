@@ -75,32 +75,42 @@
 			"r": 5,
 			"c": 10,
 			"next_direction": [
-				"circle from above the tent, then head south to the boat"
+				"circle from above the tent, then head south to the boat",
+				"make half a circle around the tent (keep it to your left)",
+				["make a u-turn around the tent", "then proceed south"]
 			],
 			"clarification": [
-				"first surround the tent by going above it, then left of the tent continue down towards the boat"
+				"first surround the tent by going above it, then left of the tent continue down towards the boat",
+				"go north-west-south around the tent",
+				"go above the tent and continue south"
 			]
 		},
 		"boat": {
 			"r": 9,
 			"c": 4,
 			"next_direction": [
-				"circle the boat from below it then head north to the green grass. try to stay on the sand"
-
+				"circle the boat from below it then head north to the green grass. try to stay on the sand",
+				["make half a circle around the kayak (keep it to your right)", "you should get very close to the water, but don't enter"],
+				["walk south on the sand", "approach the kayak", "go between the kayak and the water", "go up (north) to the bush"]
 			],
 			"clarification": [
-				"first surround the boat by going below it, then left of the boat continue up towards the green grass"
+				"first surround the boat by going below it, then left of the boat continue up towards the green grass",
+				["go below the boat", "then continue up, parallel to the map's edge"],
+				["go around (under) the boat", "proceed up toward the single bush"]
 			]
 		},
 		"bush": {
 			"r": 7,
 			"c": 0,
 			"next_direction": [
-				"keep going north and you are done!"
-
+				"keep going north and you are done!",
+				"go next to the bush, just between the bush and the map's edge",
+				"get to the bush from its left (west) side"
 			],
 			"clarification": [
-				"the final objective is to reach the green bush - you should go up"
+				"the final objective is to reach the green bush - you should go up",
+				"the bush is your final goal in the game - go to it!"
+				"stand near the bush and you are done!"
 			]
 		}
 	},
