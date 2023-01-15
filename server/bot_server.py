@@ -22,7 +22,8 @@ class BotServer:
         return guid
 
     def un_register(self, guid):
-        del self.sessions[guid]
+        if guid in self.sessions:
+            del self.sessions[guid]
 
     def call_bot(self, guid, user_msg, map_idx, user_state=None):
         if guid not in self.sessions:
