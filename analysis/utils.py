@@ -2,6 +2,7 @@ import numpy as np
 
 def euclidean_distance(p1, p2):
     return np.sqrt(np.sum((p1 - p2) ** 2))
+
 def dtw_distance(gt, pred):
     gt = np.array([(g['r'], g['c']) for g in gt])
     pred = np.array([(p['r'], p['c']) for p in pred])
