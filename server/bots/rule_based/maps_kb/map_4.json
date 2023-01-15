@@ -38,7 +38,7 @@
 				["walk from the crab to the shark", "exit the sea back to shore"]
 			],
 			"clarification": [
-				"after you reached the crab, keep going left on the water until you see the shark"
+				"after you reached the crab, keep going left on the water until you see the shark",
 				["continue west toward the shark", "exit the water just before you reach it"],
 				["proceed west (left) on the map", "step out of the water just before the shark"]
 			]
@@ -109,7 +109,7 @@
 			],
 			"clarification": [
 				"the final objective is to reach the green bush - you should go up",
-				"the bush is your final goal in the game - go to it!"
+				"the bush is your final goal in the game - go to it!",
 				"stand near the bush and you are done!"
 			]
 		}
