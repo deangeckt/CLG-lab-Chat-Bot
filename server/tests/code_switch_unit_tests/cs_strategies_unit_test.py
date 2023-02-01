@@ -1,6 +1,13 @@
-import random
+import os
+os.chdir('../../code_switch')
 
-from cs_strategies import CSOption, RandomStrategy, GoldfishStrategy, TitForTatStrategy, EnglishOnlyStrategy, SpanishOnlyStrategy
+from code_switch.strategies.cs_strategies import CSOption
+
+from code_switch.strategies.english_only_strategy import EnglishOnlyStrategy
+from code_switch.strategies.spanish_only_strategy import SpanishOnlyStrategy
+from code_switch.strategies.random_strategy import RandomStrategy
+from code_switch.strategies.goldfish_strategy import GoldfishStrategy
+from code_switch.strategies.tit_for_tat_strategy import TitForTatStrategy
 
 cs_params = {
 			"EN": CSOption(probability=0.7,

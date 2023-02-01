@@ -1,7 +1,17 @@
+import os
+os.chdir('../../code_switch')
+
 import json
 
-from code_switch.cs_generation import SLGeneration
-from cs_generation import ENGeneration, ETGeneration, ELGeneration, EPGeneration, SPGeneration, SLGeneration, STGeneration, SNGeneration
+from code_switch.generation.en_generation import ENGeneration
+from code_switch.generation.et_generation import ETGeneration
+from code_switch.generation.el_generation import ELGeneration
+from code_switch.generation.ep_generation import EPGeneration
+from code_switch.generation.sn_generation import SNGeneration
+from code_switch.generation.st_generation import STGeneration
+from code_switch.generation.sl_generation import SLGeneration
+from code_switch.generation.sp_generation import SPGeneration
+
 from google_cloud.translate import Translate
 
 translate = Translate()

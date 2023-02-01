@@ -1,4 +1,7 @@
-from code_switch_unit import CodeSwitchUnit, DEFAULT_CS_PARAMS
+import os
+os.chdir('../../code_switch')
+
+from code_switch.code_switch_unit import CodeSwitchUnit, DEFAULT_CS_PARAMS
 
 strategy = 'tit_for_tat'
 
