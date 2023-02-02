@@ -8,9 +8,19 @@ export interface UserMetadata {
     gender: string;
 }
 
+export type UserSurveyType = 'di-slider' | 'freeText';
+
+export interface UserSurveyQuestion {
+    question: string;
+    answer: number | null | string;
+    type: UserSurveyType;
+    hintAbove?: string;
+    dis_slider_left?: string;
+    dis_slider_right?: string;
+}
+
 export interface UserSurvey {
-    survey_instructions: string;
-    survey_bot: string;
+    [Key: string]: UserSurveyQuestion;
 }
 
 export interface MapCellIdx {
@@ -142,7 +152,76 @@ export const init_app_state: IAppState = {
     user_metadata: { name: '', age: '', gender: 'Male' },
     map_metadata: maps[0],
     user_map_path: [],
-    user_survey: { survey_instructions: '', survey_bot: '' },
+    user_survey: {
+        '0': { question: 'How much did you enjoy the task?', answer: null, type: 'di-slider' },
+        '1': { question: 'How difficult was it to communicate with your partner?', answer: null, type: 'di-slider' },
+        '2': {
+            question: 'How successful do you think you were at completing the task?',
+            answer: null,
+            type: 'di-slider',
+        },
+        '3': {
+            question: "How difficult was it to understand your partner's directions?",
+            answer: null,
+            type: 'di-slider',
+        },
+        '4': {
+            question: 'How likely is your partner to be a fluent speaker of English?',
+            answer: null,
+            type: 'di-slider',
+        },
+        '5': {
+            question: 'How likely is your partner to be a fluent speaker of Spanish?',
+            answer: null,
+            type: 'di-slider',
+        },
+        '6': {
+            question: 'How likely do you think it is that your partner is bilingual?',
+            answer: null,
+            type: 'di-slider',
+        },
+
+        '7': {
+            hintAbove: 'Please rate your partner according to the following attributes:',
+            question: 'friendly',
+            answer: null,
+            type: 'di-slider',
+        },
+        '8': {
+            question: 'smart',
+            answer: null,
+            type: 'di-slider',
+        },
+        '9': {
+            question: 'collaborative',
+            answer: null,
+            type: 'di-slider',
+        },
+        '10': {
+            question: 'honest',
+            answer: null,
+            type: 'di-slider',
+        },
+        '11': {
+            question: 'funny',
+            answer: null,
+            type: 'di-slider',
+        },
+        '12': {
+            question: 'How likely do you think it was that you were talking to a chatbot rather than a human?',
+            answer: null,
+            type: 'di-slider',
+        },
+        '13': {
+            question:
+                'If you were communicating with a chat bot, would you want them to communicate in both English and Spanish?',
+            answer: null,
+            type: 'di-slider',
+        },
+
+        '14': { question: 'What languages are currently spoken in your home?', answer: '', type: 'freeText' },
+    },
+
     game_state: {
         end: false,
         started: false,
@@ -153,7 +232,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.3.0_e',
+    clinet_version: '1.4.0_e',
     server_version: '',
 };
 

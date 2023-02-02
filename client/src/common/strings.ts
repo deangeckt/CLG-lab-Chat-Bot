@@ -6,8 +6,11 @@ export const game_over_modal_str = 'Game is over';
 export const home_page_title1 = 'Welcome to CLG map task';
 export const home_page_form_title1 = 'Fill in your details please';
 
-export const end_page_title1_str = 'Thank you for participating';
-export const end_page_title2_str = 'We would love to hear your comments';
+export const end_page_title1_str = 'Thank you for participating, please answer the following:';
+export const end_page_group_1_str = 'Task Enjoyment and Success:';
+export const end_page_group_2_str = 'Partner Evaluation:';
+export const end_page_group_3_str = 'Partner Evaluation, Continued:';
+export const end_page_group_4_str = 'Basic Demographic Questions:';
 
 export const bot_welcome_str = 'Welcome!';
 

@@ -1,20 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, CircularProgress, TextField } from '@material-ui/core';
+import { Box, Button, CircularProgress } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import Header from '../common/Header';
-import { IAppState, init_app_state, UserSurvey } from '../Wrapper';
+import { IAppState } from '../Wrapper';
 import { upload } from '../api';
 import { main_blue } from '../common/colors';
-import { useNavigate } from 'react-router-dom';
-import { end_page_title1_str, end_page_title2_str } from '../common/strings';
+import {
+    end_page_group_1_str,
+    end_page_title1_str,
+    end_page_group_2_str,
+    end_page_group_3_str,
+    end_page_group_4_str,
+} from '../common/strings';
+import DiSliderQuestion from './DiSliderQuestion';
 import './EndPage.css';
+import FreeTextQuestion from './FreeTextQuestion';
 
 function EndPage(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
     const [finish, setFinish] = useState(false);
+
+    const survey_groups: string[][] = [];
+    const survey_groups_titles: string[] = [
+        end_page_group_1_str,
+        end_page_group_2_str,
+        end_page_group_3_str,
+        end_page_group_4_str,
+    ];
+    survey_groups.push(Object.keys(state.user_survey).slice(0, 4));
+    survey_groups.push(Object.keys(state.user_survey).slice(4, 12));
+    survey_groups.push(Object.keys(state.user_survey).slice(12, 14));
+    survey_groups.push(Object.keys(state.user_survey).slice(14, 17));
 
     useEffect(() => {
         if (state.game_config.game_mode != 'human') return;
@@ -28,30 +47,18 @@ function EndPage(): JSX.Element {
         localStorage.removeItem('state');
     }, []);
 
-    const navigate = useNavigate();
-    const startOver = () => {
-        setState(init_app_state);
-        const path = '/';
-        navigate(path);
-    };
-
-    const simple_set = (e: any, field: keyof UserSurvey) => {
-        const user_survey = state.user_survey;
-        user_survey[field] = e.target.value.toString();
-        setState({ ...state, user_survey });
-        const is_finish = user_survey.survey_bot != '' && user_survey.survey_instructions != '';
-        setFinish(is_finish);
-    };
-
-    const onKeyClick = (e: any) => {
-        if (e.keyCode == 13 && reg == 'not_sent') send();
-    };
+    useEffect(() => {
+        const answers = Object.keys(state.user_survey).map((key) => state.user_survey[key].answer);
+        const notFinished = answers.some((ans) => ans == '' || ans == null);
+        setFinish(!notFinished);
+    }, [state]);
 
     const send = () => {
         upload(state, () => {
             SetReg('done');
         });
         SetReg('loading');
+        console.log(state.user_survey);
     };
 
     return (
@@ -60,23 +67,31 @@ function EndPage(): JSX.Element {
             <div className="End_Container">
                 {reg == 'not_sent' ? (
                     <>
-                        <Typography variant="h4">{end_page_title1_str}</Typography>
-                        <Typography variant="h6">{end_page_title2_str}</Typography>
-                        <TextField
-                            label="on the game instructions"
-                            variant="outlined"
-                            onChange={(event) => simple_set(event, 'survey_instructions')}
-                            onKeyDown={onKeyClick}
-                        />
-                        <TextField
-                            label="on the chat"
-                            variant="outlined"
-                            onChange={(event) => simple_set(event, 'survey_bot')}
-                            onKeyDown={onKeyClick}
-                        />
+                        <Typography style={{ marginTop: '16px' }} variant="h4">
+                            {end_page_title1_str}
+                        </Typography>
+                        {survey_groups.map((group, index) => (
+                            <div className="Group" key={index}>
+                                <>
+                                    <Typography variant="h5">{survey_groups_titles[index]}</Typography>
+                                    {group.map(function (key) {
+                                        const t = state.user_survey[key].type;
+                                        if (t == 'di-slider')
+                                            return (
+                                                <DiSliderQuestion meta={state.user_survey[key]} id={key} key={key} />
+                                            );
+                                        else if (t == 'freeText')
+                                            return (
+                                                <FreeTextQuestion meta={state.user_survey[key]} id={key} key={key} />
+                                            );
+                                    })}
+                                </>
+                            </div>
+                        ))}
+
                         <Button
                             disabled={!finish}
-                            style={{ textTransform: 'none' }}
+                            style={{ textTransform: 'none', marginBottom: '16px' }}
                             variant="outlined"
                             color="primary"
                             onClick={send}
@@ -86,22 +101,14 @@ function EndPage(): JSX.Element {
                     </>
                 ) : null}
                 {reg == 'loading' ? (
-                    <Box sx={{ display: 'flex', margin: '16px' }}>
+                    <Box sx={{ display: 'flex', marginTop: '25%' }}>
                         <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
                     </Box>
                 ) : null}
                 {reg == 'done' ? (
-                    <>
-                        <Typography variant="h4">Thank you</Typography>
-                        <Button
-                            style={{ textTransform: 'none' }}
-                            variant="outlined"
-                            color="primary"
-                            onClick={startOver}
-                        >
-                            Start Over
-                        </Button>
-                    </>
+                    <Typography style={{ marginTop: '25%' }} variant="h4">
+                        Thank you
+                    </Typography>
                 ) : null}
             </div>
         </div>

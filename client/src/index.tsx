@@ -13,7 +13,7 @@ root.render(
     <Wrapper>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<EndPage />} />
                 <Route path="map_task" element={<App />} />
                 <Route path="survey" element={<EndPage />} />
             </Routes>
