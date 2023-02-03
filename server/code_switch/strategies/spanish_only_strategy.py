@@ -1,8 +1,8 @@
-from code_switch.strategies.cs_strategies import CSStrategy, CSParameters
+from code_switch.strategies.cs_strategies import CSStrategy, CSParameters, DEFAULT_CS_PARAMS
 
 class SpanishOnlyStrategy(CSStrategy):
-	def __init__(self, cs_params: CSParameters=None):
-		CSStrategy.__init__(self)
+	def __init__(self, cs_params: CSParameters=DEFAULT_CS_PARAMS):
+		CSStrategy.__init__(self, cs_params)
 
 	@staticmethod
 	def predict_next_cs_level(current_cs_level=None):

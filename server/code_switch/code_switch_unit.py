@@ -28,16 +28,15 @@ PUNCTUATIONS_MARKS = ['!', '?', ',', ':', ';', '.']
 
 class CodeSwitchUnit:
 	def __init__(self, cs_strategy: str):
-		self.params = DEFAULT_CS_PARAMS
 		self.translation_pairs = json.loads(open('resources/translation_pairs.json', 'r').read())
 		self.cs_strategy = cs_strategy
 		self.default_lang = 'EN'
 		self.user_msg = None
-		self.strategy = {'goldfish': GoldfishStrategy(self.params),
-						 'random': RandomStrategy(self.params),
-						 'tit_for_tat': TitForTatStrategy(self.params),
-						 'english_only': EnglishOnlyStrategy(self.params),
-						 'spanish_only': SpanishOnlyStrategy(self.params)
+		self.strategy = {'goldfish': GoldfishStrategy(DEFAULT_CS_PARAMS),
+						 'random': RandomStrategy(DEFAULT_CS_PARAMS),
+						 'tit_for_tat': TitForTatStrategy(DEFAULT_CS_PARAMS),
+						 'english_only': EnglishOnlyStrategy(DEFAULT_CS_PARAMS),
+						 'spanish_only': SpanishOnlyStrategy(DEFAULT_CS_PARAMS)
 						}
 
 		self.translate = Translate()

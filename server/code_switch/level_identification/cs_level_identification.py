@@ -1,25 +1,16 @@
 import json
-import codecs
+from code_switch.utils import load_words
 
 LANGUAGES = ['en', 'es']
 MAJOR_LANGUAGE_CODES = {'en': 'E', 'es': 'S'}
 UNCOMMON_WORDS = json.load(open('resources/translation_pairs.json'))
 
+COMMON_WORDS = {'en': load_words('resources/most_common_en_words_without_shared.txt'),
+                  'es': load_words('resources/most_common_es_words_without_shared.txt')}
 
 def get_other_lang(lang:str) -> str:
 	major_lang_index = LANGUAGES.index(lang)
 	return LANGUAGES[major_lang_index-1]
-
-def load_words(filename:str) -> list[str]:
-	with codecs.open(filename, 'r', 'utf-8') as f:
-		txt_str = f.read()
-		list_of_words = txt_str.split()
-	f.close()
-	return list_of_words
-
-
-COMMON_WORDS = {'en': load_words('resources/most_common_en_words_without_shared.txt'),
-                  'es': load_words('resources/most_common_es_words_without_shared.txt')}
 
 def get_other_lang(lang:str) -> str:
 	major_lang_index = LANGUAGES.index(lang)

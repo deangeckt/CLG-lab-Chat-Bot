@@ -1,8 +1,5 @@
 from abc import ABC, abstractmethod
-import random
 from dataclasses import dataclass
-
-from code_switch.utils import hazard
 
 @dataclass()
 class CSOption:
@@ -41,9 +38,14 @@ DEFAULT_CS_PARAMS = {
 							r=[0, 0.8, 0.15, 0.5])
 		}
 class CSStrategy(ABC):
-	def __init__(self):
-		pass
+	def __init__(self, cs_params: CSParameters):
+		self.cs_params = cs_params
 
 	@abstractmethod
 	def predict_next_cs_level(self, current_cs_state: str)-> str:
+		"""
+		This function predicts the next cs level according to the strategy (and cs history in the dialogue etc.)
+		@param current_cs_state: last cs level that appeared in the dialogue
+		@return: predicted cs level code of the next utterance in the dialogue
+		"""
 		pass

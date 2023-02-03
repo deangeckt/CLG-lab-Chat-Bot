@@ -4,17 +4,14 @@ from code_switch.strategies.cs_strategies import CSStrategy, CSParameters, DEFAU
 from code_switch.utils import hazard
 
 class GoldfishStrategy(CSStrategy):
-	def __init__(self, cs_params: CSParameters=None):
-		CSStrategy.__init__(self)
-
-		if cs_params is None:
-			cs_params = DEFAULT_CS_PARAMS
-		self.cs_params = cs_params
+	def __init__(self, cs_params: CSParameters=DEFAULT_CS_PARAMS):
+		CSStrategy.__init__(self, cs_params)
 
 		self.cs_levels = list(self.cs_params.keys())
 		self.probabilities = [cs_params[cs_level].probability for cs_level in self.cs_levels]
 
 		self.len_of_current_subsequence = 1
+
 	def predict_next_cs_level(self, current_cs_state=None):
 		if current_cs_state is None:
 			return self.__select_random_cs_level()
