@@ -13,15 +13,18 @@ import {
     end_page_group_2_str,
     end_page_group_3_str,
     end_page_group_4_str,
+    end_page_group_5_str,
+    end_page_group_6_str,
 } from '../common/strings';
-import DiSliderQuestion from './DiSliderQuestion';
+import RatingQuestion from './RatingQuestion';
+import TextFieldQuestion from './TextFieldQuestion';
+import SelectQuestion from './SelectQuestion';
 import './EndPage.css';
-import FreeTextQuestion from './FreeTextQuestion';
 
 function EndPage(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
-    const [finish, setFinish] = useState(false);
+    const [finish, setFinish] = useState(true);
 
     const survey_groups: string[][] = [];
     const survey_groups_titles: string[] = [
@@ -29,11 +32,15 @@ function EndPage(): JSX.Element {
         end_page_group_2_str,
         end_page_group_3_str,
         end_page_group_4_str,
+        end_page_group_5_str,
+        end_page_group_6_str,
     ];
     survey_groups.push(Object.keys(state.user_survey).slice(0, 4));
     survey_groups.push(Object.keys(state.user_survey).slice(4, 12));
     survey_groups.push(Object.keys(state.user_survey).slice(12, 14));
-    survey_groups.push(Object.keys(state.user_survey).slice(14, 17));
+    survey_groups.push(Object.keys(state.user_survey).slice(14, 23));
+    survey_groups.push(Object.keys(state.user_survey).slice(23, 30));
+    // survey_groups.push(Object.keys(state.user_survey).slice(30, 35));
 
     useEffect(() => {
         if (state.game_config.game_mode != 'human') return;
@@ -50,14 +57,14 @@ function EndPage(): JSX.Element {
     useEffect(() => {
         const answers = Object.keys(state.user_survey).map((key) => state.user_survey[key].answer);
         const notFinished = answers.some((ans) => ans == '' || ans == null);
-        setFinish(!notFinished);
+        // setFinish(!notFinished);
     }, [state]);
 
     const send = () => {
-        upload(state, () => {
-            SetReg('done');
-        });
-        SetReg('loading');
+        // upload(state, () => {
+        //     SetReg('done');
+        // });
+        // SetReg('loading');
         console.log(state.user_survey);
     };
 
@@ -76,14 +83,14 @@ function EndPage(): JSX.Element {
                                     <Typography variant="h5">{survey_groups_titles[index]}</Typography>
                                     {group.map(function (key) {
                                         const t = state.user_survey[key].type;
-                                        if (t == 'di-slider')
+                                        if (t == 'rating')
+                                            return <RatingQuestion meta={state.user_survey[key]} id={key} key={key} />;
+                                        else if (t == 'textfield')
                                             return (
-                                                <DiSliderQuestion meta={state.user_survey[key]} id={key} key={key} />
+                                                <TextFieldQuestion meta={state.user_survey[key]} id={key} key={key} />
                                             );
-                                        else if (t == 'freeText')
-                                            return (
-                                                <FreeTextQuestion meta={state.user_survey[key]} id={key} key={key} />
-                                            );
+                                        else if (t == 'select')
+                                            return <SelectQuestion meta={state.user_survey[key]} id={key} key={key} />;
                                     })}
                                 </>
                             </div>

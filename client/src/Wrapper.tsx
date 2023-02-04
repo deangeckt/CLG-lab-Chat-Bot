@@ -8,15 +8,24 @@ export interface UserMetadata {
     gender: string;
 }
 
-export type UserSurveyType = 'di-slider' | 'freeText';
+export type UserSurveyType = 'rating' | 'textfield' | 'select';
 
 export interface UserSurveyQuestion {
     question: string;
     answer: number | null | string;
     type: UserSurveyType;
     hintAbove?: string;
-    dis_slider_left?: string;
-    dis_slider_right?: string;
+    sliderLeftText?: string;
+    slideRightText?: string;
+    numberText?: boolean;
+    selectOptions?: string[];
+    isStyleHoriz?: boolean;
+    questionCont?: string;
+}
+
+export interface IQuestionInterface {
+    meta: UserSurveyQuestion;
+    id: string;
 }
 
 export interface UserSurvey {
@@ -153,75 +162,175 @@ export const init_app_state: IAppState = {
     map_metadata: maps[0],
     user_map_path: [],
     user_survey: {
-        '0': { question: 'How much did you enjoy the task?', answer: null, type: 'di-slider' },
-        '1': { question: 'How difficult was it to communicate with your partner?', answer: null, type: 'di-slider' },
+        '0': { question: 'How much did you enjoy the task?', answer: null, type: 'rating' },
+        '1': { question: 'How difficult was it to communicate with your partner?', answer: null, type: 'rating' },
         '2': {
             question: 'How successful do you think you were at completing the task?',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '3': {
             question: "How difficult was it to understand your partner's directions?",
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '4': {
             question: 'How likely is your partner to be a fluent speaker of English?',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '5': {
             question: 'How likely is your partner to be a fluent speaker of Spanish?',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '6': {
             question: 'How likely do you think it is that your partner is bilingual?',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
 
         '7': {
             hintAbove: 'Please rate your partner according to the following attributes:',
             question: 'friendly',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '8': {
             question: 'smart',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '9': {
             question: 'collaborative',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '10': {
             question: 'honest',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '11': {
             question: 'funny',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '12': {
             question: 'How likely do you think it was that you were talking to a chatbot rather than a human?',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
         },
         '13': {
             question:
                 'If you were communicating with a chat bot, would you want them to communicate in both English and Spanish?',
             answer: null,
-            type: 'di-slider',
+            type: 'rating',
+        },
+        '14': {
+            question: 'Age:',
+            answer: null,
+            type: 'textfield',
+            numberText: true,
+            isStyleHoriz: true,
+        },
+        '15': {
+            question: 'Gender:',
+            selectOptions: ['male', 'female', 'non-binary', 'prefer not to answer'],
+            answer: 'male',
+            type: 'select',
+            isStyleHoriz: true,
+        },
+        '16': {
+            question: 'Place of birth:',
+            answer: null,
+            type: 'textfield',
+            isStyleHoriz: true,
+        },
+        '17': {
+            question: 'Place of current resident:',
+            answer: null,
+            type: 'textfield',
+            isStyleHoriz: true,
+        },
+        '18': {
+            question: 'Highest level of education received:',
+            selectOptions: [
+                'less than high school',
+                'high school',
+                'trade school',
+                'some college',
+                'college',
+                'graduate school',
+                'some graduate school',
+                'MA',
+                'PhD',
+                'other',
+            ],
+            answer: 'less than high school',
+            type: 'select',
+            isStyleHoriz: true,
+        },
+        '19': {
+            question: 'Native language(s):',
+            answer: null,
+            type: 'textfield',
+            isStyleHoriz: true,
+        },
+        '20': {
+            question: 'Do you speak any other languages?',
+            answer: null,
+            type: 'textfield',
+            questionCont: 'If so, please list',
+        },
+        '21': {
+            question: 'What languages are currently spoken in your home?',
+            answer: null,
+            type: 'textfield',
+        },
+        '22': {
+            question: 'Have you spent extended time (e.g., more than 6 months) living in another country?',
+            questionCont: 'If so, please describe briefly where and for how long',
+            answer: null,
+            type: 'textfield',
+        },
+        '23': {
+            question: 'Enter your native language, or the language you are providing answers for, here:',
+            answer: null,
+            type: 'textfield',
+        },
+        '24': {
+            hintAbove: 'How would you rate your fluency in your native language, for each of these categories:',
+            question: 'reading',
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'no knowledge at all',
+            slideRightText: 'perfect, like a native speaker',
+        },
+        '25': {
+            question: 'writing',
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'no knowledge at all',
+            slideRightText: 'perfect, like a native speaker',
+        },
+        '26': {
+            question: 'speaking',
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'no knowledge at all',
+            slideRightText: 'perfect, like a native speaker',
+        },
+        '27': {
+            question: 'listening',
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'no knowledge at all',
+            slideRightText: 'perfect, like a native speaker',
         },
 
-        '14': { question: 'What languages are currently spoken in your home?', answer: '', type: 'freeText' },
+        // '16': { question: 'What languages are currently spoken in your home?', answer: '', type: 'textfield' },
     },
-
     game_state: {
         end: false,
         started: false,

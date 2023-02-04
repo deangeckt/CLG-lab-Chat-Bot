@@ -3,15 +3,12 @@ import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { Rating } from '@material-ui/lab';
-import { UserSurveyQuestion } from '../Wrapper';
+import { IQuestionInterface } from '../Wrapper';
 
-export interface IQuestionInterface {
-    meta: UserSurveyQuestion;
-    id: string;
-}
-
-function DiSliderQuestion(data: IQuestionInterface): JSX.Element {
+function RatingQuestion(data: IQuestionInterface): JSX.Element {
     const { state, setState } = useContext(AppContext);
+    const left_caption = data.meta.sliderLeftText ? data.meta.sliderLeftText : 'not at all likely';
+    const right_caption = data.meta.slideRightText ? data.meta.slideRightText : 'extremely likel';
 
     const simple_set = (val: number | null) => {
         if (val == null) return;
@@ -30,7 +27,7 @@ function DiSliderQuestion(data: IQuestionInterface): JSX.Element {
 
             <Typography component="legend">{data.meta.question}</Typography>
             <div className="SliderQuestionRate">
-                <Typography variant="caption">not at all likely</Typography>
+                <Typography variant="caption">{left_caption}</Typography>
                 <Rating
                     style={{ marginLeft: '8px', marginRight: '8px' }}
                     name={data.meta.question}
@@ -39,10 +36,10 @@ function DiSliderQuestion(data: IQuestionInterface): JSX.Element {
                         simple_set(newValue);
                     }}
                 />
-                <Typography variant="caption">extremely likely</Typography>
+                <Typography variant="caption">{right_caption}</Typography>
             </div>
         </div>
     );
 }
 
-export default DiSliderQuestion;
+export default RatingQuestion;

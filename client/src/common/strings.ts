@@ -11,6 +11,8 @@ export const end_page_group_1_str = 'Task Enjoyment and Success:';
 export const end_page_group_2_str = 'Partner Evaluation:';
 export const end_page_group_3_str = 'Partner Evaluation, Continued:';
 export const end_page_group_4_str = 'Basic Demographic Questions:';
+export const end_page_group_5_str = 'Native Language Information:';
+export const end_page_group_6_str = 'Second Language Information';
 
 export const bot_welcome_str = 'Welcome!';
 
