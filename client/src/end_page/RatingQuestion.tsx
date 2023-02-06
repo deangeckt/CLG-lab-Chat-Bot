@@ -8,7 +8,7 @@ import { IQuestionInterface } from '../Wrapper';
 function RatingQuestion(data: IQuestionInterface): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const left_caption = data.meta.sliderLeftText ? data.meta.sliderLeftText : 'not at all likely';
-    const right_caption = data.meta.slideRightText ? data.meta.slideRightText : 'extremely likel';
+    const right_caption = data.meta.slideRightText ? data.meta.slideRightText : 'extremely likely';
 
     const simple_set = (val: number | null) => {
         if (val == null) return;
@@ -30,7 +30,7 @@ function RatingQuestion(data: IQuestionInterface): JSX.Element {
                 <Typography variant="caption">{left_caption}</Typography>
                 <Rating
                     style={{ marginLeft: '8px', marginRight: '8px' }}
-                    name={data.meta.question}
+                    name={data.id}
                     value={state.user_survey[data.id].answer as number}
                     onChange={(event, newValue) => {
                         simple_set(newValue);

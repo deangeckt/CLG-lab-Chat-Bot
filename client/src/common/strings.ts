@@ -13,6 +13,7 @@ export const end_page_group_3_str = 'Partner Evaluation, Continued:';
 export const end_page_group_4_str = 'Basic Demographic Questions:';
 export const end_page_group_5_str = 'Native Language Information:';
 export const end_page_group_6_str = 'Second Language Information';
+export const end_page_group_7_str = 'Language Switching Information';
 
 export const bot_welcome_str = 'Welcome!';
 
