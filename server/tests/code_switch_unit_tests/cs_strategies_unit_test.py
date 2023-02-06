@@ -8,6 +8,7 @@ from code_switch.strategies.spanish_only_strategy import SpanishOnlyStrategy
 from code_switch.strategies.random_strategy import RandomStrategy
 from code_switch.strategies.goldfish_strategy import GoldfishStrategy
 from code_switch.strategies.tit_for_tat_strategy import TitForTatStrategy
+from code_switch.strategies.divergence_strategy import DivergenceStrategy
 
 cs_params = {
 			"EN": CSOption(probability=0.7,
@@ -35,34 +36,20 @@ cs_params = {
 							transitions={'EN': 0.1, 'EL': 0.1,'ET': 0.1, 'EP': 0.1, 'SP': 0.1, 'SL': 0.1, 'ST': 0.1},
 							r=[0, 0.8, 0.15, 0.5])
 		}
-rs = RandomStrategy(cs_params)
-gs = GoldfishStrategy(cs_params)
-ts = TitForTatStrategy(cs_params)
-eos = EnglishOnlyStrategy()
-sos = SpanishOnlyStrategy()
 
-for _ in range(3):
-	cs = rs.predict_next_cs_level()
-	print(cs)
+strategies = \
+	{"Random": RandomStrategy,
+	 "Goldfish": GoldfishStrategy,
+	 "Tit-For-Tat": TitForTatStrategy,
+	 "English-Only": EnglishOnlyStrategy,
+	 "Spanish-Only": SpanishOnlyStrategy,
+	 "Divergence": DivergenceStrategy
+	 }
 
-
-cs = None
-for _ in range(3):
-	cs = gs.predict_next_cs_level(cs)
-	print(cs)
-
-cs = None
-for _ in range(3):
-	cs = ts.predict_next_cs_level(cs)
-	print(cs)
-
-
-cs = None
-for _ in range(3):
-	cs = eos.predict_next_cs_level(cs)
-	print(cs)
-
-cs = None
-for _ in range(3):
-	cs = sos.predict_next_cs_level(cs)
-	print(cs)
+for strategy_name, strategy_object in strategies.items():
+	cs = None
+	current_stragtegy = strategy_object(cs_params) # class init
+	print(strategy_name + " Strategy:")
+	for _ in range(10):
+		cs = current_stragtegy.predict_next_cs_level(cs)
+		print(cs)
