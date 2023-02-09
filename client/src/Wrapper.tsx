@@ -21,6 +21,7 @@ export interface UserSurveyQuestion {
     selectOptions?: string[];
     isStyleHoriz?: boolean;
     questionCont?: string;
+    not_applicable?: boolean;
 }
 
 export interface IQuestionInterface {
@@ -426,6 +427,113 @@ export const init_app_state: IAppState = {
                 'Have you ever lived in a home environment or country where your second language was spoken? If so, please explain briefly:',
             answer: null,
             type: 'textfield',
+        },
+        '45': {
+            question:
+                'On a day-to-day basis, how likely are you to have a conversation using both your first and second languages?',
+            answer: null,
+            type: 'rating',
+            not_applicable: true,
+        },
+        '46': {
+            hintAbove: 'How likely would you be to mix languages in the following contexts?',
+            question: 'At work',
+            answer: null,
+            type: 'rating',
+            not_applicable: true,
+        },
+        '47': {
+            question: 'At home',
+            answer: null,
+            type: 'rating',
+            not_applicable: true,
+        },
+        '48': {
+            question: 'Interacting with friends',
+            answer: null,
+            type: 'rating',
+            not_applicable: true,
+        },
+        '49': {
+            question: 'Interacting with family',
+            answer: null,
+            type: 'rating',
+            not_applicable: true,
+        },
+        '50': {
+            question: 'Using social media',
+            answer: null,
+            type: 'rating',
+            not_applicable: true,
+        },
+        '51': {
+            hintAbove: 'When you switch languages, how often is it for the following reasons?',
+            question: "To accommodate people who don't share the same language or language fluency.",
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'never',
+            slideRightText: 'always',
+            not_applicable: true,
+        },
+        '52': {
+            question: 'For social reasons; one language feels more appropriate.',
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'never',
+            slideRightText: 'always',
+            not_applicable: true,
+        },
+        '53': {
+            question: "I can't think of a word in the current language.",
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'never',
+            slideRightText: 'always',
+            not_applicable: true,
+        },
+        '54': {
+            question: 'The word in the other language just fits better.',
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'never',
+            slideRightText: 'always',
+            not_applicable: true,
+        },
+        '55': {
+            question: "It's an accident, or I don't realize I'm doing it.",
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'never',
+            slideRightText: 'always',
+            not_applicable: true,
+        },
+        '56': {
+            question: "I'm more comfortable discussing the topic in the other language.",
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'never',
+            slideRightText: 'always',
+            not_applicable: true,
+        },
+        '57': {
+            question: 'Do you enjoy mixing languages in conversation?',
+            answer: null,
+            type: 'rating',
+            sliderLeftText: 'not at all',
+            slideRightText: 'yes very much',
+            not_applicable: true,
+        },
+        '58': {
+            question: 'What do you think when others mix languages in conversation? Please explain:',
+            answer: null,
+            type: 'textfield',
+            not_applicable: true,
+        },
+        '59': {
+            question: 'Any final comments about your language background?',
+            answer: null,
+            type: 'textfield',
+            not_applicable: true,
         },
     },
     game_state: {

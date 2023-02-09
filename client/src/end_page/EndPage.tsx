@@ -35,7 +35,7 @@ function EndPage(): JSX.Element {
         end_page_group_4_str,
         end_page_group_5_str,
         end_page_group_6_str,
-        // end_page_group_7_str,
+        end_page_group_7_str,
     ];
     survey_groups.push(Object.keys(state.user_survey).slice(0, 4));
     survey_groups.push(Object.keys(state.user_survey).slice(4, 12));
@@ -43,6 +43,7 @@ function EndPage(): JSX.Element {
     survey_groups.push(Object.keys(state.user_survey).slice(14, 23));
     survey_groups.push(Object.keys(state.user_survey).slice(23, 33));
     survey_groups.push(Object.keys(state.user_survey).slice(33, 45));
+    survey_groups.push(Object.keys(state.user_survey).slice(45, 61));
 
     useEffect(() => {
         if (state.game_config.game_mode != 'human') return;
