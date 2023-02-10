@@ -73,11 +73,18 @@ export const register = async (mode: gameMode, update: Function, map_index: numb
 export const upload = async (state: IAppState, update: Function) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { game_state, ...all } = state;
+        const { game_state, user_survey, ...all } = state;
+        const user_survey_simpler = Object.keys(user_survey).map((key) => {
+            const q_obj = user_survey[key];
+            const q = q_obj.question_ref
+                ? `${user_survey[q_obj.question_ref].hintAbove} ${q_obj.question}`
+                : q_obj.question;
+            return { answer: user_survey[key].answer, question: q };
+        });
         (await axios.request({
             url: baseUrl + 'upload',
             method: 'POST',
-            data: { ...all, guid: all.game_config.guid, time: game_state.game_time },
+            data: { ...all, guid: all.game_config.guid, time: game_state.game_time, user_survery: user_survey_simpler },
         })) as AxiosResponse;
         update();
         console.log('uploaded successfully');
