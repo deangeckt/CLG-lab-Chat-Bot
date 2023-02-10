@@ -16,6 +16,7 @@ export interface UserSurveyQuestion {
     isStyleHoriz?: boolean;
     questionCont?: string;
     not_applicable?: boolean;
+    question_ref?: string;
 }
 
 export interface IQuestionInterface {
@@ -188,26 +189,31 @@ export const init_app_state: IAppState = {
             question: 'friendly',
             answer: null,
             type: 'rating',
+            question_ref: '7',
         },
         '8': {
             question: 'smart',
             answer: null,
             type: 'rating',
+            question_ref: '7',
         },
         '9': {
             question: 'collaborative',
             answer: null,
             type: 'rating',
+            question_ref: '7',
         },
         '10': {
             question: 'honest',
             answer: null,
             type: 'rating',
+            question_ref: '7',
         },
         '11': {
             question: 'funny',
             answer: null,
             type: 'rating',
+            question_ref: '7',
         },
         '12': {
             question: 'How likely do you think it was that you were talking to a chatbot rather than a human?',
@@ -299,6 +305,7 @@ export const init_app_state: IAppState = {
             type: 'rating',
             sliderLeftText: 'no knowledge at all',
             slideRightText: 'perfect, like a native speaker',
+            question_ref: '24',
         },
         '25': {
             question: 'Writing',
@@ -306,6 +313,7 @@ export const init_app_state: IAppState = {
             type: 'rating',
             sliderLeftText: 'no knowledge at all',
             slideRightText: 'perfect, like a native speaker',
+            question_ref: '24',
         },
         '26': {
             question: 'Speaking',
@@ -313,6 +321,7 @@ export const init_app_state: IAppState = {
             type: 'rating',
             sliderLeftText: 'no knowledge at all',
             slideRightText: 'perfect, like a native speaker',
+            question_ref: '24',
         },
         '27': {
             question: 'Listening',
@@ -320,32 +329,38 @@ export const init_app_state: IAppState = {
             type: 'rating',
             sliderLeftText: 'no knowledge at all',
             slideRightText: 'perfect, like a native speaker',
+            question_ref: '24',
         },
         '28': {
             hintAbove: 'Please rate how likely you are to use your first language in the following contexts:',
             question: 'At work',
             answer: null,
             type: 'rating',
+            question_ref: '28',
         },
         '29': {
             question: 'At home',
             answer: null,
             type: 'rating',
+            question_ref: '28',
         },
         '30': {
             question: 'Interacting with friends',
             answer: null,
             type: 'rating',
+            question_ref: '28',
         },
         '31': {
             question: 'Interacting with family',
             answer: null,
             type: 'rating',
+            question_ref: '28',
         },
         '32': {
             question: 'Entertainment (TV series, music, etc.)',
             answer: null,
             type: 'rating',
+            question_ref: '28',
         },
         '33': {
             question: 'Enter your most proficient second language here:',
@@ -359,6 +374,7 @@ export const init_app_state: IAppState = {
             type: 'rating',
             sliderLeftText: 'no knowledge at all',
             slideRightText: 'perfect, like a native speaker',
+            question_ref: '34',
         },
         '35': {
             question: 'Writing',
@@ -366,6 +382,7 @@ export const init_app_state: IAppState = {
             type: 'rating',
             sliderLeftText: 'no knowledge at all',
             slideRightText: 'perfect, like a native speaker',
+            question_ref: '34',
         },
         '36': {
             question: 'Speaking',
@@ -373,6 +390,7 @@ export const init_app_state: IAppState = {
             type: 'rating',
             sliderLeftText: 'no knowledge at all',
             slideRightText: 'perfect, like a native speaker',
+            question_ref: '34',
         },
         '37': {
             question: 'Listening',
@@ -380,6 +398,7 @@ export const init_app_state: IAppState = {
             type: 'rating',
             sliderLeftText: 'no knowledge at all',
             slideRightText: 'perfect, like a native speaker',
+            question_ref: '34',
         },
         '38': {
             question: 'Approximately what age did you begin learning your second language?',
@@ -393,26 +412,31 @@ export const init_app_state: IAppState = {
             question: 'At work',
             answer: null,
             type: 'rating',
+            question_ref: '39',
         },
         '40': {
             question: 'At home',
             answer: null,
             type: 'rating',
+            question_ref: '39',
         },
         '41': {
             question: 'Interacting with friends',
             answer: null,
             type: 'rating',
+            question_ref: '39',
         },
         '42': {
             question: 'Interacting with family',
             answer: null,
             type: 'rating',
+            question_ref: '39',
         },
         '43': {
             question: 'Entertainment (TV series, music, etc.)',
             answer: null,
             type: 'rating',
+            question_ref: '39',
         },
         '44': {
             question:
@@ -433,30 +457,35 @@ export const init_app_state: IAppState = {
             answer: null,
             type: 'rating',
             not_applicable: true,
+            question_ref: '46',
         },
         '47': {
             question: 'At home',
             answer: null,
             type: 'rating',
             not_applicable: true,
+            question_ref: '46',
         },
         '48': {
             question: 'Interacting with friends',
             answer: null,
             type: 'rating',
             not_applicable: true,
+            question_ref: '46',
         },
         '49': {
             question: 'Interacting with family',
             answer: null,
             type: 'rating',
             not_applicable: true,
+            question_ref: '46',
         },
         '50': {
             question: 'Using social media',
             answer: null,
             type: 'rating',
             not_applicable: true,
+            question_ref: '46',
         },
         '51': {
             hintAbove: 'When you switch languages, how often is it for the following reasons?',
@@ -466,6 +495,7 @@ export const init_app_state: IAppState = {
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
+            question_ref: '51',
         },
         '52': {
             question: 'For social reasons; one language feels more appropriate.',
@@ -474,6 +504,7 @@ export const init_app_state: IAppState = {
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
+            question_ref: '51',
         },
         '53': {
             question: "I can't think of a word in the current language.",
@@ -482,6 +513,7 @@ export const init_app_state: IAppState = {
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
+            question_ref: '51',
         },
         '54': {
             question: 'The word in the other language just fits better.',
@@ -490,6 +522,7 @@ export const init_app_state: IAppState = {
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
+            question_ref: '51',
         },
         '55': {
             question: "It's an accident, or I don't realize I'm doing it.",
@@ -498,6 +531,7 @@ export const init_app_state: IAppState = {
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
+            question_ref: '51',
         },
         '56': {
             question: "I'm more comfortable discussing the topic in the other language.",
@@ -506,6 +540,7 @@ export const init_app_state: IAppState = {
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
+            question_ref: '51',
         },
         '57': {
             question: 'Do you enjoy mixing languages in conversation?',
