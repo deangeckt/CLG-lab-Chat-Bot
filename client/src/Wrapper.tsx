@@ -2,12 +2,6 @@ import React, { useState } from 'react';
 import { AppContext } from './AppContext';
 import { game_over_modal_str } from './common/strings';
 
-export interface UserMetadata {
-    name: string;
-    age: string;
-    gender: string;
-}
-
 export type UserSurveyType = 'rating' | 'textfield' | 'select';
 
 export interface UserSurveyQuestion {
@@ -51,7 +45,7 @@ export interface MapMetadata {
 }
 
 export type gameMode = 'bot' | 'human';
-export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map' | 'fill_details' | 'err';
+export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map' | 'err';
 export type gameRole = number;
 export interface Dictionary {
     [Key: number]: string;
@@ -86,7 +80,6 @@ export interface IAppState {
     chat: ChatMsg[];
     map_metadata: MapMetadata;
     user_map_path: MapCellIdx[];
-    user_metadata: UserMetadata;
     user_survey: UserSurvey;
     game_state: GameState;
     game_config: GameConfig;
@@ -159,7 +152,6 @@ export const maps: MapMetadata[] = [
 
 export const init_app_state: IAppState = {
     chat: [],
-    user_metadata: { name: '', age: '', gender: 'Male' },
     map_metadata: maps[0],
     user_map_path: [],
     user_survey: {

@@ -4,7 +4,6 @@ export const nav_end_model_str = 'Congratulations! you found the last object';
 export const game_over_modal_str = 'Game is over';
 
 export const home_page_title1 = 'Welcome to CLG map task';
-export const home_page_form_title1 = 'Fill in your details please';
 
 export const end_page_title1_str = 'Thank you for participating, please answer the following:';
 export const end_page_group_1_str = 'Task Enjoyment and Success:';

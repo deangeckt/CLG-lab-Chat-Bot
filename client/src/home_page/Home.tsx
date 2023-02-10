@@ -4,7 +4,6 @@ import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import Header from '../common/Header';
-import Form from './Form';
 import { main_blue } from '../common/colors';
 import { useHome } from './useHome';
 import { maps } from '../Wrapper';
@@ -23,7 +22,6 @@ function Home(): JSX.Element {
                 <Typography variant="h4" style={{ marginTop: '16px', marginBottom: '16px' }}>
                     {home_page_title1}
                 </Typography>
-                {state.game_config.registerd == 'fill_details' ? <Form /> : null}
                 {state.game_config.registerd == 'err' ? (
                     <Typography variant="h5" style={{ margin: '16px' }}>
                         An errur occured, please try again later

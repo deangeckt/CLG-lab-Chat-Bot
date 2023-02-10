@@ -60,15 +60,15 @@ function EndPage(): JSX.Element {
     useEffect(() => {
         const answers = Object.keys(state.user_survey).map((key) => state.user_survey[key].answer);
         const notFinished = answers.some((ans) => ans == '' || ans == null);
-        // setFinish(!notFinished);
+        setFinish(!notFinished);
     }, [state]);
 
     const send = () => {
-        // upload(state, () => {
-        //     SetReg('done');
-        // });
-        // SetReg('loading');
-        console.log(state.user_survey);
+        upload(state, () => {
+            SetReg('done');
+        });
+        SetReg('loading');
+        // console.log(state.user_survey);
     };
 
     return (
