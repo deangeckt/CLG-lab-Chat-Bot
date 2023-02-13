@@ -1,9 +1,9 @@
 import os
 os.chdir('../../code_switch')
 
-from code_switch.code_switch_unit import CodeSwitchUnit, DEFAULT_CS_PARAMS
+from code_switch.code_switch_unit import CodeSwitchUnit
 
-strategy = 'tit_for_tat'
+strategy = 'random'
 
 csu = CodeSwitchUnit(strategy)
 

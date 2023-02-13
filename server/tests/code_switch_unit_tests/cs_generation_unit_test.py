@@ -1,4 +1,5 @@
 import os
+
 os.chdir('../../code_switch')
 
 import json
@@ -12,7 +13,12 @@ from code_switch.generation.st_generation import STGeneration
 from code_switch.generation.sl_generation import SLGeneration
 from code_switch.generation.sp_generation import SPGeneration
 
+from tests.val_test import translate_to_en_mock, translate_to_sp_mock
+
 from google_cloud.translate import Translate
+
+Translate.__wrapped__.translate_to_eng = lambda self, user_msg: translate_to_en_mock(user_msg)
+Translate.__wrapped__.translate_to_spa = lambda self, en_msg: translate_to_sp_mock(en_msg)
 
 translate = Translate()
 
