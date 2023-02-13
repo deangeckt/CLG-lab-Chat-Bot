@@ -1,9 +1,9 @@
 import random
 
-from code_switch.strategies.cs_strategies import CSStrategy, CSParameters, DEFAULT_CS_PARAMS
+from code_switch.strategies.cs_strategies import CSStrategy, CSParameters
 
 class DivergenceStrategy(CSStrategy):
-	def __init__(self, cs_params: CSParameters=DEFAULT_CS_PARAMS):
+	def __init__(self, cs_params: CSParameters):
 		CSStrategy.__init__(self, cs_params)
 		self.cs_levels = list(self.cs_params.keys())
 		self.probabilities = [self.cs_params[cs_level].probability for cs_level in self.cs_levels]

@@ -10,7 +10,6 @@ from code_switch.strategies.english_only_strategy import EnglishOnlyStrategy
 from code_switch.strategies.spanish_only_strategy import SpanishOnlyStrategy
 from code_switch.strategies.goldfish_strategy import GoldfishStrategy
 from code_switch.strategies.tit_for_tat_strategy import TitForTatStrategy
-from code_switch.strategies.cs_strategies import DEFAULT_CS_PARAMS
 
 from code_switch.generation.en_generation import ENGeneration
 from code_switch.generation.et_generation import ETGeneration
@@ -32,11 +31,11 @@ class CodeSwitchUnit:
 		self.cs_strategy = cs_strategy
 		self.default_lang = 'EN'
 		self.user_msg = None
-		self.strategy = {'goldfish': GoldfishStrategy(DEFAULT_CS_PARAMS),
-						 'random': RandomStrategy(DEFAULT_CS_PARAMS),
-						 'tit_for_tat': TitForTatStrategy(DEFAULT_CS_PARAMS),
-						 'english_only': EnglishOnlyStrategy(DEFAULT_CS_PARAMS),
-						 'spanish_only': SpanishOnlyStrategy(DEFAULT_CS_PARAMS)
+		self.strategy = {'goldfish': GoldfishStrategy(),
+						 'random': RandomStrategy(),
+						 'tit_for_tat': TitForTatStrategy(),
+						 'english_only': EnglishOnlyStrategy(),
+						 'spanish_only': SpanishOnlyStrategy()
 						}
 
 		self.translate = Translate()

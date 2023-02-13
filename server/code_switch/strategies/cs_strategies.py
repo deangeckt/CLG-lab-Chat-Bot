@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Union
 
 @dataclass()
 class CSOption:
@@ -38,11 +39,11 @@ DEFAULT_CS_PARAMS = {
 							r=[0, 0.8, 0.15, 0.5])
 		}
 class CSStrategy(ABC):
-	def __init__(self, cs_params: CSParameters):
+	def __init__(self, cs_params: CSParameters=DEFAULT_CS_PARAMS):
 		self.cs_params = cs_params
 
 	@abstractmethod
-	def predict_next_cs_level(self, current_cs_state: str)-> str:
+	def predict_next_cs_level(self, current_cs_state: Union[str, None])-> str:
 		"""
 		This function predicts the next cs level according to the strategy (and cs history in the dialogue etc.)
 		@param current_cs_state: last cs level that appeared in the dialogue
