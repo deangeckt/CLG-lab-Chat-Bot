@@ -2,7 +2,6 @@
     text-align: center;
     display: flex;
     width: 100vw;
-    /* height: 100vh; */
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -25,20 +24,22 @@
     display: flex;
     flex-direction: column;
     margin: 24px;
-    border-bottom: 1px solid;
+    padding: 24px;
   }
 
   .SliderQuestionGroup {
-    margin: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
   }
 
   .SliderQuestionRate {
     margin-top: 8px;;
     display: flex;
     justify-content: center;
+    width: 50%;
   }
 
   .SliderQuestionSlider {
@@ -49,10 +50,10 @@
   }
 
   .QuestionGroup {
-    margin: 16px;
+    margin-top: 16px;
+    margin-bottom: 16px;
     display: flex;
-    flex-direction: column;
     width: 100%;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
   }

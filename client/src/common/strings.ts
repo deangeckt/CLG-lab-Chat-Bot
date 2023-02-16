@@ -5,25 +5,23 @@ export const game_over_modal_str = 'Game is over';
 
 export const home_page_title1 = 'Welcome to CLG map task';
 
-export const end_page_title1_str = 'Thank you for participating, please answer the following:';
-export const end_page_group_1_str = 'Task Enjoyment and Success:';
-export const end_page_group_2_str = 'Partner Evaluation:';
-export const end_page_group_3_str = 'Partner Evaluation, Continued:';
-export const end_page_group_4_str = 'Basic Demographic Questions:';
-export const end_page_group_5_str = 'Native Language Information:';
+export const end_page_title1_str = 'Thank you for participating, please answer the following';
+export const end_page_group_1_str = 'Task Enjoyment and Success';
+export const end_page_group_2_str = 'Partner Evaluation';
+export const end_page_group_3_str = 'Partner Evaluation, Continued';
+export const end_page_group_4_str = 'Basic Demographic Questions';
+export const end_page_group_5_str = 'Native Language Information';
 export const end_page_group_6_str = 'Second Language Information';
 export const end_page_group_7_str = 'Language Switching Information';
 
 export const bot_welcome_str = 'Welcome!';
 
-export const nav_sub_title_str = 'This is a navigation game, and your role is the';
+export const nav_sub_title_str =
+    'Thanks for your participation! You’ll be working with a partner to either give or receive directions on a map, all using written text.';
 export const nav_instructions_str = [
-    'You have to navigate towards one of the objects in the map, following a specific path (that we do not reveal to you).',
-    "To learn the path, you have to chat with the game instructor. Don't hesitate to ask questions!",
-    'In order to navigate on the map, you can either use arrow keys on your keyboard or the mouse: just click on the purple dots.',
-];
-
-export const ins_instructions_str = [
-    'You have to instruct the naviagator to follow the path - that is only visable to you.',
-    'Use the chat to answer any questions the naviagator has.',
+    'You and your partner have been given the same map, the only difference is that one of you will have a route traced on the map (a path from ✕ to ✓), and the other will have the map without a route.',
+    'If there is a route drawn on your map, you’ll be giving directions to your partner. Your partner will trace the route according to what you tell them. You can communicate with your partner as much as you would like using the chat.',
+    "Don't hesitate to ask questions!",
+    'To move around on the map, you can either use arrow keys on your keyboard or the mouse,  just click on the purple dots.',
+    'Thanks and best of luck! 🙂',
 ];

@@ -25,7 +25,7 @@ import './EndPage.css';
 function EndPage(): JSX.Element {
     const { state, setState } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
-    const [finish, setFinish] = useState(true);
+    const [currGroup, SetCurrGroup] = useState(0);
 
     const survey_groups: string[][] = [];
     const survey_groups_titles: string[] = [
@@ -57,57 +57,85 @@ function EndPage(): JSX.Element {
         localStorage.removeItem('state');
     }, []);
 
-    useEffect(() => {
-        const answers = Object.keys(state.user_survey).map((key) => state.user_survey[key].answer);
-        const notFinished = answers.some((ans) => ans == '' || ans == null);
-        setFinish(!notFinished);
-    }, [state]);
-
-    const send = () => {
-        upload(state, () => {
-            SetReg('done');
+    const scroll_begin = () => {
+        const tr = document.getElementById('container');
+        if (!tr) return;
+        tr.scrollTo({
+            top: 0,
+            behavior: 'smooth',
         });
-        SetReg('loading');
+    };
+
+    const next = () => {
         // console.log(state.user_survey);
+        scroll_begin();
+        if (currGroup == survey_groups.length - 1) {
+            upload(state, () => {
+                SetReg('done');
+            });
+            SetReg('loading');
+        } else {
+            SetCurrGroup(currGroup + 1);
+        }
+    };
+
+    const back = () => {
+        scroll_begin();
+        if (currGroup == 0) return;
+        SetCurrGroup(currGroup - 1);
     };
 
     return (
         <div className="End">
             <Header />
-            <div className="End_Container">
+            <div className="End_Container" id="container">
                 {reg == 'not_sent' ? (
                     <>
                         <Typography style={{ marginTop: '16px' }} variant="h4">
                             {end_page_title1_str}
                         </Typography>
-                        {survey_groups.map((group, index) => (
-                            <div className="Group" key={index}>
-                                <>
-                                    <Typography variant="h5">{survey_groups_titles[index]}</Typography>
-                                    {group.map(function (key) {
-                                        const t = state.user_survey[key].type;
-                                        if (t == 'rating')
-                                            return <RatingQuestion meta={state.user_survey[key]} id={key} key={key} />;
-                                        else if (t == 'textfield')
-                                            return (
-                                                <TextFieldQuestion meta={state.user_survey[key]} id={key} key={key} />
-                                            );
-                                        else if (t == 'select')
-                                            return <SelectQuestion meta={state.user_survey[key]} id={key} key={key} />;
-                                    })}
-                                </>
-                            </div>
-                        ))}
-
-                        <Button
-                            disabled={!finish}
-                            style={{ textTransform: 'none', marginBottom: '16px' }}
-                            variant="outlined"
-                            color="primary"
-                            onClick={send}
-                        >
-                            Send
-                        </Button>
+                        <div className="Group">
+                            <Typography variant="h5" style={{ marginBottom: '32px' }}>
+                                {survey_groups_titles[currGroup]}
+                            </Typography>
+                            {survey_groups[currGroup].map(function (key) {
+                                const t = state.user_survey[key].type;
+                                if (t == 'rating')
+                                    return <RatingQuestion meta={state.user_survey[key]} id={key} key={key} />;
+                                else if (t == 'textfield')
+                                    return <TextFieldQuestion meta={state.user_survey[key]} id={key} key={key} />;
+                                else if (t == 'select')
+                                    return <SelectQuestion meta={state.user_survey[key]} id={key} key={key} />;
+                            })}
+                        </div>
+                        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+                            <Button
+                                disabled={currGroup == 0}
+                                style={{
+                                    textTransform: 'none',
+                                    marginLeft: '16px',
+                                    marginBottom: '16px',
+                                }}
+                                className="nav_btn"
+                                variant="outlined"
+                                color="primary"
+                                onClick={back}
+                            >
+                                Back
+                            </Button>
+                            <Button
+                                style={{
+                                    textTransform: 'none',
+                                    marginRight: '16px',
+                                    marginBottom: '16px',
+                                }}
+                                variant="outlined"
+                                color="primary"
+                                onClick={next}
+                            >
+                                {currGroup == survey_groups.length - 1 ? 'Finish' : 'Next'}
+                            </Button>
+                        </div>
                     </>
                 ) : null}
                 {reg == 'loading' ? (

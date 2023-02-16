@@ -15,16 +15,26 @@ function TextFieldQuestion(data: IQuestionInterface): JSX.Element {
     };
 
     return (
-        <div className="QuestionGroup" style={{ flexDirection: data.meta.isStyleHoriz ? 'row' : 'column' }}>
-            <Typography component="legend">{data.meta.question}</Typography>
-            {data.meta.questionCont ? <Typography variant="caption">{data.meta.questionCont}</Typography> : null}
+        <div className="QuestionGroup">
+            <div style={{ width: '50%', display: 'flex', flexDirection: 'column' }}>
+                <Typography component="legend" align="left">
+                    {data.meta.question}
+                </Typography>
+                {data.meta.questionCont ? (
+                    <Typography variant="caption" align="left">
+                        {data.meta.questionCont}
+                    </Typography>
+                ) : null}
+            </div>
+
             <TextField
-                style={{ width: '25%', margin: '8px' }}
+                style={{ width: '50%' }}
                 id={data.id}
                 label="type here"
                 variant="outlined"
                 onChange={(event) => simple_set(event)}
                 type={data.meta.numberText ? 'number' : undefined}
+                value={state.user_survey[data.id].answer}
             />
         </div>
     );

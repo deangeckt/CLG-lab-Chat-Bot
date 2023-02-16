@@ -15,16 +15,17 @@ function SelectQuestion(data: IQuestionInterface): JSX.Element {
     };
 
     return (
-        <div className="QuestionGroup" style={{ flexDirection: data.meta.isStyleHoriz ? 'row' : 'column' }}>
-            <Typography style={{ margin: '8px' }} component="legend">
+        <div className="QuestionGroup">
+            <Typography style={{ width: '50%' }} component="legend" align="left">
                 {data.meta.question}
             </Typography>
             <TextField
+                style={{ width: '50%' }}
                 onChange={(event) => simple_set(event)}
                 id={data.id}
                 select
                 label="Select"
-                defaultValue={data.meta.selectOptions![0]}
+                value={state.user_survey[data.id].answer}
             >
                 {data.meta.selectOptions!.map((option) => (
                     <MenuItem key={option} value={option}>
