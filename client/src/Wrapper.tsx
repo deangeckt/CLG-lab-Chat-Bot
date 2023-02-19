@@ -275,7 +275,7 @@ export const init_app_state: IAppState = {
             isStyleHoriz: true,
         },
         '17': {
-            question: 'Place of current resident:',
+            question: 'Place of current residence:',
             answer: '',
             type: 'textfield',
             isStyleHoriz: true,
@@ -430,6 +430,7 @@ export const init_app_state: IAppState = {
         },
         '38': {
             question: 'Approximately what age did you begin learning your second language?',
+            questionCont: "If the answer is “since birth”, enter '0'",
             answer: '',
             type: 'textfield',
             numberText: true,
@@ -601,7 +602,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.4.1_e',
+    clinet_version: '1.4.2_e',
     server_version: '',
 };
 
