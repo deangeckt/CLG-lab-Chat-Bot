@@ -43,16 +43,26 @@ export function useChat() {
         if (state.game_config.game_mode == 'bot') {
             setBotType(true);
             const curr_cell = state.user_map_path[state.user_map_path.length - 1];
-            callBot(state.game_config.guid, inputTxt, curr_cell, state.map_metadata.map_idx, addBotMsg);
+            callBot(
+                state.game_config.guid,
+                inputTxt,
+                curr_cell,
+                state.map_metadata.map_idx,
+                state.game_config.game_role,
+                addBotMsg,
+            );
         } else {
             callHuman(state.game_config.guid, selfChatMsg);
         }
     };
 
-    const addBotMsg = (msgs: string[]) => {
+    const addBotMsg = (data: any) => {
+        const msgs: string[] = data.res;
+        const is_finish = data.is_finish;
         const chatMsgs = msgs.map((msg) => ({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() }));
         updateChatState(chatMsgs);
         setBotType(false);
+        if (is_finish) open_ending_modal(hh_end_modal_str);
     };
 
     const addOtherHumanMsg = (guid: string, msg: ChatMsg, other_finished: boolean) => {

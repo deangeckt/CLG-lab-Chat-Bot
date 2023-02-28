@@ -80,6 +80,7 @@ class HumanServer:
             combined_data['navigator_survey'] = navigator_data['user_survey']
             combined_data['user_map_path'] = navigator_data['user_map_path']
 
+            # TODO: align to new schema
             combined_data['instructor_metadata'] = instructor_data['user_metadata']
             combined_data['instructor_survey'] = instructor_data['user_survey']
 

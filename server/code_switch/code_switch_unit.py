@@ -1,7 +1,6 @@
 import random
 from dataclasses import dataclass
 from typing import List
-from google_cloud.database import Database
 from google_cloud.translate import Translate
 import langid
 from code_switch.utils import hazard
@@ -35,7 +34,6 @@ class CodeSwitchUnit:
                         }
 
         self.translate = Translate()
-        self.database = Database()
         self.translation = {'en': lambda x: x,
                             'es': self.translate.translate_to_spa}
 
@@ -44,7 +42,7 @@ class CodeSwitchUnit:
         self.current_cs_state = None
         self.len_of_current_subsequence = 1
 
-    def call(self, guid: str, user_msg: str, en_bot_resp: List[str]) -> List[str]:
+    def call(self, user_msg: str, en_bot_resp: List[str]) -> List[str]:
         """
         param guid: id of the session
         param user_msg: last user chat message in spanglish
@@ -54,14 +52,16 @@ class CodeSwitchUnit:
         self.user_msg = user_msg
         self.__identify_incoming_cs_state()
         resp = self.__generate_response(en_bot_resp)
-        self.database.save_cs_state(guid, self.cs_history, self.len_of_current_subsequence)
         return resp
 
-    def override_state_from_db(self, data: dict):
-        self.len_of_current_subsequence = data['len_of_current_subsequence']
-        self.cs_history = data['cs_history']
-        self.current_cs_state = self.cs_history[-1]
+    def db_push(self):
+        return {'cs_history': '_'.join(self.cs_history),
+                'len_of_current_subsequence': self.len_of_current_subsequence}
 
+    def db_load(self, data):
+        self.len_of_current_subsequence = data['len_of_current_subsequence']
+        self.cs_history = data['cs_history'].split('_')
+        self.current_cs_state = self.cs_history[-1]
 
     def __generate_response(self, en_bot_resp: List[str]) -> List[str]:
         spanglish_bot_response_list = []

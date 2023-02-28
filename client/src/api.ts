@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { ChatMsg, gameMode, gameRole, IAppState, MapCellIdx } from './Wrapper';
 
-export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/'; //'http://localhost:8080/api/v1/';
+export const baseUrl = 'http://localhost:8080/api/v1/';
+//export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
 
 export const huamn_to_human_event = async (guid: string, update: Function) => {
     const evtSource = new EventSource(baseUrl + `event?guid=${guid}`);
@@ -20,14 +21,21 @@ export const huamn_to_human_event = async (guid: string, update: Function) => {
     };
 };
 
-export const callBot = async (guid: string, msg: string, cell: MapCellIdx, map_index: number, update: Function) => {
+export const callBot = async (
+    guid: string,
+    msg: string,
+    cell: MapCellIdx,
+    map_index: number,
+    game_role: number,
+    update: Function,
+) => {
     try {
         const response = (await axios.request({
             url: baseUrl + 'call_bot',
             method: 'POST',
-            data: { guid, msg, map_index, state: cell },
+            data: { guid, msg, map_index, state: cell, game_role },
         })) as AxiosResponse;
-        update(response.data.res);
+        update(response.data);
     } catch (error: any) {
         update('Bot not connected');
     }
@@ -57,12 +65,12 @@ export const notifyHumanEnd = async (guid: string, id: gameRole) => {
     }
 };
 
-export const register = async (mode: gameMode, update: Function, map_index: number) => {
+export const register = async (mode: gameMode, map_index: number, game_role: number, update: Function) => {
     try {
         const response = (await axios.request({
             url: baseUrl + 'register',
             method: 'POST',
-            data: { mode, map_index },
+            data: { mode, map_index, game_role },
         })) as AxiosResponse;
         update(response.data, map_index);
     } catch (error: any) {

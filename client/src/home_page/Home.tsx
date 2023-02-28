@@ -12,7 +12,7 @@ import './Home.css';
 
 function Home(): JSX.Element {
     const { state } = useContext(AppContext);
-    const { set_register_state, map_chosen_click } = useHome();
+    const { set_register_state, map_chosen_click, set_game_role } = useHome();
 
     return (
         <div className="Home">
@@ -70,6 +70,33 @@ function Home(): JSX.Element {
                                 onClick={() => set_register_state('human')}
                             >
                                 Chat with a huamn
+                            </Button>
+                        </div>
+                    </div>
+                ) : null}
+                {state.game_config.game_role == -1 ? (
+                    <div style={{ width: '50%' }}>
+                        <Typography variant="h5" style={{ margin: '16px' }}>
+                            Choose Role
+                        </Typography>
+                        <div className="home_Register">
+                            <Button
+                                className="role_btn"
+                                style={{ textTransform: 'none' }}
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => set_game_role(0)}
+                            >
+                                Navigator
+                            </Button>
+                            <Button
+                                className="role_btn"
+                                style={{ textTransform: 'none' }}
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => set_game_role(1)}
+                            >
+                                Instructor
                             </Button>
                         </div>
                     </div>

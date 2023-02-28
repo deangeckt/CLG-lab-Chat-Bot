@@ -42,7 +42,7 @@ def db_mock():
 def run_mock_chat(strategy: str):
     Translate.__wrapped__.translate_to_eng = lambda self, user_msg: translate_to_en_mock(user_msg)
     Translate.__wrapped__.translate_to_spa = lambda self, en_msg: translate_to_sp_mock(en_msg)
-    Database.__wrapped__.save_cs_state = lambda self, g, x, y: db_mock()
+    Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
 
     print('strategy:', strategy)
     server = BotServer(cs_strategy=strategy)

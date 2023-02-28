@@ -2,9 +2,9 @@ import re
 import random
 from typing import Union
 
-from bots.rule_based.engage import engage_next
-from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
-from bots.rule_based.template_matchers.template_matcher_share import TemplateMatcherShare
+from bots.rule_based.instructor.engage import engage_next
+from bots.rule_based.instructor.template_matchers.template_matcher import TemplateMatcher
+from bots.rule_based.instructor.template_matchers.template_matcher_share import TemplateMatcherShare
 
 
 class GeneralInformation(TemplateMatcher):
@@ -34,8 +34,7 @@ class GeneralInformation(TemplateMatcher):
         if user_state is None:
             return
 
-        is_match = self.__is_match(user_msg)
-        if not is_match:
+        if not self.__is_match(user_msg):
             return None
 
         print('match: general matcher')

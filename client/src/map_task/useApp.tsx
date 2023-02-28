@@ -47,7 +47,7 @@ export function useApp() {
         }
         let chat = [...state.chat];
         if (game_config.game_mode == 'bot') {
-            chat = chat.concat([{ id: 1, msg: bot_welcome_str, timestamp: Date.now() }]);
+            chat = chat.concat([{ id: 1 - state.game_config.game_role, msg: bot_welcome_str, timestamp: Date.now() }]);
         }
         console.log(game_config);
 

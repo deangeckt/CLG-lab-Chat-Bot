@@ -1,30 +1,13 @@
 from typing import Union
-
-from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
+from bots.rule_based.instructor.template_matchers.template_matcher import TemplateMatcher
 import random
 import re
-
+from bots.rule_based.shared_utils import is_basic_greeting, is_how_are_you_greeting
 
 class Greetings(TemplateMatcher):
-    greeting_words = {'hi', 'hello', 'hey', 'hiya', 'howdy'}
     basic_options = ['hey there', 'hello there', 'hi', 'hey', 'hello']
     how_are_you_options = ['all well thank you!', 'very well thanks', "i'm good thank you"]
     lets_go_options = ['alright!']
-
-    def __is_basic_greeting(self, text):
-        for token in self.shared.tokenize(text):
-            if token in Greetings.greeting_words:
-                return True
-        return False
-
-    @staticmethod
-    def __is_how_are_you_greeting(text):
-        t = text.lower()
-        match = bool(re.match("(.*)(are you today)(.*)", t))
-        match |= bool(re.match("(.*)(how are you)(.*)", t))
-        match |= bool(re.match("(.*)(you doing)(.*)", t))
-        match |= bool(re.match("(.*)(going on)(.*)", t))
-        return match
 
     @staticmethod
     def __is_lets_go(text):
@@ -33,9 +16,9 @@ class Greetings(TemplateMatcher):
         return match
 
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:
-        if self.__is_how_are_you_greeting(user_msg):
+        if is_how_are_you_greeting(user_msg):
             return [random.choice(Greetings.how_are_you_options)]
-        elif self.__is_basic_greeting(user_msg):
+        elif is_basic_greeting(user_msg):
             return [random.choice(Greetings.basic_options)]
         elif self.__is_lets_go(user_msg):
             return [random.choice(Greetings.lets_go_options)]

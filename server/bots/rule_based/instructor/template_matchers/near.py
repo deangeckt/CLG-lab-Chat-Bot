@@ -1,7 +1,6 @@
-import random
 import re
 from typing import Union
-from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
+from bots.rule_based.instructor.template_matchers.template_matcher import TemplateMatcher
 
 
 class Near(TemplateMatcher):

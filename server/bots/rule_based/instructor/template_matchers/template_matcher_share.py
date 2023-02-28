@@ -1,8 +1,5 @@
 import math
-import re
-import string
 import random
-
 
 class TemplateMatcherShare:
     def __init__(self, kb, chat):
@@ -37,9 +34,3 @@ class TemplateMatcherShare:
     def get_kb_suggestion(self, object_) -> list[str]:
         curr_suggestion = random.choice(self.kb_abs[object_]['next_direction'])
         return [curr_suggestion] if type(curr_suggestion) == str else curr_suggestion
-
-    @staticmethod
-    def tokenize(text):
-        text = text.strip().lower()
-        split = re.findall(fr'[${string.punctuation}]|\w+', text)
-        return [t for t in split]

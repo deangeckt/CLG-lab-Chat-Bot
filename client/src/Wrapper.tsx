@@ -601,8 +601,8 @@ export const init_app_state: IAppState = {
         game_time: 0,
         open_instructions: true,
     },
-    game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '1.4.2_e',
+    game_config: { game_role: -1, registerd: 'no', guid: '' },
+    clinet_version: '2.0.0_e',
     server_version: '',
 };
 

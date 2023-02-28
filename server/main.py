@@ -8,7 +8,7 @@ from bot_server import BotServer
 from google_cloud.storage import save_to_storage
 from human_server import HumanServer
 
-VERSION = '1.6.2_e' # TODO: tmp version of english only for friends
+VERSION = '2.0.0_e' # TODO: tmp version of english only for friends
 cs_strategy = "goldfish"
 
 app = Flask(__name__)
@@ -25,9 +25,12 @@ game_roles_reverse = {0: 'navigator', 1: 'instructor'}
 def call_bot():
     try:
         params = request.get_json()
-        res = bot_server.call_bot(params['guid'], params['msg'],
-                                  params['map_index'], params['state'])
-        return json.dumps({'res': res}), 200, {'Content-Type': 'application/json'}
+        res, is_finish = bot_server.call_bot(params['guid'],
+                                             params['msg'],
+                                             params['map_index'],
+                                             params['game_role'],
+                                             params['state'])
+        return json.dumps({'res': res, 'is_finish': is_finish}),200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
@@ -87,8 +90,10 @@ def register():
 
         resp = {'version': VERSION}
         if game_mode == 'bot':
-            resp['role'] = game_roles['navigator']
-            guid = bot_server.register(map_index)
+            # TODO: random game role in prolific
+            # TODO: random map in prolific
+            resp['role'] = params['game_role']
+            guid = bot_server.register(map_index, params['game_role'])
             resp['guid'] = guid
         elif game_mode == 'human':
             role, guid = human_server.assign_role_api(map_index)

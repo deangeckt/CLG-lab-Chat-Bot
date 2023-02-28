@@ -2,7 +2,8 @@ import re
 import random
 from typing import Union
 
-from bots.rule_based.template_matchers.template_matcher import TemplateMatcher
+from bots.rule_based.instructor.template_matchers.template_matcher import TemplateMatcher
+from bots.rule_based.shared_utils import is_goal_match
 
 
 class GoalMatcher(TemplateMatcher):
@@ -24,20 +25,11 @@ class GoalMatcher(TemplateMatcher):
         match = bool(re.match("(.*)((where|what) is the (end))(.*)", t))
         return match
 
-    @staticmethod
-    def __is_goal_match(text):
-        t = text.lower()
-        match = bool(re.match("(.*)(what is (the|my) goal?)(.*)", t))
-        match |= bool(re.match("(what (do|should) i do?)", t))
-        match |= bool(re.match("(what am i expected to do?)", t))
-        match |= bool(re.match("(what to do?)", t))
-
-        return match
 
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:
         if self.__is_end_match(user_msg):
             return random.choice(GoalMatcher.end_response)
-        elif self.__is_goal_match(user_msg):
+        elif is_goal_match(user_msg):
             return random.choice(GoalMatcher.goal_response)
         else:
             return None

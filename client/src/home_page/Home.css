@@ -29,6 +29,11 @@
   height: 160px;
 }
 
+.role_btn {
+  width: 80px;
+  height: 80px;
+}
+
 .form {
   margin: 16px;
   height: 50%;
