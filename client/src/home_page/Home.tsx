@@ -74,7 +74,7 @@ function Home(): JSX.Element {
                         </div>
                     </div>
                 ) : null}
-                {state.game_config.game_role == -1 ? (
+                {state.game_config.registerd == 'no' ? (
                     <div style={{ width: '50%' }}>
                         <Typography variant="h5" style={{ margin: '16px' }}>
                             Choose Role
@@ -83,7 +83,7 @@ function Home(): JSX.Element {
                             <Button
                                 className="role_btn"
                                 style={{ textTransform: 'none' }}
-                                variant="outlined"
+                                variant={state.game_config.game_role == 0 ? 'contained' : 'outlined'}
                                 color="primary"
                                 onClick={() => set_game_role(0)}
                             >
@@ -92,7 +92,7 @@ function Home(): JSX.Element {
                             <Button
                                 className="role_btn"
                                 style={{ textTransform: 'none' }}
-                                variant="outlined"
+                                variant={state.game_config.game_role == 1 ? 'contained' : 'outlined'}
                                 color="primary"
                                 onClick={() => set_game_role(1)}
                             >
