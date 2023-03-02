@@ -1,6 +1,5 @@
 import random
 import re
-from time import sleep
 from typing import Union
 from bots.rule_based.navigator.template_matchers.template_matcher import TemplateMatcher
 
@@ -13,11 +12,6 @@ class Action(TemplateMatcher):
                        'toward', 'towards', 'leave', 'cross', 'from', 'pass', 'on', 'follow', 'of',
                        'where', 'between', 'beneath', 'through']
 
-    did_it_prefix = ["ok, i did it, i'm next to the",
-                     "awsome! as you said, i'm now near the",
-                     'sure, i have reached the',
-                     'awsome! i have reached the',
-                     ]
 
     def __is_match(self, text):
         t = text.lower()
@@ -39,12 +33,12 @@ class Action(TemplateMatcher):
         for obj_match in reversed(obj_matches):
             obj_idx = self.shared.kb_path_order.index(obj_match)
             if obj_idx == self.shared.next_state_idx:
-                self.shared.advance_state_path(1)
-                prefix = random.choice(Action.did_it_prefix)
+                self.shared.advance_state_path_idx(1)
+                prefix = random.choice(self.shared.moved_prefix)
                 return [f'{prefix} {self.shared.next_state_obj}']
             if obj_idx == self.shared.next_state_idx + 1:
-                self.shared.advance_state_path(2)
-                prefix = random.choice(Action.did_it_prefix)
+                self.shared.advance_state_path_idx(2)
+                prefix = random.choice(self.shared.moved_prefix)
                 return [f'{prefix} {obj_match}']
 
 

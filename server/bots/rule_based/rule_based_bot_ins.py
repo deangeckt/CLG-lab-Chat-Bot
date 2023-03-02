@@ -14,6 +14,7 @@ from bots.rule_based.instructor.template_matchers.greetings import Greetings
 from bots.rule_based.instructor.template_matchers.near import Near
 from bots.rule_based.instructor.template_matchers.template_matcher_share import TemplateMatcherShare
 from bots.rule_based.instructor.template_matchers.towards import Towards
+from bots.rule_based.shared_utils import find_closest_object
 
 
 class RuleBasedBotInstructor(Bot):
@@ -47,7 +48,7 @@ class RuleBasedBotInstructor(Bot):
 
     def __match_and_respond(self, user_msg, user_state=None) -> list[str]:
         try:
-            self.shared.find_closest_object((user_state['r'], user_state['c']))
+            self.shared.closest_obj = find_closest_object(user_state, self.shared.kb_abs)
 
             if self.shared.closest_obj == self.shared.goal_object:
                 return [random.choice([f'you are close to the {self.shared.goal_object}!, head over there!',
@@ -65,7 +66,6 @@ class RuleBasedBotInstructor(Bot):
             default_msg = [random.choice(self.no_resp_prefix)]
             default_msg.extend(self.shared.get_kb_suggestion(self.shared.closest_obj))
             return default_msg
-
 
         except Exception as e:
             print('err:', e)

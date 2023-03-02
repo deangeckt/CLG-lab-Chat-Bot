@@ -6,9 +6,11 @@ import json
 import random
 
 from bots.rule_based.navigator.template_matchers.action import Action
+from bots.rule_based.navigator.template_matchers.direction import Direction
 from bots.rule_based.navigator.template_matchers.goal import GoalMatcher
 from bots.rule_based.navigator.template_matchers.greetings import Greetings
 from bots.rule_based.navigator.template_matchers.past import Past
+from bots.rule_based.navigator.template_matchers.resp_action import RespAction
 from bots.rule_based.navigator.template_matchers.template_matcher_share import TemplateMatcherShare
 from bots.rule_based.navigator.template_matchers.wh_near import WhNear
 from bots.rule_based.navigator.template_matchers.yn_near import YnNear
@@ -31,7 +33,9 @@ class RuleBasedBotNavigator(Bot):
             YnNear(shared),
             WhNear(shared),
             Past(shared),
-            Action(shared)
+            RespAction(shared),
+            Action(shared),
+            Direction(shared),
         ]
 
     def default_msg(self):
@@ -75,7 +79,7 @@ class RuleBasedBotNavigator(Bot):
 
 
     def db_push(self) -> dict:
-        return {'rb_nav_state': self.shared.state_pth_idx}
+        return {'rb_nav_state': self.shared.state}
 
     def db_load(self, data):
-        self.shared.state_pth_idx = data['rb_nav_state']
+        self.shared.state = data['rb_nav_state']

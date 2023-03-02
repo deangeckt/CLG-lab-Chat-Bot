@@ -177,7 +177,7 @@
 		"giraffe": {
 			"r": 8,
 			"c": 1,
-			"synonym": ["buffalo", "camelopard", "camel"],
+			"synonym": ["buffalo", "camelopard", "camel", "giraph"],
 			"next_direction": [
 				"head south east from the giraffe, towards the snake",
 				"below the giraffe, continue on the branches right",

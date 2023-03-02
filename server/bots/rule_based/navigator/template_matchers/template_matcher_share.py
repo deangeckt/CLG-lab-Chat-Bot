@@ -1,8 +1,6 @@
-import math
-import re
-import string
 import random
 from time import sleep
+from bots.rule_based.shared_utils import find_closest_object
 
 
 class TemplateMatcherShare:
@@ -10,6 +8,10 @@ class TemplateMatcherShare:
         self.chat = chat
         self.kb_abs = kb['absolute']
         self.kb_path_order = list(self.kb_abs.keys())
+
+        self.start_object = self.kb_path_order[0]
+        self.goal_object = self.kb_path_order[-1]
+
 
         self.all_objects = []
         for key in self.kb_abs:
@@ -24,22 +26,57 @@ class TemplateMatcherShare:
                                 "which direction should i go now?"
                                 ]
 
-        self.finish = False
+        self.moved_prefix = ["ok, i did it, i'm next to the",
+                             "awsome! as you said, i'm now near the",
+                             'sure, i have reached the',
+                             'awsome! i have reached the',
+                         ]
+
+        # State
+        tmp = self.kb_abs[self.start_object]
+        self.state = {'r': tmp['r'], 'c': tmp['c']}
         self.state_pth_idx = 0
         self.next_state_idx = 1
+        self.curr_state_obj = ''
         self.next_state_obj = ''
+        self.finish = False
+
 
     def update_state(self):
         if self.finish:
             return
+
+        closest_obj = find_closest_object(self.state, self.kb_abs)
+        self.state_pth_idx = self.kb_path_order.index(closest_obj)
         self.next_state_idx = self.state_pth_idx + 1
+        if self.next_state_idx > len(self.kb_path_order) - 1:
+            self.finish = True
+            self.next_state_obj = self.goal_object
+            return
+
+        self.curr_state_obj = self.kb_path_order[self.state_pth_idx]
         self.next_state_obj = self.kb_path_order[self.next_state_idx]
 
-    def advance_state_path(self, adv):
-        sleep(1)
+    def advance_state_path_idx(self, adv):
+        sleep(0.5)
         self.state_pth_idx += adv
-        if self.state_pth_idx == len(self.kb_path_order) - 1:
+        if self.state_pth_idx >= len(self.kb_path_order) - 1:
             self.finish = True
+            self.state_pth_idx = len(self.kb_path_order) - 1
+
+        obj_ = self.kb_path_order[self.state_pth_idx]
+        tmp = self.kb_abs[obj_]
+        self.state = {'r': tmp['r'], 'c': tmp['c']}
+
+    def advance_state_path(self, axis, adv):
+        """
+        param: axis: row or col
+        param: adv: amount to cells to advance
+        """
+        sleep(0.5)
+        self.state[axis] += adv
+        self.update_state()
+
 
     def obj_is_ahead(self):
         options = [

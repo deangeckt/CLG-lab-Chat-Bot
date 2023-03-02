@@ -1,4 +1,3 @@
-import math
 import random
 
 class TemplateMatcherShare:
@@ -15,21 +14,6 @@ class TemplateMatcherShare:
 
         self.closest_obj = None
 
-    def find_closest_object(self, user_coord):
-        """
-        return the closest obj to the user coord - only objects from the abs KB!
-        """
-        min_dist = 1000
-        closest_obj = ''
-        for obj in self.kb_abs:
-            r = self.kb_abs[obj]['r']
-            c = self.kb_abs[obj]['c']
-            obj_coord = (r, c)
-            curr_dist = math.dist(user_coord, obj_coord)
-            if curr_dist < min_dist:
-                min_dist = curr_dist
-                closest_obj = obj
-        self.closest_obj = closest_obj
 
     def get_kb_suggestion(self, object_) -> list[str]:
         curr_suggestion = random.choice(self.kb_abs[object_]['next_direction'])
