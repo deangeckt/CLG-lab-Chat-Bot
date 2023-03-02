@@ -11,6 +11,12 @@ class TemplateMatcherShare:
         self.kb_abs = kb['absolute']
         self.kb_path_order = list(self.kb_abs.keys())
 
+        self.all_objects = []
+        for key in self.kb_abs:
+            self.all_objects.append({'obj': key, 'word': key})
+            if 'synonym' in self.kb_abs[key]:
+                self.all_objects.extend([{'obj': key, 'word': s} for s in self.kb_abs[key]['synonym']])
+
         self.where_to_suffix = ["where should i go?", "where should i go now?",
                                 "where do i need to go?",
                                 "where do i have to go?",
@@ -30,7 +36,7 @@ class TemplateMatcherShare:
         self.next_state_obj = self.kb_path_order[self.next_state_idx]
 
     def advance_state_path(self, adv):
-        # sleep(1)
+        sleep(1)
         self.state_pth_idx += adv
         if self.state_pth_idx == len(self.kb_path_order) - 1:
             self.finish = True

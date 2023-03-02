@@ -58,7 +58,6 @@ class RuleBasedBotNavigator(Bot):
 
             return self.default_msg()
 
-
         except Exception as e:
             print('err:', e)
 

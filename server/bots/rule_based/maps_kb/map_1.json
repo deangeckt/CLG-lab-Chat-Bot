@@ -25,6 +25,7 @@
 		"tiger": {
 			"r": 2,
 			"c": 17,
+			"synonym": ["leopard", "cat", "cub", "cougar", "jaguar", "lynx", "bobcat", "wildcat", "kitten"],
 			"next_direction": [
 				"pass the branch below the tiger, to the left",
 				"pass the branch to the left",
@@ -43,6 +44,7 @@
 		"parrot": {
 			"r": 5,
 			"c": 11,
+			"synonym": ["bird", "imitator", "psittacine"],
 			"next_direction": [
 				"go around the parrot above it, then head to the gray rocks below the parrot",
 				["surround the parrot over it,", "then continue east over the gray rocks"],
@@ -61,6 +63,7 @@
 		"3 rocks": {
 			"r": 8,
 			"c": 13,
+			"synonym": ["three rocks"],
 			"next_direction": [
 				"step over the 3 rocks and head to the frog",
 				["go over the three rocks that are east of the parrot,", "and then continue towards the frog"],
@@ -79,6 +82,7 @@
 		"frog": {
 			"r": 11,
 			"c": 19,
+			"synonym": ["toad", "bullfrog", "caecilian", "croaker", "polliwog"],
 			"next_direction": [
 				"head very closely to the frog and then turn back and head west to the crocodile",
 				"do a slight u-turn near the frog, and keep west towards the crocodile",
@@ -97,6 +101,7 @@
 		"crocodile": {
 			"r": 12,
 			"c": 12,
+			"synonym": ["alligator", "antelope", "snakeskin", "seal", "lambskin"],
 			"next_direction": [
 				"continue on the crocodile to the rock below the elephant",
 				"go over the crocodile towards the elephant, then on the rocks",
@@ -115,6 +120,7 @@
 		"big rock": {
 			"r": 11,
 			"c": 8,
+			"synonym": ["black rock", "rock"],
 			"next_direction": [
 				"go over the big rock, the one that is on the crocodile's head. continue west until you see 2 grays rocks",
 				"there is a big rock next to the crocodile's head, step on it and continue left",
@@ -133,6 +139,7 @@
 		"elephant": {
 			"r": 6,
 			"c": 7,
+			"synonym": ["boar", "mammoth", "mastodon", "tusker"],
 			"next_direction": [
 				"if you didn't pass near the frog yet, head over the gray rocks towards it",
 				"if you did pass near the frog already and the crocodile, keep west towards the giraffe, over the gray rocks",
@@ -151,6 +158,7 @@
 		"2 gray rocks": {
 			"r": 10,
 			"c": 5,
+			"synonym": ["2 rocks", "two rocks"],
 			"next_direction": [
 				"continue on the crocodile to the rock below the elephant",
 				"go over the crocodile towards the elephant, then on the rocks",
@@ -169,6 +177,7 @@
 		"giraffe": {
 			"r": 8,
 			"c": 1,
+			"synonym": ["buffalo", "camelopard", "camel"],
 			"next_direction": [
 				"head south east from the giraffe, towards the snake",
 				"below the giraffe, continue on the branches right",
@@ -185,6 +194,7 @@
 			]
 		},
 		"snake": {
+			"synonym": ["viper", "basilisk", "dragon", "serpent", "python", "cobra"],
 			"r": 15,
 			"c": 2,
 			"next_direction": [
@@ -203,6 +213,7 @@
 		"treasure": {
 			"r": 16,
 			"c": 7,
+			"synonym": ["cache", "cash", "coin", "coins", "gold", "money", "prize"],
 			"next_direction": [
 				"continue towards the treasure - the last object!",
 				"it's right next to you - go to the treasure!",

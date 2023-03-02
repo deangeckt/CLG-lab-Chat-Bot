@@ -6,11 +6,11 @@ from bots.rule_based.navigator.template_matchers.template_matcher import Templat
 class Past(TemplateMatcher):
     def __is_match(self, text):
         t = text.lower()
-        for obj in self.shared.kb_path_order:
-            if bool(re.match(f"((.*)(did|have) you (pass|passed|walked|went|go|visited|visit) (by|on|at|through) the {obj}(.*))", t)):
-                return obj
-            elif bool(re.match(f"((.*)(did|have) you (pass|passed|visited|visit) the {obj}(.*))", t)):
-                return obj
+        for obj_dict in self.shared.all_objects:
+            if bool(re.match(f"((.*)(did|have) you (pass|passed|walked|went|go|visited|visit) (by|on|at|through) the {obj_dict['word']}(.*))", t)):
+                return obj_dict['obj']
+            elif bool(re.match(f"((.*)(did|have) you (pass|passed|visited|visit) the {obj_dict['word']}(.*))", t)):
+                return obj_dict['obj']
         return False
 
     def match(self, user_msg) -> Union[list[str], None]:
@@ -18,7 +18,7 @@ class Past(TemplateMatcher):
         if not obj_match:
             return None
 
-        print('match: past matcher: ',obj_match)
+        print('match: past matcher:', obj_match)
 
         obj_idx = self.shared.kb_path_order.index(obj_match)
         if obj_idx == self.shared.next_state_idx:

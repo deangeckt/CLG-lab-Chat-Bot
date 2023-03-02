@@ -11,7 +11,7 @@ class Action(TemplateMatcher):
     """
     match_the_words = ['over', 'around', 'surround', 'surrounding', 'near', 'above', 'below', 'beside',
                        'toward', 'towards', 'leave', 'cross', 'from', 'pass', 'on', 'follow', 'of',
-                       'where', 'between', 'beneath']
+                       'where', 'between', 'beneath', 'through']
 
     did_it_prefix = ["ok, i did it, i'm next to the",
                      "awsome! as you said, i'm now near the",
@@ -21,10 +21,10 @@ class Action(TemplateMatcher):
 
     def __is_match(self, text):
         t = text.lower()
-        for obj in self.shared.kb_path_order:
-            if bool(re.match(f"((.*)to the {obj}(.*))", t)):
+        for obj_dict in self.shared.all_objects:
+            if bool(re.match(f"((.*)to the {obj_dict['word']}(.*))", t)):
                  return True
-            elif bool(re.match(f"((.*)({'|'.join(Action.match_the_words)}) the {obj}(.*))", t)):
+            elif bool(re.match(f"((.*)({'|'.join(Action.match_the_words)}) the {obj_dict['word']}(.*))", t)):
                 return True
         return False
 
@@ -32,7 +32,8 @@ class Action(TemplateMatcher):
         if not self.__is_match(user_msg):
             return None
 
-        obj_matches = list(filter(lambda obj: obj in user_msg, self.shared.kb_path_order))
+        obj_matches = list(filter(lambda obj_dict: obj_dict['word'] in user_msg, self.shared.all_objects))
+        obj_matches = [obj_dict['obj'] for obj_dict in obj_matches]
         print('match: action matcher: ', obj_matches)
 
         for obj_match in reversed(obj_matches):
