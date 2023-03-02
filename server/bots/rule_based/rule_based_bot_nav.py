@@ -1,10 +1,8 @@
 from typing import Tuple
-
 from pkg_resources import resource_filename
 from bots.bot import Bot
 import json
 import random
-
 from bots.rule_based.navigator.template_matchers.action import Action
 from bots.rule_based.navigator.template_matchers.direction import Direction
 from bots.rule_based.navigator.template_matchers.goal import GoalMatcher
@@ -19,7 +17,7 @@ from bots.rule_based.navigator.template_matchers.yn_near import YnNear
 class RuleBasedBotNavigator(Bot):
     def __init__(self, map_id):
         super().__init__()
-        self.chat = [] # TODO: no use
+        self.chat = []
 
         kb_path = resource_filename('bots', f'rule_based/maps_kb/{map_id}.json')
         with open(kb_path, 'r') as f:

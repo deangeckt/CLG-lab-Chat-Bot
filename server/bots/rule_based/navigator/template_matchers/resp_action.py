@@ -8,7 +8,7 @@ class RespAction(TemplateMatcher):
     @staticmethod
     def __is_match(text):
         t = text.lower()
-        match = bool(re.match("(.*)(do|go) (it|there)(.*)", t))
+        match = bool(re.match("(.*)(do|go) (it|there|then)(.*)", t))
         match |= bool(re.match("so go", t))
         return match
 

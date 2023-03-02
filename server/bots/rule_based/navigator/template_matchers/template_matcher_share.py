@@ -37,7 +37,6 @@ class TemplateMatcherShare:
         self.state = {'r': tmp['r'], 'c': tmp['c']}
         self.state_pth_idx = 0
         self.next_state_idx = 1
-        self.curr_state_obj = ''
         self.next_state_obj = ''
         self.finish = False
 
@@ -54,7 +53,6 @@ class TemplateMatcherShare:
             self.next_state_obj = self.goal_object
             return
 
-        self.curr_state_obj = self.kb_path_order[self.state_pth_idx]
         self.next_state_obj = self.kb_path_order[self.next_state_idx]
 
     def advance_state_path_idx(self, adv):
