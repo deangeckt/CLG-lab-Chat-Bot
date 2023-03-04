@@ -602,7 +602,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '2.0.0_e',
+    clinet_version: '2.0.1_e',
     server_version: '',
 };
 

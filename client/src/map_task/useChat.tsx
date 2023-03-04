@@ -26,6 +26,14 @@ export function useChat() {
         setState({ ...stateRef.current, chat });
     };
 
+    const updateChatAndFinish = (newMsg: ChatMsg[], endModalText: string) => {
+        const game_state = state.game_state;
+        game_state.end = true;
+        game_state.end_modal_text = endModalText;
+        const chat = [...stateRef.current.chat].concat(newMsg);
+        setState({ ...stateRef.current, chat, game_state });
+    };
+
     const sendUserMsg = () => {
         if (!inputTxt) return;
         const curr_cell = state.user_map_path[state.user_map_path.length - 1];
@@ -60,9 +68,9 @@ export function useChat() {
         const msgs: string[] = data.res;
         const is_finish = data.is_finish;
         const chatMsgs = msgs.map((msg) => ({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() }));
-        updateChatState(chatMsgs);
         setBotType(false);
-        if (is_finish) open_ending_modal(hh_end_modal_str);
+        if (is_finish) updateChatAndFinish(chatMsgs, hh_end_modal_str);
+        else updateChatState(chatMsgs);
     };
 
     const addOtherHumanMsg = (guid: string, msg: ChatMsg, other_finished: boolean) => {

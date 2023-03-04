@@ -7,9 +7,9 @@ class YnNear(TemplateMatcher):
     def __is_match(self, text):
         t = text.lower()
         for obj_dict in self.shared.all_objects:
-            if bool(re.match(f"((.*)(are|do|can) you (near|on|at|next|see) the {obj_dict['word']}(.*))", t)):
+            if bool(re.match(f"((.*)(are|do|can) you (near|on|at|next|see) (the|a) {obj_dict['word']}(.*))", t)):
                 return obj_dict['obj']
-            elif bool(re.match(f"((.*)(are|do) you (next) to the {obj_dict['word']}(.*))", t)):
+            elif bool(re.match(f"((.*)(are|do) you (next) to (the|a) {obj_dict['word']}(.*))", t)):
                 return obj_dict['obj']
         return False
 
