@@ -9,8 +9,15 @@ class TemplateMatcherShare:
         self.goal_object = self.kb_path_order[-1]
         self.outside_path = kb['outside_path']
 
-        self.all_objects = set(self.kb_path_order)
-        self.all_objects = self.all_objects.union(set(self.outside_path))
+        self.all_objects = []
+        for key in self.kb_abs:
+            self.all_objects.append({'obj': key, 'word': key})
+            if 'synonym' in self.kb_abs[key]:
+                self.all_objects.extend([{'obj': key, 'word': s} for s in self.kb_abs[key]['synonym']])
+
+        for obj in self.outside_path:
+            self.all_objects.append({'obj': obj, 'word': obj})
+
 
         self.closest_obj = None
 

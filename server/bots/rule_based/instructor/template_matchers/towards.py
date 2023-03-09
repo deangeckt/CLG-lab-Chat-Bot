@@ -10,10 +10,10 @@ class Towards(TemplateMatcher):
     """
     def is_match(self, text):
         t = text.lower()
-        for obj in self.shared.all_objects:
-            if bool(re.match(f"((.*)(should|do) i (continue to|go towards|go toward|go to|head to|walk to) the {obj}(.*))", t)) or \
-                    bool(re.match(f"((.*)(towards|toward) the {obj}(.*))", t)):
-                return obj
+        for obj_dict in self.shared.all_objects:
+            if bool(re.match(f"((.*)(should|do) i (continue to|go towards|go toward|go to|head to|walk to) the {obj_dict['word']}(.*))", t)) or \
+                    bool(re.match(f"((.*)(towards|toward) the {obj_dict['word']}(.*))", t)):
+                return obj_dict['obj']
         return False
 
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:
@@ -22,7 +22,7 @@ class Towards(TemplateMatcher):
         obj_match = self.is_match(user_msg)
         if not obj_match:
             return None
-        print('match: tow matcher')
+        print('match: tow matcher:', obj_match)
 
         if obj_match == self.shared.goal_object:
             return ['in general yes, but you should follow path instruction']

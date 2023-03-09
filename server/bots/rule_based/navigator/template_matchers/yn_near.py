@@ -18,7 +18,7 @@ class YnNear(TemplateMatcher):
         if not obj_match:
             return None
 
-        print('match: yn near matcher: ',obj_match)
+        print('match: yn near matcher:', obj_match)
 
         obj_idx = self.shared.kb_path_order.index(obj_match)
         if obj_idx == self.shared.next_state_idx:

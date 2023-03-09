@@ -10,13 +10,13 @@ class Near(TemplateMatcher):
     """
     def is_match(self, text):
         t = text.lower()
-        for obj in self.shared.all_objects:
-            if bool(re.match(f"((.*)(i'm|im|i am|i) (.*) the {obj}(.*))", t)):
-                return obj
-            elif bool(re.match(f"((.*)(near|on|at) the {obj}(.*))", t)):
-                return obj
-            elif bool(re.match(f"((.*)(the|a) {obj}(.*))", t)):
-                return obj
+        for obj_dict in self.shared.all_objects:
+            if bool(re.match(f"((.*)(i'm|im|i am|i) (.*) the {obj_dict['word']}(.*))", t)):
+                return obj_dict['obj']
+            elif bool(re.match(f"((.*)(near|on|at) the {obj_dict['word']}(.*))", t)):
+                return obj_dict['obj']
+            elif bool(re.match(f"((.*)(the|a) {obj_dict['word']}(.*))", t)):
+                return obj_dict['obj']
         return False
 
     def match(self, user_msg, user_state=None) -> Union[list[str], None]:
@@ -26,7 +26,7 @@ class Near(TemplateMatcher):
         if not obj_match:
             return None
 
-        print('match: near matcher')
+        print('match: near matcher:', obj_match)
 
         if obj_match in self.shared.kb_abs:
             return self.shared.get_kb_suggestion(obj_match)
