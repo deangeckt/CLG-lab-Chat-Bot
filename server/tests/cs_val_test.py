@@ -12,10 +12,10 @@ en_to_sp_translations = {"how are you?": "¿cómo estás?",
                          "where should i go?": "¿A donde debería ir?",
                         "ok, what do you see in front of you now?": "Bien, ¿qué ves frente a ti ahora?",
                         "i'm good thank you": "estoy bien gracias",
-                        "go across the bridge towards the tiger": "cruzar el puente hacia el tigre",
+                        "go across the bridge towards the leopard": "cruzar el puente hacia el tigre",
                         "ok, now, what is in front of you?": "Bien, ahora, ¿qué hay delante de ti?",
                         "go left on the branches on the water": "vaya a la izquierda en las ramas en el agua",
-                        "go left towards the tiger":"ir a la izquierda hacia el tigre",
+                        "go left towards the leopard":"ir a la izquierda hacia el tigre",
                         "all well thank you!":"todo bien gracias!",
                         "ok, where are you now?":"¿OK donde estas ahora?"
                          }
@@ -46,12 +46,12 @@ def run_mock_chat(strategy: str):
 
     print('strategy:', strategy)
     server = BotServer(cs_strategy=strategy)
-    guid = server.register(map_index=0)
+    guid = server.register(map_index=0, game_role=0)
 
     for msg in user_msg_mock:
         english_msg, spanish_msg, spanglish_msg = msg
         print('user:', spanglish_msg)
-        rsp = server.call_bot(guid=guid, user_msg=spanglish_msg, map_idx=0, user_state=user_state_mock)
+        rsp = server.call_bot(guid=guid, user_msg=spanglish_msg, map_idx=0, game_role=0, user_state=user_state_mock)
         for r in rsp:
             print('bot:', r)
 
