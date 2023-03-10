@@ -18,4 +18,4 @@ class WhNear(TemplateMatcher):
             return None
 
         print('match: wh near matcher:')
-        return self.shared.get_dist_to_next_state_obj()
+        return [self.shared.get_dist_to_next_state_obj()]

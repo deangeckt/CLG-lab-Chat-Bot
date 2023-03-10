@@ -29,4 +29,6 @@ class Direction(TemplateMatcher):
             adv = -1 * adv if match in ['left', 'up'] else adv
             self.shared.advance_state_path(axis, adv)
 
-        return self.shared.get_dist_to_next_state_obj()
+        prefix = random.choice(['awsome', 'sure thing', 'no problem'])
+        resp = [f'{prefix}, i moved!', self.shared.get_dist_to_next_state_obj()]
+        return resp

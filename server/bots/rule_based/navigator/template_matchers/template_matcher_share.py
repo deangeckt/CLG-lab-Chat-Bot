@@ -57,7 +57,7 @@ class TemplateMatcherShare:
 
         self.next_state_obj = self.kb_path_order[self.next_state_idx]
 
-    def get_dist_to_next_state_obj(self) -> list[str]:
+    def get_dist_to_next_state_obj(self) -> str:
         relative_col = ''
         if self.state['c'] > self.kb_abs[self.next_state_obj]['c']:
             relative_col = 'east'
@@ -78,15 +78,14 @@ class TemplateMatcherShare:
             relative_dir = relative_col
 
 
-
         curr_coord = (self.state['r'], self.state['c'])
         next_coord = (self.kb_abs[self.next_state_obj]['r'], self.kb_abs[self.next_state_obj]['c'])
         steps = math.floor(math.dist(curr_coord, next_coord))
 
         if random.random() > 0.5:
-            resp = [f"i'm about {steps} steps {relative_dir} to the {self.next_state_obj}"]
+            resp = f"i'm about {steps} steps {relative_dir} to the {self.next_state_obj}"
         else:
-            resp = [f"i'm {relative_dir} to the {self.next_state_obj}"]
+            resp = f"i'm {relative_dir} to the {self.next_state_obj}"
 
         return resp
 
