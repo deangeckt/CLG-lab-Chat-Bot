@@ -25,9 +25,8 @@ class Direction(TemplateMatcher):
                 match = self.map_dir[match]
 
             axis = 'c' if match in ['right', 'left'] else 'r'
-            adv = -3 if match in ['left', 'up'] else 3
+            adv = random.randint(3, 4)
+            adv = -1 * adv if match in ['left', 'up'] else adv
             self.shared.advance_state_path(axis, adv)
 
-        prefix = random.choice(self.shared.moved_prefix)
-        return [f'{prefix} {self.shared.next_state_obj}']
-
+        return self.shared.get_dist_to_next_state_obj()

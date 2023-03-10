@@ -18,5 +18,4 @@ class WhNear(TemplateMatcher):
             return None
 
         print('match: wh near matcher:')
-        prefix = random.choice(self.near_prefix_options)
-        return [f'{prefix} {self.shared.next_state_obj}']
+        return self.shared.get_dist_to_next_state_obj()
