@@ -31,8 +31,8 @@ class RuleBasedBotNavigator(Bot):
             YnNear(shared),
             WhNear(shared),
             Past(shared),
-            RespAction(shared),
             Action(shared),
+            RespAction(shared),
             Direction(shared),
         ]
 
