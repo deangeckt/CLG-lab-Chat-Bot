@@ -1,9 +1,0 @@
-input_text,input_cell,output
-where should I go now?,"2,17","pass the branch below the tiger, to the left"
-where to?,"2,17","pass the branch below the tiger, to the left"
-now what?,"2,17","pass the branch below the tiger, to the left"
-I'm near the tiger,"2,17","pass the branch below the tiger, to the left"
-where should I go now?,"8,1","head south east from the giraph, towards the snake"
-where to?,"8,1","head south east from the giraph, towards the snake"
-now what?,"8,1","head south east from the giraph, towards the snake"
-I'm near the giraph,"8,1","head south east from the giraph, towards the snake"
