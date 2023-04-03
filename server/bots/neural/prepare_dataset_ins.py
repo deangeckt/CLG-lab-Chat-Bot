@@ -79,7 +79,7 @@ def parse_chat(chat):
             if idx == len(split) - 1:
                 continue
             ctx_id = 'User:' if turn['id'] == 'navigator' else 'System:'
-            msg = turn ['msg']
+            msg = turn['msg']
             context.append(f'{ctx_id} {msg}')
 
         data_samples.append({'Context': context, 'Knowledge': knowledge, 'Response': response})
@@ -135,8 +135,8 @@ print('train', len(train_samples))
 print('test', len(test_samples))
 print('val', len(val_samples))
 
-save_jsonl(train_samples, 'train.json')
-save_jsonl(val_samples, 'val.json')
-save_jsonl(test_samples, 'test.json')
+save_jsonl(train_samples, 'ins_train.json')
+save_jsonl(val_samples, 'ins_val.json')
+save_jsonl(test_samples, 'ins_test.json')
 
 
