@@ -26,7 +26,7 @@ export function useApp() {
     };
 
     const navigate_to_end_page = () => {
-        const path = '/survey';
+        const path = '/map_survey';
         navigate(path);
     };
 
@@ -59,8 +59,9 @@ export function useApp() {
             user_map_path: [maps[map_index].start_cell],
             server_version,
         });
-
-        if (game_config.registerd != 'err') navigate('/map_task');
+        navigate('/map_task');
+        //TODO: TMP
+        // if (game_config.registerd != 'err') navigate('/map_task');
     };
 
     return { open_ending_modal, navigate_to_end_page, register_cb, finish_early };

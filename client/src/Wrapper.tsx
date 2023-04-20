@@ -19,9 +19,12 @@ export interface UserSurveyQuestion {
     question_ref?: string;
 }
 
+export type surveyType = 'map' | 'general';
+
 export interface IQuestionInterface {
     meta: UserSurveyQuestion;
     id: string;
+    survey: surveyType;
 }
 
 export interface UserSurvey {
@@ -81,7 +84,8 @@ export interface IAppState {
     chat: ChatMsg[];
     map_metadata: MapMetadata;
     user_map_path: MapCellIdx[];
-    user_survey: UserSurvey;
+    general_survey: UserSurvey;
+    map_survey: UserSurvey;
     game_state: GameState;
     game_config: GameConfig;
     clinet_version: string;
@@ -155,105 +159,7 @@ export const init_app_state: IAppState = {
     chat: [],
     map_metadata: maps[0],
     user_map_path: [],
-    user_survey: {
-        '0': {
-            question: 'How much did you enjoy the task?',
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '1': {
-            question: 'How difficult was it to communicate with your partner?',
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '2': {
-            question: 'How successful do you think you were at completing the task?',
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '3': {
-            question: "How difficult was it to understand your partner's directions?",
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '4': {
-            question: 'How likely is your partner to be a fluent speaker of English?',
-            answer: 50,
-            type: 'rating',
-        },
-        '5': {
-            question: 'How likely is your partner to be a fluent speaker of Spanish?',
-            answer: 50,
-            type: 'rating',
-        },
-        '6': {
-            question: 'How likely do you think it is that your partner is bilingual?',
-            answer: 50,
-            type: 'rating',
-        },
-
-        '7': {
-            hintAbove: 'Please rate your partner according to the following attributes:',
-            question: 'friendly',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '8': {
-            question: 'smart',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '9': {
-            question: 'collaborative',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '10': {
-            question: 'honest',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '11': {
-            question: 'funny',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '12': {
-            question: 'How likely do you think it was that you were talking to a chatbot rather than a human?',
-            answer: 50,
-            type: 'rating',
-        },
-        '13': {
-            question:
-                'If you were communicating with a chat bot, would you want them to communicate in both English and Spanish?',
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
+    general_survey: {
         '14': {
             question: 'Age:',
             answer: '',
@@ -592,6 +498,106 @@ export const init_app_state: IAppState = {
             not_applicable: true,
         },
     },
+    map_survey: {
+        '0': {
+            question: 'How much did you enjoy the task?',
+            answer: 50,
+            type: 'rating',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '1': {
+            question: 'How difficult was it to communicate with your partner?',
+            answer: 50,
+            type: 'rating',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '2': {
+            question: 'How successful do you think you were at completing the task?',
+            answer: 50,
+            type: 'rating',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '3': {
+            question: "How difficult was it to understand your partner's directions?",
+            answer: 50,
+            type: 'rating',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '4': {
+            question: 'How likely is your partner to be a fluent speaker of English?',
+            answer: 50,
+            type: 'rating',
+        },
+        '5': {
+            question: 'How likely is your partner to be a fluent speaker of Spanish?',
+            answer: 50,
+            type: 'rating',
+        },
+        '6': {
+            question: 'How likely do you think it is that your partner is bilingual?',
+            answer: 50,
+            type: 'rating',
+        },
+
+        '7': {
+            hintAbove: 'Please rate your partner according to the following attributes:',
+            question: 'friendly',
+            answer: 50,
+            type: 'rating',
+            question_ref: '7',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '8': {
+            question: 'smart',
+            answer: 50,
+            type: 'rating',
+            question_ref: '7',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '9': {
+            question: 'collaborative',
+            answer: 50,
+            type: 'rating',
+            question_ref: '7',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '10': {
+            question: 'honest',
+            answer: 50,
+            type: 'rating',
+            question_ref: '7',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '11': {
+            question: 'funny',
+            answer: 50,
+            type: 'rating',
+            question_ref: '7',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+        '12': {
+            question: 'How likely do you think it was that you were talking to a chatbot rather than a human?',
+            answer: 50,
+            type: 'rating',
+        },
+        '13': {
+            question:
+                'If you were communicating with a chat bot, would you want them to communicate in both English and Spanish?',
+            answer: 50,
+            type: 'rating',
+            sliderLeftText: 'not at all',
+            slideRightText: 'extremely',
+        },
+    },
     game_state: {
         end: false,
         started: false,
@@ -602,7 +608,7 @@ export const init_app_state: IAppState = {
         open_instructions: true,
     },
     game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '2.0.1_e',
+    clinet_version: '2.1.0_p',
     server_version: '',
 };
 

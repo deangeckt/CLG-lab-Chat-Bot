@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { ChatMsg, gameMode, gameRole, IAppState, MapCellIdx } from './Wrapper';
 
-// export const baseUrl = 'http://localhost:8080/api/v1/';
-export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
+export const baseUrl = 'http://localhost:8080/api/v1/';
+// export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
 
 export const huamn_to_human_event = async (guid: string, update: Function) => {
     const evtSource = new EventSource(baseUrl + `event?guid=${guid}`);
@@ -81,7 +81,7 @@ export const register = async (mode: gameMode, map_index: number, game_role: num
 export const upload = async (state: IAppState, update: Function) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { game_state, user_survey, ...all } = state;
+        const { game_state, general_survey: user_survey, ...all } = state;
         const user_survey_simpler = Object.keys(user_survey).map((key) => {
             const q_obj = user_survey[key];
             const q = q_obj.question_ref

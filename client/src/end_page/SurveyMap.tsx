@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, CircularProgress } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import Header from '../common/Header';
-import { IAppState } from '../Wrapper';
 import { upload } from '../api';
 import { main_blue } from '../common/colors';
 import {
@@ -12,50 +11,23 @@ import {
     end_page_title1_str,
     end_page_group_2_str,
     end_page_group_3_str,
-    end_page_group_4_str,
-    end_page_group_5_str,
-    end_page_group_6_str,
-    end_page_group_7_str,
 } from '../common/strings';
 import RatingQuestion from './RatingQuestion';
 import TextFieldQuestion from './TextFieldQuestion';
 import SelectQuestion from './SelectQuestion';
 import './EndPage.css';
 
-function EndPage(): JSX.Element {
-    const { state, setState } = useContext(AppContext);
+function SurveyMap(): JSX.Element {
+    const { state } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
     const [currGroup, SetCurrGroup] = useState(0);
 
     const survey_groups: string[][] = [];
-    const survey_groups_titles: string[] = [
-        end_page_group_1_str,
-        end_page_group_2_str,
-        end_page_group_3_str,
-        end_page_group_4_str,
-        end_page_group_5_str,
-        end_page_group_6_str,
-        end_page_group_7_str,
-    ];
-    survey_groups.push(Object.keys(state.user_survey).slice(0, 4));
-    survey_groups.push(Object.keys(state.user_survey).slice(4, 12));
-    survey_groups.push(Object.keys(state.user_survey).slice(12, 14));
-    survey_groups.push(Object.keys(state.user_survey).slice(14, 23));
-    survey_groups.push(Object.keys(state.user_survey).slice(23, 33));
-    survey_groups.push(Object.keys(state.user_survey).slice(33, 45));
-    survey_groups.push(Object.keys(state.user_survey).slice(45, 61));
+    const survey_groups_titles: string[] = [end_page_group_1_str, end_page_group_2_str, end_page_group_3_str];
 
-    useEffect(() => {
-        if (state.game_config.game_mode != 'human') return;
-        const state_str = localStorage.getItem('state');
-        if (!state_str) return;
-        const state_obj = JSON.parse(state_str) as IAppState;
-        if (state.game_config.game_role != state_obj.game_config.game_role) return;
-        if (state.game_config.guid != state_obj.game_config.guid) return;
-        console.log('using local strg');
-        setState(state_obj);
-        localStorage.removeItem('state');
-    }, []);
+    survey_groups.push(Object.keys(state.map_survey).slice(0, 3));
+    survey_groups.push(Object.keys(state.map_survey).slice(3, 12));
+    survey_groups.push(Object.keys(state.map_survey).slice(12, 14));
 
     const scroll_begin = () => {
         const tr = document.getElementById('container');
@@ -67,11 +39,11 @@ function EndPage(): JSX.Element {
     };
 
     const next = () => {
-        // console.log(state.user_survey);
         scroll_begin();
         if (currGroup == survey_groups.length - 1) {
             upload(state, () => {
                 SetReg('done');
+                // TODO put prolific id then or ask to do a new map?
             });
             SetReg('loading');
         } else {
@@ -99,13 +71,24 @@ function EndPage(): JSX.Element {
                                 {survey_groups_titles[currGroup]}
                             </Typography>
                             {survey_groups[currGroup].map(function (key) {
-                                const t = state.user_survey[key].type;
+                                const t = state.map_survey[key].type;
                                 if (t == 'rating')
-                                    return <RatingQuestion meta={state.user_survey[key]} id={key} key={key} />;
+                                    return (
+                                        <RatingQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />
+                                    );
                                 else if (t == 'textfield')
-                                    return <TextFieldQuestion meta={state.user_survey[key]} id={key} key={key} />;
+                                    return (
+                                        <TextFieldQuestion
+                                            meta={state.map_survey[key]}
+                                            id={key}
+                                            key={key}
+                                            survey="map"
+                                        />
+                                    );
                                 else if (t == 'select')
-                                    return <SelectQuestion meta={state.user_survey[key]} id={key} key={key} />;
+                                    return (
+                                        <SelectQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />
+                                    );
                             })}
                         </div>
                         <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
@@ -153,4 +136,4 @@ function EndPage(): JSX.Element {
     );
 }
 
-export default EndPage;
+export default SurveyMap;
