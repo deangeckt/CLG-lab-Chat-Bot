@@ -38,11 +38,10 @@ function App(): JSX.Element {
                         <InfoIcon style={{ color: main_gray, fontSize: 40 }} />
                     </IconButton>
                 </div>
-
                 <Typography variant="h4" style={{ alignSelf: 'center' }}>
                     Your role: {role_string}
                 </Typography>
-                {state.game_config.game_mode == 'bot' ? <Timer /> : null}
+                <Timer />
                 <Button
                     style={{ textTransform: 'none' }}
                     variant="outlined"

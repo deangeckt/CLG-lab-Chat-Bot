@@ -48,7 +48,7 @@ export interface MapMetadata {
     map_idx: number;
 }
 
-export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map' | 'err';
+export type gameRegister = 'yes' | 'no' | 'load' | 'err';
 export type gameRole = number;
 export interface Dictionary {
     [Key: number]: string;

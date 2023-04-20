@@ -1,5 +1,4 @@
 import { useContext, useRef, useState } from 'react';
-import { notifyHumanEnd } from '../api';
 import { AppContext } from '../AppContext';
 import { path_cell_color, next_cells_color } from '../common/colors';
 import { nav_end_model_str } from '../common/strings';
@@ -135,8 +134,6 @@ export function useMapCanvas() {
         // console.log(new_cell);
         if (is_finish(new_cell)) {
             open_ending_modal(nav_end_model_str);
-            if (state.game_config.game_mode == 'human')
-                notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
         }
 
         const new_neighbors = get_neighbors(new_cell);
@@ -208,8 +205,6 @@ export function useMapCanvas() {
         canvasRef,
         canvas_width,
         canvas_height,
-        neighbor_str_to_cell,
-        get_neighbors,
         init_matrix,
         onMouseClick,
         onKeyClick,

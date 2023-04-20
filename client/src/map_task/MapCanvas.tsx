@@ -11,6 +11,7 @@ function MapCanvas() {
     const init_func = state.game_config.game_role == 1 ? init_instructor : init_navigator;
 
     useEffect(() => {
+        console.log(state);
         if (state.game_state.end) return;
         init_func();
     }, []);
