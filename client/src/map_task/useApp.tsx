@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import { useNavigate } from 'react-router-dom';
-import { notifyHumanEnd } from '../api';
 import { maps } from '../Wrapper';
 import { bot_welcome_str, finish_btn_modal_str } from '../common/strings';
 
@@ -17,12 +16,7 @@ export function useApp() {
     };
 
     const finish_early = () => {
-        if (state.game_config.game_mode == 'human') {
-            notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
-            navigate_to_end_page();
-        } else {
-            open_ending_modal(finish_btn_modal_str);
-        }
+        open_ending_modal(finish_btn_modal_str);
     };
 
     const navigate_to_end_page = () => {
@@ -30,15 +24,16 @@ export function useApp() {
         navigate(path);
     };
 
-    const register_cb = (data: any, map_index: number) => {
-        const map_metadata = maps[map_index];
+    const register_cb = (data: any) => {
         const game_config = state.game_config;
+        const map_index = game_config.map_index;
+        const map_metadata = maps[map_index];
+
         let server_version = '';
         game_config.registerd = 'yes';
 
         if (data) {
             server_version = data.version;
-            game_config.game_role = data.role;
             game_config.guid = data.guid;
             const map = map_metadata.im_src.split('_')[0];
             map_metadata.im_src = `${map}_${data.role}.jpg`;
@@ -46,9 +41,8 @@ export function useApp() {
             game_config.registerd = 'err';
         }
         let chat = [...state.chat];
-        if (game_config.game_mode == 'bot') {
-            chat = chat.concat([{ id: 1 - state.game_config.game_role, msg: bot_welcome_str, timestamp: Date.now() }]);
-        }
+        chat = chat.concat([{ id: 1 - state.game_config.game_role, msg: bot_welcome_str, timestamp: Date.now() }]);
+
         console.log(game_config);
 
         setState({
