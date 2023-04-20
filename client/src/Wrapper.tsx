@@ -609,7 +609,7 @@ export const init_app_state: IAppState = {
         game_time: 0,
         open_instructions: true,
     },
-    game_config: { game_role: 0, map_index: 1, registerd: 'no', guid: '' },
+    game_config: { game_role: 1, map_index: 0, registerd: 'no', guid: '' },
     clinet_version: '2.1.0_p',
     server_version: '',
     consent: false,
