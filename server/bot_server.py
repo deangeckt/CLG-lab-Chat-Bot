@@ -29,7 +29,7 @@ class BotServer:
         if guid in self.sessions:
             del self.sessions[guid]
 
-    def call_bot(self, guid, user_msg, map_idx, game_role, user_state=None)  -> Tuple[list[str], bool]:
+    def call_bot(self, guid, user_msg, map_idx, game_role, user_state=None) -> Tuple[list[str], bool]:
         en_user_msg = self.translate.translate_to_eng(user_msg)
 
         db_data = None
