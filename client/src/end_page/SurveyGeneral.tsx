@@ -35,8 +35,6 @@ function SurveyGeneral(): JSX.Element {
     survey_groups.push(Object.keys(state.general_survey).slice(19, 31));
     survey_groups.push(Object.keys(state.general_survey).slice(31, 47));
 
-    console.log(state.general_survey);
-
     const scroll_begin = () => {
         const tr = document.getElementById('container');
         if (!tr) return;

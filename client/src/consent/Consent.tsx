@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { Button, IconButton, Typography } from '@material-ui/core';
+import { Box, Button, CircularProgress, Typography } from '@material-ui/core';
 import { AppContext } from '../AppContext';
 import { maps } from '../Wrapper';
 import { bot_welcome_str } from '../common/strings';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../api';
+import Header from '../common/Header';
+import { main_blue } from '../common/colors';
 import './Consent.css';
 
 function Conset(): JSX.Element {
@@ -34,7 +36,7 @@ function Conset(): JSX.Element {
             const map = map_metadata.im_src.split('_')[0];
             map_metadata.im_src = `${map}_${data.role}.jpg`;
         } else {
-            game_config.registerd = 'err';
+            game_config.registerd = 'yes';
         }
         let chat = [...state.chat];
         chat = chat.concat([{ id: 1 - state.game_config.game_role, msg: bot_welcome_str, timestamp: Date.now() }]);
@@ -49,14 +51,41 @@ function Conset(): JSX.Element {
             user_map_path: [maps[map_index].start_cell],
             server_version,
         });
-        if (game_config.registerd != 'err') navigate('/general_survey');
+    };
+
+    const redner_conset = () => {
+        return (
+            <>
+                <h6>text here</h6>
+                <Button
+                    className="register_btn"
+                    style={{ textTransform: 'none' }}
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => navigate('/general_survey')}
+                >
+                    Accept
+                </Button>
+            </>
+        );
     };
 
     return (
-        <div className="Conset">
-            {state.game_config.registerd === 'err' && <h6>err</h6>}
-            {state.game_config.registerd === 'yes' && <h6>consent stuff</h6>}
-            {state.game_config.registerd === 'load' && <h6>loading...</h6>}
+        <div className="conset">
+            <Header />
+            <div className="conset_container">
+                {state.game_config.registerd === 'err' && (
+                    <Typography variant="h5" style={{ margin: '16px' }}>
+                        An errur occured, please try again later
+                    </Typography>
+                )}
+                {state.game_config.registerd === 'yes' && redner_conset()}
+                {state.game_config.registerd === 'load' && (
+                    <Box sx={{ display: 'flex', margin: '32px' }}>
+                        <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
+                    </Box>
+                )}
+            </div>
         </div>
     );
 }
