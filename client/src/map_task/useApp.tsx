@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../AppContext';
 import { useNavigate } from 'react-router-dom';
 import { finish_btn_modal_str } from '../common/strings';
@@ -6,6 +6,10 @@ import { finish_btn_modal_str } from '../common/strings';
 export function useApp() {
     const { state, setState } = useContext(AppContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!state.consent) navigate('/');
+    }, []);
 
     const open_ending_modal = (text: string) => {
         const game_state = state.game_state;
@@ -19,8 +23,7 @@ export function useApp() {
     };
 
     const navigate_to_end_page = () => {
-        const path = '/map_survey';
-        navigate(path);
+        navigate('/map_survey');
     };
 
     return { open_ending_modal, navigate_to_end_page, finish_early };

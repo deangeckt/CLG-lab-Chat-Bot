@@ -34,14 +34,12 @@ function Conset(): JSX.Element {
             server_version = data.version;
             game_config.guid = data.guid;
             const map = map_metadata.im_src.split('_')[0];
-            map_metadata.im_src = `${map}_${data.role}.jpg`;
+            map_metadata.im_src = `${map}_${game_config.game_role}.jpg`;
         } else {
-            game_config.registerd = 'yes';
+            game_config.registerd = 'err';
         }
         let chat = [...state.chat];
         chat = chat.concat([{ id: 1 - state.game_config.game_role, msg: bot_welcome_str, timestamp: Date.now() }]);
-
-        console.log(game_config);
 
         setState({
             ...state,
@@ -53,6 +51,11 @@ function Conset(): JSX.Element {
         });
     };
 
+    const onClick = () => {
+        setState({ ...state, consent: true });
+        navigate('/general_survey');
+    };
+
     const redner_conset = () => {
         return (
             <>
@@ -62,7 +65,7 @@ function Conset(): JSX.Element {
                     style={{ textTransform: 'none' }}
                     variant="outlined"
                     color="primary"
-                    onClick={() => navigate('/general_survey')}
+                    onClick={() => onClick()}
                 >
                     Accept
                 </Button>

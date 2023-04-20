@@ -22,6 +22,10 @@ function SurveyGeneral(): JSX.Element {
     const navigate = useNavigate();
     const [currGroup, SetCurrGroup] = useState(0);
 
+    React.useEffect(() => {
+        if (!state.consent) navigate('/');
+    }, []);
+
     const survey_groups: string[][] = [];
     const survey_groups_titles: string[] = [
         end_page_group_4_str,
@@ -45,7 +49,6 @@ function SurveyGeneral(): JSX.Element {
     };
 
     const next = () => {
-        // console.log(state.user_survey);
         scroll_begin();
         if (currGroup == survey_groups.length - 1) {
             navigate('/map_task');

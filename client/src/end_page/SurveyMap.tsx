@@ -15,12 +15,19 @@ import {
 import RatingQuestion from './RatingQuestion';
 import TextFieldQuestion from './TextFieldQuestion';
 import SelectQuestion from './SelectQuestion';
+import { useNavigate } from 'react-router-dom';
 import './EndPage.css';
 
 function SurveyMap(): JSX.Element {
-    const { state } = useContext(AppContext);
+    const navigate = useNavigate();
+    const { state, setState } = useContext(AppContext);
     const [reg, SetReg] = useState('not_sent');
     const [currGroup, SetCurrGroup] = useState(0);
+
+    React.useEffect(() => {
+        if (!state.consent) navigate('/');
+        if (state.uploaded) SetReg('done');
+    }, []);
 
     const survey_groups: string[][] = [];
     const survey_groups_titles: string[] = [end_page_group_1_str, end_page_group_2_str, end_page_group_3_str];
@@ -43,7 +50,8 @@ function SurveyMap(): JSX.Element {
         if (currGroup == survey_groups.length - 1) {
             upload(state, () => {
                 SetReg('done');
-                // TODO put prolific id then or ask to do a new map?
+                setState({ ...state, uploaded: true });
+                // TODO put prolific id or ask to do a new map?
             });
             SetReg('loading');
         } else {

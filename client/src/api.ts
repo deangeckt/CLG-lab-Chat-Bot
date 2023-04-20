@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { IAppState, MapCellIdx } from './Wrapper';
+import { IAppState, MapCellIdx, UserSurvey } from './Wrapper';
 
 export const baseUrl = 'http://localhost:8080/api/v1/';
 // export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
@@ -52,7 +52,7 @@ export const register = async (map_index: number, game_role: number, update: Fun
             method: 'POST',
             data: { map_index, game_role },
         })) as AxiosResponse;
-        update(response.data.guid, map_index);
+        update(response.data, map_index);
     } catch (error: any) {
         update(null, map_index);
     }
@@ -78,21 +78,32 @@ export const callBot = async (
     }
 };
 
+const simplify_survey = (survey: UserSurvey) => {
+    const survey_simpler = Object.keys(survey).map((key) => {
+        const q_obj = survey[key];
+        const q = q_obj.question_ref ? `${survey[q_obj.question_ref].hintAbove} ${q_obj.question}` : q_obj.question;
+        return { answer: survey[key].answer, question: q };
+    });
+    return survey_simpler;
+};
+
 export const upload = async (state: IAppState, update: Function) => {
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { game_state, general_survey: user_survey, ...all } = state;
-        const user_survey_simpler = Object.keys(user_survey).map((key) => {
-            const q_obj = user_survey[key];
-            const q = q_obj.question_ref
-                ? `${user_survey[q_obj.question_ref].hintAbove} ${q_obj.question}`
-                : q_obj.question;
-            return { answer: user_survey[key].answer, question: q };
-        });
+        const { game_state, general_survey, map_survey, ...all } = state;
+        const map_survey_simpler = simplify_survey(map_survey);
+        const general_survey_simpler = simplify_survey(general_survey);
+
         (await axios.request({
             url: baseUrl + 'upload',
             method: 'POST',
-            data: { ...all, guid: all.game_config.guid, time: game_state.game_time, user_survery: user_survey_simpler },
+            data: {
+                ...all,
+                guid: all.game_config.guid,
+                time: game_state.game_time,
+                map_survey: map_survey_simpler,
+                general_survey: general_survey_simpler,
+            },
         })) as AxiosResponse;
         update();
         console.log('uploaded successfully');
