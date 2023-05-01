@@ -105,6 +105,8 @@ def upload_api():
         upload_data['cs_strategy'] = cs_strategy
 
         if upload_data is not None:
+            del upload_data['consent']
+            del upload_data['uploaded']
             chat = upload_data['chat']
             for c in chat:
                 c['id'] = game_roles_reverse[c['id']]
@@ -112,7 +114,7 @@ def upload_api():
                 upload_data['game_config']['game_role'] = game_roles_reverse[upload_data['game_config']['game_role']]
 
             upload_data['server_version'] = VERSION
-            save_to_storage(upload_data)
+            # save_to_storage(upload_data)
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)

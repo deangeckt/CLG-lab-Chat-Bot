@@ -17,6 +17,7 @@ export interface UserSurveyQuestion {
     questionCont?: string;
     not_applicable?: boolean;
     question_ref?: string;
+    ignore?: boolean;
 }
 
 export type surveyType = 'map' | 'general';
@@ -523,7 +524,7 @@ export const init_app_state: IAppState = {
             slideRightText: 'extremely',
         },
         '3': {
-            question: "How difficult was it to understand your partner's directions?",
+            question: "How difficult was it to understand your partner's instructions?",
             answer: 50,
             type: 'rating',
             sliderLeftText: 'not at all',
@@ -538,11 +539,13 @@ export const init_app_state: IAppState = {
             question: 'How likely is your partner to be a fluent speaker of Spanish?',
             answer: 50,
             type: 'rating',
+            ignore: true,
         },
         '6': {
             question: 'How likely do you think it is that your partner is bilingual?',
             answer: 50,
             type: 'rating',
+            ignore: true,
         },
 
         '7': {

@@ -15,9 +15,9 @@ root.render(
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Conset />} />
-                <Route path="general_survey" element={<SurveyGeneral />} />
                 <Route path="map_task" element={<App />} />
                 <Route path="map_survey" element={<SurveyMap />} />
+                <Route path="general_survey" element={<SurveyGeneral />} />
             </Routes>
         </BrowserRouter>
     </Wrapper>,

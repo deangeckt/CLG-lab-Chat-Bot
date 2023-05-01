@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { IAppState, MapCellIdx, UserSurvey } from './Wrapper';
 
-// export const baseUrl = 'http://localhost:8080/api/v1/';
-export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
+export const baseUrl = 'http://localhost:8080/api/v1/';
+// export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
 
 // export const huamn_to_human_event = async (guid: string, update: Function) => {
 //     const evtSource = new EventSource(baseUrl + `event?guid=${guid}`);

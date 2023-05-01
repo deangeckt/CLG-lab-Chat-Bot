@@ -5,7 +5,7 @@ from singleton_decorator import singleton
 @singleton
 class Database:
     def __init__(self):
-        self.client = datastore.Client()
+        self.client = datastore.Client(project='dialogue-362312')
         self.kind = 'sync'
 
     def push(self, data, guid):

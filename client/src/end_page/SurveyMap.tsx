@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Button, CircularProgress } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
 import Header from '../common/Header';
-import { upload } from '../api';
-import { main_blue } from '../common/colors';
 import {
     end_page_group_1_str,
     end_page_title1_str,
@@ -20,13 +18,11 @@ import './EndPage.css';
 
 function SurveyMap(): JSX.Element {
     const navigate = useNavigate();
-    const { state, setState } = useContext(AppContext);
-    const [reg, SetReg] = useState('not_sent');
+    const { state } = useContext(AppContext);
     const [currGroup, SetCurrGroup] = useState(0);
 
     React.useEffect(() => {
         if (!state.consent) navigate('/');
-        if (state.uploaded) SetReg('done');
     }, []);
 
     const survey_groups: string[][] = [];
@@ -48,12 +44,8 @@ function SurveyMap(): JSX.Element {
     const next = () => {
         scroll_begin();
         if (currGroup == survey_groups.length - 1) {
-            upload(state, () => {
-                SetReg('done');
-                setState({ ...state, uploaded: true });
-                // TODO put prolific id or ask to do a new map?
-            });
-            SetReg('loading');
+            // TODO ask to start another map
+            navigate('/general_survey');
         } else {
             SetCurrGroup(currGroup + 1);
         }
@@ -69,76 +61,52 @@ function SurveyMap(): JSX.Element {
         <div className="End">
             <Header />
             <div className="End_Container" id="container">
-                {reg == 'not_sent' ? (
-                    <>
-                        <Typography style={{ marginTop: '16px' }} variant="h4">
-                            {end_page_title1_str}
-                        </Typography>
-                        <div className="Group">
-                            <Typography variant="h5" style={{ marginBottom: '32px' }}>
-                                {survey_groups_titles[currGroup]}
-                            </Typography>
-                            {survey_groups[currGroup].map(function (key) {
-                                const t = state.map_survey[key].type;
-                                if (t == 'rating')
-                                    return (
-                                        <RatingQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />
-                                    );
-                                else if (t == 'textfield')
-                                    return (
-                                        <TextFieldQuestion
-                                            meta={state.map_survey[key]}
-                                            id={key}
-                                            key={key}
-                                            survey="map"
-                                        />
-                                    );
-                                else if (t == 'select')
-                                    return (
-                                        <SelectQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />
-                                    );
-                            })}
-                        </div>
-                        <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-                            <Button
-                                disabled={currGroup == 0}
-                                style={{
-                                    textTransform: 'none',
-                                    marginLeft: '16px',
-                                    marginBottom: '16px',
-                                }}
-                                className="nav_btn"
-                                variant="outlined"
-                                color="primary"
-                                onClick={back}
-                            >
-                                Back
-                            </Button>
-                            <Button
-                                style={{
-                                    textTransform: 'none',
-                                    marginRight: '16px',
-                                    marginBottom: '16px',
-                                }}
-                                variant="outlined"
-                                color="primary"
-                                onClick={next}
-                            >
-                                {currGroup == survey_groups.length - 1 ? 'Finish' : 'Next'}
-                            </Button>
-                        </div>
-                    </>
-                ) : null}
-                {reg == 'loading' ? (
-                    <Box sx={{ display: 'flex', marginTop: '25%' }}>
-                        <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
-                    </Box>
-                ) : null}
-                {reg == 'done' ? (
-                    <Typography style={{ marginTop: '25%' }} variant="h4">
-                        Thank you
+                <Typography style={{ marginTop: '16px' }} variant="h4">
+                    {end_page_title1_str}
+                </Typography>
+                <div className="Group">
+                    <Typography variant="h5" style={{ marginBottom: '32px' }}>
+                        {survey_groups_titles[currGroup]}
                     </Typography>
-                ) : null}
+                    {survey_groups[currGroup].map(function (key) {
+                        if (state.map_survey[key].ignore) return null;
+                        const t = state.map_survey[key].type;
+                        if (t == 'rating')
+                            return <RatingQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />;
+                        else if (t == 'textfield')
+                            return <TextFieldQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />;
+                        else if (t == 'select')
+                            return <SelectQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />;
+                    })}
+                </div>
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+                    <Button
+                        disabled={currGroup == 0}
+                        style={{
+                            textTransform: 'none',
+                            marginLeft: '16px',
+                            marginBottom: '16px',
+                        }}
+                        className="nav_btn"
+                        variant="outlined"
+                        color="primary"
+                        onClick={back}
+                    >
+                        Back
+                    </Button>
+                    <Button
+                        style={{
+                            textTransform: 'none',
+                            marginRight: '16px',
+                            marginBottom: '16px',
+                        }}
+                        variant="outlined"
+                        color="primary"
+                        onClick={next}
+                    >
+                        {currGroup == survey_groups.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                </div>
             </div>
         </div>
     );
