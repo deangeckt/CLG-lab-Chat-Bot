@@ -29,7 +29,6 @@ export function useMapCanvas() {
     const { open_ending_modal } = useApp();
     const { state, setState } = useContext(AppContext);
     const game = state.games[state.curr_game];
-    console.log(game);
 
     const [matrix, setMatrix] = useState(Array<Array<Path2D>>);
     const [neighbors, setNeighbors] = useState<Set<string>>(new Set());

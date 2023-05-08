@@ -15,7 +15,11 @@ function RatingQuestion(data: IQuestionInterface): JSX.Element {
     const simple_set = (val: number | string) => {
         survey[data.id].answer = val;
         if (data.survey === 'general') setState({ ...state, general_survey: survey });
-        else setState({ ...state, map_survey: survey });
+        else {
+            const games = [...state.games];
+            games[state.curr_game].map_survey = survey;
+            setState({ ...state, games: games });
+        }
     };
 
     const toggle_na = () => {

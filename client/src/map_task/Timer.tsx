@@ -24,12 +24,16 @@ function Timer(): JSX.Element {
     });
 
     useEffect(() => {
+        const games = [...state.games];
+        const game = games[state.curr_game];
+
         if (!game.game_state.end) return;
 
         const total_seconds = minutes * 60 + seconds;
         const game_state = game.game_state;
         game_state.game_time = game_state.init_time - total_seconds;
-        setState({ ...state, game_state });
+        game.game_state = game_state;
+        setState({ ...state, games: games });
     }, [game.game_state.end]);
 
     useEffect(() => {

@@ -12,7 +12,11 @@ function TextFieldQuestion(data: IQuestionInterface): JSX.Element {
     const simple_set = (e: any) => {
         survey[data.id].answer = e.target.value.toString();
         if (data.survey === 'general') setState({ ...state, general_survey: survey });
-        else setState({ ...state, map_survey: survey });
+        else {
+            const games = [...state.games];
+            games[state.curr_game].map_survey = survey;
+            setState({ ...state, games: games });
+        }
     };
 
     return (

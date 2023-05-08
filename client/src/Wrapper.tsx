@@ -282,7 +282,7 @@ export const init_app_state: IAppState = {
             game_state: init_game_state,
             map_survey: init_map_survey,
             user_map_path: [],
-            game_config: { game_role: 0, map_index: 1, guid: '' },
+            game_config: { game_role: 1, map_index: 0, guid: '' },
         },
     ],
     general_survey: {

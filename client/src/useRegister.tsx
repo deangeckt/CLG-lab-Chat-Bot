@@ -22,7 +22,6 @@ export function useRegister() {
         const game_config = games[0].game_config;
         const map_index = game_config.map_index;
         const map_metadata = maps[map_index];
-        console.log(map_metadata);
 
         let server_version = '';
         let registerd = 'yes';
