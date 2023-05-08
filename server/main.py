@@ -57,7 +57,7 @@ def upload_api():
 
         upload_data = params
         upload_data['server_version'] = VERSION
-        # upload_data['cs_strategy'] = cs_strategy
+        upload_data['cs_strategy'] = 'english only'
 
         for game in upload_data['games_data']:
             bot_server.un_register(game['config']['guid'])
@@ -67,7 +67,7 @@ def upload_api():
             for c in chat:
                 c['id'] = game_roles_reverse[c['id']]
 
-        # save_to_storage(upload_data)
+        save_to_storage(upload_data, upload_data['prolific']['prolific_id'])
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)

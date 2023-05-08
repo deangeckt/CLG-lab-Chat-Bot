@@ -14,12 +14,24 @@ const consent_txt2 = (amount: string) =>
 
 function Conset(): JSX.Element {
     const { state, setState } = useContext(AppContext);
+    const [isProlific, setIsProlific] = React.useState(false);
     const { register_game } = useRegister();
     const navigate = useNavigate();
 
     React.useEffect(() => {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const prolific_id = urlParams.get('PROLIFIC_PID');
+        const study_id = urlParams.get('STUDY_ID');
+        const seassion_id = urlParams.get('SESSION_ID');
+
+        if (!prolific_id || !study_id || !seassion_id) {
+            return;
+        }
+        setIsProlific(true);
+
         if (state.registerd === 'yes') return;
-        register_game(0);
+        register_game({ prolific_id, study_id, seassion_id });
     }, []);
 
     const onClick = () => {
@@ -27,11 +39,13 @@ function Conset(): JSX.Element {
         navigate('/map_task');
     };
 
+    // TODO: change cash - maybe par hour?
     const redner_conset = () => {
         return (
             <>
                 <h6 className="consentText">
-                    {consent_txt1} <br /> <br /> {consent_txt2('5$')}
+                    {consent_txt1} <br /> <br /> {consent_txt2('£9.00/hour')} <br /> <br /> Please do not refresh the
+                    page as progress will be lost.
                 </h6>
                 <Button
                     className="register_btn"
@@ -50,6 +64,11 @@ function Conset(): JSX.Element {
         <div className="conset">
             <Header />
             <div className="conset_container">
+                {!isProlific && (
+                    <Typography variant="h5" style={{ margin: '16px' }}>
+                        no prolific parameters found
+                    </Typography>
+                )}
                 {state.registerd === 'err' && (
                     <Typography variant="h5" style={{ margin: '16px' }}>
                         An errur occured, please try again later

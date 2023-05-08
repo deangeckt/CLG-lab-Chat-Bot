@@ -59,7 +59,6 @@ function SurveyGeneral(): JSX.Element {
             upload(state, () => {
                 SetReg('done');
                 setState({ ...state, uploaded: true });
-                // TODO put prolific id here
             });
             SetReg('loading');
         } else {
@@ -154,7 +153,7 @@ function SurveyGeneral(): JSX.Element {
                 ) : null}
                 {reg == 'done' ? (
                     <Typography style={{ marginTop: '25%' }} variant="h4">
-                        Thank you - prolific finish code: AAAA
+                        Thank you! <br /> <br /> prolific completion code: C15G3HZJ
                     </Typography>
                 ) : null}
             </div>

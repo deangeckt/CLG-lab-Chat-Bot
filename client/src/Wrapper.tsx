@@ -87,6 +87,12 @@ export interface ISingleGameState {
     game_config: GameConfig;
 }
 
+export interface IProlific {
+    prolific_id: string;
+    study_id: string;
+    seassion_id: string;
+}
+
 export interface IAppState {
     games: ISingleGameState[];
     general_survey: UserSurvey;
@@ -96,6 +102,7 @@ export interface IAppState {
     uploaded: boolean;
     registerd: gameRegister;
     curr_game: number;
+    prolific: IProlific;
 }
 
 export const maps: MapMetadata[] = [
@@ -630,6 +637,11 @@ export const init_app_state: IAppState = {
     consent: false,
     uploaded: false,
     curr_game: 0,
+    prolific: {
+        prolific_id: '',
+        study_id: '',
+        seassion_id: '',
+    },
 };
 
 const Wrapper = (props: any) => {

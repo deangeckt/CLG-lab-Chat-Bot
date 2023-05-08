@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from './AppContext';
 import { register } from './api';
-import { maps, ISingleGameState, init_game_state, init_map_survey } from './Wrapper';
+import { maps, ISingleGameState, init_game_state, init_map_survey, IProlific } from './Wrapper';
 import { bot_welcome_str } from './common/strings';
 import { useNavigate } from 'react-router-dom';
 const game_role = 1;
@@ -38,17 +38,18 @@ export function useRegister() {
     };
 
     const create_new_game = () => {
-        setState({ ...state, registerd: 'load' });
+        setState({ ...state, registerd: 'load' }); // override next - so thats ok
         register(state.curr_game + 1, game_role, new_game_cb);
     };
 
-    const register_game = (game_idx: number) => {
-        const game_config = state.games[game_idx].game_config;
+    const register_game = (prolific: IProlific) => {
+        const game_config = state.games[0].game_config;
         setState({ ...state, registerd: 'load' });
-        register(game_config.map_index, game_config.game_role, register_cb);
+        register(game_config.map_index, game_config.game_role, (data: any) => register_cb(data, prolific));
     };
 
-    const register_cb = (data: any) => {
+    const register_cb = (data: any, prolific: IProlific) => {
+        console.log(prolific);
         const games = [...state.games];
         const game_config = games[0].game_config;
         const map_index = game_config.map_index;
@@ -76,6 +77,7 @@ export function useRegister() {
             games: games,
             registerd,
             server_version,
+            prolific: prolific,
         });
     };
 

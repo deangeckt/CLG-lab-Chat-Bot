@@ -70,6 +70,7 @@ export const upload = async (state: IAppState, update: Function) => {
                 games_data,
                 general_survey: general_survey_simpler,
                 clinet_version: state.clinet_version,
+                prolific: state.prolific,
             },
         })) as AxiosResponse;
         update();
