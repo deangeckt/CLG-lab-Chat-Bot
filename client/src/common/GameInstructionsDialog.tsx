@@ -19,6 +19,7 @@ function GameInstructionsDialog({}): JSX.Element {
     const { state } = useContext(AppContext);
     const [im, setIm] = useState<HTMLImageElement>();
     const { setGameInstructions } = useGameInstructions();
+    const game = state.games[state.curr_game];
 
     useEffect(() => {
         const image = new Image();
@@ -30,9 +31,9 @@ function GameInstructionsDialog({}): JSX.Element {
         };
 
         let img_map_name = '';
-        if (state.game_config.game_role == 1) img_map_name = state.map_metadata.im_src;
+        if (game.game_config.game_role == 1) img_map_name = game.map_metadata.im_src;
         else {
-            const prefix = state.map_metadata.im_src.split('.jpg')[0];
+            const prefix = game.map_metadata.im_src.split('.jpg')[0];
             img_map_name = prefix + '_nav.jpg';
         }
 
@@ -42,7 +43,7 @@ function GameInstructionsDialog({}): JSX.Element {
     return (
         <>
             <Dialog
-                open={state.game_state.open_instructions}
+                open={game.game_state.open_instructions}
                 TransitionComponent={Transition as any}
                 keepMounted
                 onClose={() => setGameInstructions(false)}
@@ -56,8 +57,8 @@ function GameInstructionsDialog({}): JSX.Element {
 
                     <img
                         src={im?.src}
-                        width={state.map_metadata.im_width / 5}
-                        height={state.map_metadata.im_height / 5}
+                        width={game.map_metadata.im_width / 5}
+                        height={game.map_metadata.im_height / 5}
                     />
                 </DialogContent>
                 <DialogActions>

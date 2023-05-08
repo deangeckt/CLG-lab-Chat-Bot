@@ -7,11 +7,12 @@ function MapCanvas() {
     const { state } = useContext(AppContext);
     const { canvasRef, canvas_width, canvas_height, init_navigator, init_instructor, onMouseClick, onKeyClick } =
         useMapCanvas();
+    const game = state.games[state.curr_game];
 
-    const init_func = state.game_config.game_role == 1 ? init_instructor : init_navigator;
+    const init_func = game.game_config.game_role == 1 ? init_instructor : init_navigator;
 
     useEffect(() => {
-        if (state.game_state.end) return;
+        if (game.game_state.end) return;
         if (!state.consent) return;
         init_func();
     }, []);
@@ -24,8 +25,8 @@ function MapCanvas() {
                 width={canvas_width}
                 height={canvas_height}
                 className={'map_canvas'}
-                onKeyDown={state.game_config.game_role == 0 ? onKeyClick : () => null}
-                onMouseDown={state.game_config.game_role == 0 ? onMouseClick : () => null}
+                onKeyDown={game.game_config.game_role == 0 ? onKeyClick : () => null}
+                onMouseDown={game.game_config.game_role == 0 ? onMouseClick : () => null}
             />
         </div>
     );

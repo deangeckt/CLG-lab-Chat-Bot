@@ -19,7 +19,7 @@ function App(): JSX.Element {
     const { state } = useContext(AppContext);
     const { setGameInstructions } = useGameInstructions();
 
-    const role_string = role_strings[state.game_config.game_role];
+    const role_string = role_strings[state.games[state.curr_game].game_config.game_role];
     const { finish_early } = useApp();
     const version = `client: ${state.clinet_version}\nserver: ${state.server_version}`;
 

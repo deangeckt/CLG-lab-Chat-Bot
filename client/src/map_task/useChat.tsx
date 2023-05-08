@@ -8,32 +8,40 @@ export function useChat() {
     const { state, setState } = useContext(AppContext);
     const [inputTxt, setInputTxt] = useState('');
     const [botType, setBotType] = useState(false);
-    const stateRef = useRef(state);
 
-    useEffect(() => {
-        stateRef.current = state;
-    }, [state]);
+    // const stateRef = useRef(state);
+
+    // useEffect(() => {
+    //     stateRef.current = state;
+    // }, [state]);
 
     const updateChatState = (newMsg: ChatMsg[]) => {
-        const chat = [...stateRef.current.chat].concat(newMsg);
-        setState({ ...stateRef.current, chat });
+        const games = [...state.games];
+        const chat = games[state.curr_game].chat.concat(newMsg);
+        games[state.curr_game].chat = chat;
+        // setState({ ...stateRef.current, games: games });
+        setState({ ...state, games: games });
     };
 
     const updateChatAndFinish = (newMsg: ChatMsg[], endModalText: string) => {
-        const game_state = state.game_state;
+        const games = [...state.games];
+        const game_state = games[state.curr_game].game_state;
         game_state.end = true;
         game_state.end_modal_text = endModalText;
-        const chat = [...stateRef.current.chat].concat(newMsg);
-        setState({ ...stateRef.current, chat, game_state });
+        const chat = games[state.curr_game].chat.concat(newMsg);
+        games[state.curr_game].chat = chat;
+        setState({ ...state, games: games });
     };
 
     const sendUserMsg = () => {
         if (!inputTxt) return;
-        const curr_cell = state.user_map_path[state.user_map_path.length - 1];
+        const user_map_path = state.games[state.curr_game].user_map_path;
+        const curr_cell = user_map_path[user_map_path.length - 1];
+        console.log(curr_cell);
 
         const selfChatMsg: ChatMsg = {
             msg: inputTxt,
-            id: state.game_config.game_role,
+            id: state.games[state.curr_game].game_config.game_role,
             timestamp: Date.now(),
             curr_nav_cell: curr_cell,
         };
@@ -43,11 +51,11 @@ export function useChat() {
 
         setBotType(true);
         callBot(
-            state.game_config.guid,
+            state.games[state.curr_game].game_config.guid,
             inputTxt,
             curr_cell,
-            state.map_metadata.map_idx,
-            state.game_config.game_role,
+            state.games[state.curr_game].map_metadata.map_idx,
+            state.games[state.curr_game].game_config.game_role,
             addBotMsg,
         );
     };
@@ -55,7 +63,11 @@ export function useChat() {
     const addBotMsg = (data: any) => {
         const msgs: string[] = data.res;
         const is_finish = data.is_finish;
-        const chatMsgs = msgs.map((msg) => ({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() }));
+        const chatMsgs = msgs.map((msg) => ({
+            msg: msg,
+            id: 1 - state.games[state.curr_game].game_config.game_role,
+            timestamp: Date.now(),
+        }));
         setBotType(false);
         if (is_finish) updateChatAndFinish(chatMsgs, hh_end_modal_str);
         else updateChatState(chatMsgs);

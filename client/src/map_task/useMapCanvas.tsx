@@ -28,9 +28,11 @@ const get_canvas_size = (im_width: number, im_height: number) => {
 export function useMapCanvas() {
     const { open_ending_modal } = useApp();
     const { state, setState } = useContext(AppContext);
+    const game = state.games[state.curr_game];
+
     const [matrix, setMatrix] = useState(Array<Array<Path2D>>);
     const [neighbors, setNeighbors] = useState<Set<string>>(new Set());
-    const { canvas_width, canvas_height } = get_canvas_size(state.map_metadata.im_width, state.map_metadata.im_height);
+    const { canvas_width, canvas_height } = get_canvas_size(game.map_metadata.im_width, game.map_metadata.im_height);
     const canvasRef = useRef(null);
     const [im, setIm] = useState<HTMLImageElement>();
     const radius = canvas_width / 65;
@@ -51,7 +53,7 @@ export function useMapCanvas() {
             console.log('img load err', err);
         };
 
-        image.src = require(`./maps/${state.map_metadata.im_src}`);
+        image.src = require(`./maps/${game.map_metadata.im_src}`);
     };
 
     const init_navigator = () => {
@@ -66,14 +68,15 @@ export function useMapCanvas() {
         const canvas = canvasRef.current;
         const context = (canvas as any).getContext('2d');
 
-        const rows = state.map_metadata.rows;
-        const columns = state.map_metadata.cols;
+        const rows = game.map_metadata.rows;
+        const columns = game.map_metadata.cols;
 
         const col_step = canvas_width / columns;
         const row_step = canvas_height / rows;
 
         const new_mat: Array<Array<Path2D>> = [];
-        const curr_map_cell: MapCellIdx = state.user_map_path[0];
+        const curr_map_cell: MapCellIdx = game.user_map_path[0];
+        console.log('init_matrix', curr_map_cell);
         const new_neighbors = get_neighbors(curr_map_cell);
 
         for (let row = 0; row < rows; row++) {
@@ -107,9 +110,9 @@ export function useMapCanvas() {
 
         const new_neighbors = new Set<string>();
         if (row - 1 > 0) new_neighbors.add(`${row - 1}_${col}`);
-        if (row + 1 < state.map_metadata.rows - 1) new_neighbors.add(`${row + 1}_${col}`);
+        if (row + 1 < game.map_metadata.rows - 1) new_neighbors.add(`${row + 1}_${col}`);
         if (col - 1 > 0) new_neighbors.add(`${row}_${col - 1}`);
-        if (col + 1 < state.map_metadata.cols - 1) new_neighbors.add(`${row}_${col + 1}`);
+        if (col + 1 < game.map_metadata.cols - 1) new_neighbors.add(`${row}_${col + 1}`);
         return new_neighbors;
     };
 
@@ -126,7 +129,7 @@ export function useMapCanvas() {
 
     const is_finish = (cell: MapCellIdx): boolean => {
         return (
-            Math.sqrt((cell.r - state.map_metadata.end_cell.r) ** 2 + (cell.c - state.map_metadata.end_cell.c) ** 2) < 2
+            Math.sqrt((cell.r - game.map_metadata.end_cell.r) ** 2 + (cell.c - game.map_metadata.end_cell.c) ** 2) < 2
         );
     };
 
@@ -139,7 +142,7 @@ export function useMapCanvas() {
         const new_neighbors = get_neighbors(new_cell);
         setNeighbors(new_neighbors);
 
-        const curr_map_cell: MapCellIdx = state.user_map_path[state.user_map_path.length - 1];
+        const curr_map_cell: MapCellIdx = game.user_map_path[game.user_map_path.length - 1];
 
         const ui_new_neighbors = new Set(new_neighbors);
         ui_new_neighbors.delete(`${curr_map_cell.r}_${curr_map_cell.c}`);
@@ -152,7 +155,7 @@ export function useMapCanvas() {
         context.drawImage(im, 0, 0, canvas_width, canvas_height);
 
         // color the circle object after image
-        const user_map_path = [...state.user_map_path].concat(new_cell);
+        const user_map_path = [...game.user_map_path].concat(new_cell);
         color_change(ui_new_neighbors_list, next_cells_color);
         color_change(user_map_path, path_cell_color);
 
@@ -160,12 +163,12 @@ export function useMapCanvas() {
     };
 
     const onKeyClick = (e: any) => {
-        const curr_map_cell: MapCellIdx = state.user_map_path[state.user_map_path.length - 1];
+        const curr_map_cell: MapCellIdx = game.user_map_path[game.user_map_path.length - 1];
         let row = curr_map_cell.r;
         let col = curr_map_cell.c;
 
-        const cols = state.map_metadata.cols;
-        const rows = state.map_metadata.rows;
+        const cols = game.map_metadata.cols;
+        const rows = game.map_metadata.rows;
 
         if (e.keyCode == 37) {
             // console.log('left');

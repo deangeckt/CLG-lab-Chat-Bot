@@ -5,10 +5,11 @@ export function useGameInstructions() {
     const { state, setState } = useContext(AppContext);
 
     const setGameInstructions = (val: boolean) => {
-        const game_state = state.game_state;
+        const games = [...state.games];
+        const game_state = games[state.curr_game].game_state;
         game_state.open_instructions = val;
         game_state.started = true;
-        setState({ ...state, game_state });
+        setState({ ...state, games: games });
     };
 
     return { setGameInstructions };

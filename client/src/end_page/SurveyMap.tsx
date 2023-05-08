@@ -28,9 +28,11 @@ function SurveyMap(): JSX.Element {
     const survey_groups: string[][] = [];
     const survey_groups_titles: string[] = [end_page_group_1_str, end_page_group_2_str, end_page_group_3_str];
 
-    survey_groups.push(Object.keys(state.map_survey).slice(0, 3));
-    survey_groups.push(Object.keys(state.map_survey).slice(3, 12));
-    survey_groups.push(Object.keys(state.map_survey).slice(12, 14));
+    const map_survey = state.games[state.curr_game].map_survey;
+
+    survey_groups.push(Object.keys(map_survey).slice(0, 3));
+    survey_groups.push(Object.keys(map_survey).slice(3, 12));
+    survey_groups.push(Object.keys(map_survey).slice(12, 14));
 
     const scroll_begin = () => {
         const tr = document.getElementById('container');
@@ -69,14 +71,14 @@ function SurveyMap(): JSX.Element {
                         {survey_groups_titles[currGroup]}
                     </Typography>
                     {survey_groups[currGroup].map(function (key) {
-                        if (state.map_survey[key].ignore) return null;
-                        const t = state.map_survey[key].type;
+                        if (map_survey[key].ignore) return null;
+                        const t = map_survey[key].type;
                         if (t == 'rating')
-                            return <RatingQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />;
+                            return <RatingQuestion meta={map_survey[key]} id={key} key={key} survey="map" />;
                         else if (t == 'textfield')
-                            return <TextFieldQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />;
+                            return <TextFieldQuestion meta={map_survey[key]} id={key} key={key} survey="map" />;
                         else if (t == 'select')
-                            return <SelectQuestion meta={state.map_survey[key]} id={key} key={key} survey="map" />;
+                            return <SelectQuestion meta={map_survey[key]} id={key} key={key} survey="map" />;
                     })}
                 </div>
                 <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>

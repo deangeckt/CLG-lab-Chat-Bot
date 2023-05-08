@@ -7,7 +7,7 @@ import { IQuestionInterface } from '../Wrapper';
 
 function SelectQuestion(data: IQuestionInterface): JSX.Element {
     const { state, setState } = useContext(AppContext);
-    const survey = data.survey === 'general' ? state.general_survey : state.map_survey;
+    const survey = data.survey === 'general' ? state.general_survey : state.games[state.curr_game].map_survey;
 
     const simple_set = (e: any) => {
         survey[data.id].answer = e.target.value.toString();
