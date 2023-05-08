@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState } from 'react';
 import { callBot } from '../api';
 import { AppContext } from '../AppContext';
 import { ChatMsg } from '../Wrapper';
@@ -9,17 +9,10 @@ export function useChat() {
     const [inputTxt, setInputTxt] = useState('');
     const [botType, setBotType] = useState(false);
 
-    // const stateRef = useRef(state);
-
-    // useEffect(() => {
-    //     stateRef.current = state;
-    // }, [state]);
-
     const updateChatState = (newMsg: ChatMsg[]) => {
         const games = [...state.games];
         const chat = games[state.curr_game].chat.concat(newMsg);
         games[state.curr_game].chat = chat;
-        // setState({ ...stateRef.current, games: games });
         setState({ ...state, games: games });
     };
 

@@ -22,6 +22,7 @@ export function useRegister() {
         const game_config = games[0].game_config;
         const map_index = game_config.map_index;
         const map_metadata = maps[map_index];
+        console.log(map_metadata);
 
         let server_version = '';
         let registerd = 'yes';
@@ -34,10 +35,12 @@ export function useRegister() {
         } else {
             registerd = 'err';
         }
-        const chat = [...games[0].chat];
+        const chat = games[0].chat;
         chat.push({ id: 1 - game_config.game_role, msg: bot_welcome_str, timestamp: Date.now() });
+        games[0].chat = chat;
+        games[0].map_metadata = map_metadata;
+        games[0].user_map_path = [maps[map_index].start_cell];
 
-        console.log('register_cb', games);
         setState({
             ...state,
             games: games,

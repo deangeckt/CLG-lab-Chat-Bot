@@ -29,6 +29,7 @@ export function useMapCanvas() {
     const { open_ending_modal } = useApp();
     const { state, setState } = useContext(AppContext);
     const game = state.games[state.curr_game];
+    console.log(game);
 
     const [matrix, setMatrix] = useState(Array<Array<Path2D>>);
     const [neighbors, setNeighbors] = useState<Set<string>>(new Set());
@@ -159,7 +160,9 @@ export function useMapCanvas() {
         color_change(ui_new_neighbors_list, next_cells_color);
         color_change(user_map_path, path_cell_color);
 
-        setState({ ...state, user_map_path: user_map_path });
+        const games = [...state.games];
+        games[state.curr_game].user_map_path = user_map_path;
+        setState({ ...state, games: games });
     };
 
     const onKeyClick = (e: any) => {
