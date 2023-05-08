@@ -30,7 +30,6 @@ export function useChat() {
         if (!inputTxt) return;
         const user_map_path = state.games[state.curr_game].user_map_path;
         const curr_cell = user_map_path[user_map_path.length - 1];
-        console.log(curr_cell);
 
         const selfChatMsg: ChatMsg = {
             msg: inputTxt,

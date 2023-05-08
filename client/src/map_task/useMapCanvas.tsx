@@ -76,7 +76,7 @@ export function useMapCanvas() {
 
         const new_mat: Array<Array<Path2D>> = [];
         const curr_map_cell: MapCellIdx = game.user_map_path[0];
-        console.log('init_matrix', curr_map_cell);
+        // console.log('init_matrix', curr_map_cell);
         const new_neighbors = get_neighbors(curr_map_cell);
 
         for (let row = 0; row < rows; row++) {
