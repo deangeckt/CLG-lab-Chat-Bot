@@ -28,7 +28,9 @@ function SurveyGeneral(): JSX.Element {
 
     React.useEffect(() => {
         if (!state.consent) navigate('/');
-        if (state.uploaded) SetReg('done');
+        if (state.uploaded) {
+            SetReg('done');
+        }
     }, []);
 
     const survey_groups: string[][] = [];
@@ -59,6 +61,7 @@ function SurveyGeneral(): JSX.Element {
             upload(state, () => {
                 SetReg('done');
                 setState({ ...state, uploaded: true });
+                window.open('https://app.prolific.co/submissions/complete?cc=C15G3HZJ');
             });
             SetReg('loading');
         } else {
