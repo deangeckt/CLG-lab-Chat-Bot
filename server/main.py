@@ -6,15 +6,13 @@ from flask_cors import CORS
 
 from bot_server import BotServer
 from google_cloud.storage import save_to_storage
-# from human_server import HumanServer
 
-VERSION = '2.1.0_p'
-cs_strategy = "goldfish"
+VERSION = '2.2.0_p'
 
 app = Flask(__name__)
 CORS(app)
 
-bot_server = BotServer(cs_strategy)
+bot_server = BotServer()
 
 game_roles = {'navigator': 0, 'instructor': 1}
 game_roles_reverse = {0: 'navigator', 1: 'instructor'}

@@ -9,7 +9,7 @@ class Translate:
         self.translate_client = translate.Client()
 
     def translate_to_eng(self, user_msg) -> str:
-        # TODO: tmp version of english only for friends
+        # TODO: version of english only
         return user_msg
         detected_lng = self.translate_client.detect_language(user_msg)
         # we don't translate only when the model is 100% sure that its english!

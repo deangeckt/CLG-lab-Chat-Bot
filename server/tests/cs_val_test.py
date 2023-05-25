@@ -1,5 +1,5 @@
 from bot_server import BotServer
-from code_switch.code_switch_unit import CodeSwitchUnit
+from code_switch.netzer.code_switch_unit import CodeSwitchUnit
 from google_cloud.database import Database
 from google_cloud.translate import Translate
 

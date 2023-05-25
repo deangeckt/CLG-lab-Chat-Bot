@@ -10,8 +10,8 @@ Translate.__wrapped__.translate_to_eng = lambda self, x: x
 Translate.__wrapped__.translate_to_spa = lambda self, x: x
 Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
 
-server = BotServer("goldfish")
-game_role = 0
+server = BotServer()
+game_role = 1
 guid = server.register(map_index=0, game_role=game_role)
 while True:
     rsp, is_finish = server.call_bot(guid=guid, user_msg=input('user: '),

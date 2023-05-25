@@ -2,27 +2,32 @@ import uuid
 from typing import Tuple
 
 from bots.bot import Bot
-from bots.rule_based.rule_based_bot_ins import RuleBasedBotInstructor
-from bots.rule_based.rule_based_bot_nav import RuleBasedBotNavigator
-from code_switch.code_switch_unit import CodeSwitchUnit
+from code_switch.cs_unit import CSUnit
 from google_cloud.database import Database
 from google_cloud.translate import Translate
 
+from bots.rule_based.rule_based_bot_ins import RuleBasedBotInstructor
+# from bots.rule_based.rule_based_bot_nav import RuleBasedBotNavigator
+# from code_switch.netzer.code_switch_unit import CodeSwitchUnit
+from bots.gpt.gpt_bot_nav import GptBotNavigator
+from bots.gpt.gpt_cs import GPTCodeSwitch
+
+
+
 
 class BotServer:
-    def __init__(self, cs_strategy: str):
+    def __init__(self):
         self.sessions = {}
         self.translate = Translate()
-        self.cs_strategy = cs_strategy
         self.database = Database()
 
     def register(self, map_index, game_role, guid=None):
         if guid is None:
             guid = str(uuid.uuid4())
         map_id = f'map_{map_index + 1}'
-        bot: Bot = RuleBasedBotNavigator(map_id) if game_role == 1 else RuleBasedBotInstructor(map_id)
+        bot: Bot = GptBotNavigator(map_id) if game_role == 1 else RuleBasedBotInstructor(map_id)
         self.sessions[guid] = {'bot': bot,
-                               'cs': CodeSwitchUnit(self.cs_strategy)}
+                               'cs': GPTCodeSwitch()}
         return guid
 
     def un_register(self, guid):
@@ -39,7 +44,7 @@ class BotServer:
             db_data = self.database.load(guid)
 
         bot: Bot = self.sessions[guid]['bot']
-        cs_unit: CodeSwitchUnit = self.sessions[guid]['cs']
+        cs_unit: CSUnit = self.sessions[guid]['cs']
 
         if db_data is not None:
             print('db: ', db_data)

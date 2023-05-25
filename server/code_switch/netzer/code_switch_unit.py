@@ -1,9 +1,11 @@
 import random
 from dataclasses import dataclass
 from typing import List
+
+from code_switch.cs_unit import CSUnit
 from google_cloud.translate import Translate
 import langid
-from code_switch.utils import hazard
+from code_switch.netzer.utils import hazard
 
 langid.set_languages(langs=['es', 'en'])
 
@@ -15,15 +17,16 @@ class CSOption:
     r: List[float]
 
 
-class CodeSwitchUnit:
-    def __init__(self, cs_strategy: str):
+class CodeSwitchUnit(CSUnit):
+    def __init__(self):
+        super().__init__()
         self.params = {
             "en": CSOption(probability=0.7, transitions={'es': 1.0},
                             r=[0, 0.6, 0.2, 0.1, 0.5, 0.5]),
             "es": CSOption(probability=0.3, transitions={'en': 1.0},
                             r=[0, 0.8, 0.15, 0.5])
         }
-        self.cs_strategy = cs_strategy
+        self.cs_strategy = 'goldfish'
         self.default_lang = 'en'
         self.user_msg = None
         self.strategy = {'goldfish': self.__goldfish_cs_strategy,
@@ -44,7 +47,6 @@ class CodeSwitchUnit:
 
     def call(self, user_msg: str, en_bot_resp: List[str]) -> List[str]:
         """
-        param guid: id of the session
         param user_msg: last user chat message in spanglish
         param en_bot_resp: the generated messages (list) the bot generated in english
         :return: spanglish generated string in a list
