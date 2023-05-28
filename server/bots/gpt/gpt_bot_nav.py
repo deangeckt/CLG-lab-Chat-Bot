@@ -11,7 +11,7 @@ class GptBotNavigator(Bot):
         super().__init__()
         self.chat = []
 
-        kb_path = resource_filename('bots', f'gpt/ins_kw.json')
+        kb_path = resource_filename('bots', f'gpt/nav_kw.json')
         with open(kb_path, 'r') as f:
             kb = json.load(f)
 
@@ -34,6 +34,9 @@ class GptBotNavigator(Bot):
         t = bot_resp.lower()
         if 'finished' in t: return True
         match = bool(re.match(f"(.*)(reached the {self.final_object})(.*)", t))
+        match |= bool(re.match(f"(.*)(reached the final destination.)(.*)", t))
+        match |= bool(re.match(f"(.*)(reached the final object.)(.*)", t))
+
         return match
 
 
