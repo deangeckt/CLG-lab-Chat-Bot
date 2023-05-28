@@ -70,7 +70,27 @@ function SurveyMap(): JSX.Element {
                 color="primary"
                 onClick={create_new_game}
             >
-                Start a new map
+                Next map
+            </Button>
+        );
+    };
+
+    const render_next_survey_btn = () => {
+        let text = 'Next';
+        if (state.curr_game == maps.length - 1 && currGroup == survey_groups.length - 1) text = 'Finish';
+        if (currGroup === survey_groups.length - 1 && state.curr_game < maps.length - 1) return null;
+        return (
+            <Button
+                style={{
+                    textTransform: 'none',
+                    marginRight: '16px',
+                    marginBottom: '16px',
+                }}
+                variant="outlined"
+                color="primary"
+                onClick={next}
+            >
+                {text}
             </Button>
         );
     };
@@ -125,18 +145,7 @@ function SurveyMap(): JSX.Element {
                             Back
                         </Button>
                         <div>
-                            <Button
-                                style={{
-                                    textTransform: 'none',
-                                    marginRight: '16px',
-                                    marginBottom: '16px',
-                                }}
-                                variant="outlined"
-                                color="primary"
-                                onClick={next}
-                            >
-                                {currGroup == survey_groups.length - 1 ? 'Finish' : 'Next'}
-                            </Button>
+                            {render_next_survey_btn()}
                             {render_new_map_btn()}
                         </div>
                     </div>

@@ -20,7 +20,8 @@ class GPTCodeSwitch(CSUnit):
                 {"role": "system", "content": self.system_content},
                 {"role": "user", "content": user_content}
             ]
-            resp.append(openai_call(messages))
+            msg, _ = openai_call(messages)
+            resp.append(msg)
         return resp
 
     def db_push(self) -> dict:

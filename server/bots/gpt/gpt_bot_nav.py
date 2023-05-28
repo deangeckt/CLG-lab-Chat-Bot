@@ -39,9 +39,10 @@ class GptBotNavigator(Bot):
 
     def call(self, user_msg, user_state=None) -> Tuple[list[str], bool]:
         self.messages.append({'role': 'user', 'content': user_msg})
-        resp = openai_call(self.messages)
-        self.messages.append({'role': 'assistant', 'content': resp})
-        return [resp], False
+        msg, resp = openai_call(self.messages)
+        if resp:
+            self.messages.append({'role': 'assistant', 'content': msg})
+        return [msg], self.__is_finished(msg)
 
     def db_push(self) -> dict:
         return {}
