@@ -21,8 +21,8 @@ export function useRegister() {
         const new_game: ISingleGameState = {
             chat: [{ id: 1 - game_role, msg: bot_welcome_str, timestamp: Date.now() }],
             map_metadata: map_metadata,
-            game_state: { ...init_game_state },
-            map_survey: { ...init_map_survey },
+            game_state: { ...JSON.parse(JSON.stringify(init_game_state)) },
+            map_survey: { ...JSON.parse(JSON.stringify(init_map_survey)) },
             user_map_path: [maps[map_idx].start_cell],
             game_config: { game_role: game_role, map_index: map_idx, guid: data.guid },
         };

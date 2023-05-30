@@ -286,8 +286,8 @@ export const init_app_state: IAppState = {
         {
             chat: [],
             map_metadata: maps[0],
-            game_state: init_game_state,
-            map_survey: init_map_survey,
+            game_state: JSON.parse(JSON.stringify(init_game_state)),
+            map_survey: JSON.parse(JSON.stringify(init_map_survey)),
             user_map_path: [],
             game_config: { game_role: 1, map_index: 0, guid: '' },
         },
