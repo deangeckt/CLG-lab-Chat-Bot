@@ -8,9 +8,8 @@ import { useRegister } from '../useRegister';
 import './Consent.css';
 
 const consent_txt1 =
-    'The purpose of this research study is to better understand the linguistic properties of written, online conversations. For this reason, we will be asking participants to complete a Map Task that involves giving directions to a conversational partner via a chat interface (20 minutes), followed by a language history questionnaire and exit survey (5-10 minutes). There are no foreseeable risks associated with this project, nor are there any direct benefits to you. However, your participation will allow researchers to better understand how language is used in an informal, written, online setting.';
-const consent_txt2 = (amount: string) =>
-    `If you choose to participate, your data will be associated only with your Prolific ID, not your real name, making it difficult to link your responses back to you. If you complete the study, you will be paid ${amount} as a token of our appreciation for your participation. Your participation is voluntary, and you may withdraw from the study at any time by simply closing your browser window. If you decide to withdraw after you have submitted responses, your responses will be retained by the researchers along with all other data associated with this project. This study is being conducted by Dr. Shuly Wintner (shuly@cs.haifa.ac.il) and Dr. Melinda Fricke (melinda.fricke@pitt.edu), who can be reached by email if you have any questions.`;
+    'The purpose of this research study is to better understand the linguistic properties of written, online conversations. For this reason, we will be asking participants to complete a Map Task that involves giving directions to a conversational partner via a chat interface followed by a language history questionnaire  (20 minutes, computed as 5-7 minutes per game times 3 games) and exit survey (5-10 minutes). There are no foreseeable risks associated with this project, nor are there any direct benefits to you. However, your participation will allow researchers to better understand how language is used in an informal, written, online setting.';
+const consent_txt2 = `If you choose to participate, your data will be associated only with your Prolific ID, not your real name, making it difficult to link your responses back to you. If you complete the study (i.e. all 3 maps), you will be paid £4.50, corresponding to £9.00/hour for the 30 minutes we anticipate the full study to take. Your participation is voluntary, and you may withdraw from the study at any time by simply closing your browser window. If you decide to withdraw after you have submitted responses, your responses will be retained by the researchers along with all other data associated with this project. This study is being conducted by Dr. Shuly Wintner (shuly@cs.haifa.ac.il) and Dr. Melinda Fricke (melinda.fricke@pitt.edu), who can be reached by email if you have any questions.`;
 
 function Conset(): JSX.Element {
     const { state, setState } = useContext(AppContext);
@@ -44,8 +43,8 @@ function Conset(): JSX.Element {
         return (
             <>
                 <h6 className="consentText">
-                    {consent_txt1} <br /> <br /> {consent_txt2('£9.00/hour')} <br /> <br /> Please do not refresh the
-                    page as progress will be lost.
+                    {consent_txt1} <br /> <br /> {consent_txt2} <br /> <br /> Please do not refresh the page as progress
+                    will be lost.
                 </h6>
                 <Button
                     className="register_btn"

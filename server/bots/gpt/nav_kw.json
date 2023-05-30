@@ -7,7 +7,7 @@
   "map_1_suffix": "the treasure is the final object on the map - if you reached the treasure add \"*finished*\" to your response.\n",
   "map_1_final_object": "treasure",
 
-  "map_2": "the starting point is the white dog, south of it the is a wooden branch leading to another white dog sitting next to a red and white picnic carpet.\nnorth-west of the picnic there is another branch leading to a flower gardener, and left of if there is a bridge with 2 people riding a bicycle together. after the bridge, there are 2 old poeple sitting on a bench reading a news paper, and south-east of them there is a brown deer.\n",
+  "map_2": "the starting point is the white dog, south of it the is a wooden branch leading to another white dog sitting next to a red and white picnic carpet.\nnorth-west of the picnic there is another branch leading to a florist stand which at the beginning of a bridge, on the bridge there are 2 people riding a bicycle together. after the bridge, there are 2 old people sitting on a bench reading a news paper, and south-east of them there is a brown deer.\n",
   "map_2_suffix": "the deer is the final object on the map - if you reached the deer add \"*finished*\" to your response.\n",
   "map_2_final_object": "deer",
 

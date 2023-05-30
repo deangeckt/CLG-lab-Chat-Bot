@@ -22,7 +22,6 @@ function App(): JSX.Element {
     const role_string = role_strings[state.games[state.curr_game].game_config.game_role];
     const { finish_early } = useApp();
     const version = `client: ${state.clinet_version}\nserver: ${state.server_version}`;
-    // TODO: comment the finish btn
 
     return (
         <div className="App">
@@ -43,14 +42,14 @@ function App(): JSX.Element {
                     Your role: {role_string}
                 </Typography>
                 <Timer />
-                <Button
+                {/* <Button
                     style={{ textTransform: 'none' }}
                     variant="outlined"
                     color="primary"
                     onClick={() => finish_early()}
                 >
                     Finish
-                </Button>
+                </Button> */}
             </div>
             <div className="App_Container">
                 <MapCanvas />
