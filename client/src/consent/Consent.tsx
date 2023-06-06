@@ -38,7 +38,6 @@ function Conset(): JSX.Element {
         navigate('/map_task');
     };
 
-    // TODO: change cash - maybe par hour?
     const redner_conset = () => {
         return (
             <>

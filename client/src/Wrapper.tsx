@@ -276,7 +276,7 @@ export const init_game_state: GameState = {
     started: false,
     end_modal_text: '',
     end_modal_title: game_over_modal_str,
-    init_time: 300,
+    init_time: 420,
     game_time: 0,
     open_instructions: true,
 };
@@ -632,7 +632,7 @@ export const init_app_state: IAppState = {
         },
     },
     registerd: 'no',
-    clinet_version: '2.1.0_p',
+    clinet_version: '2.1.1_p',
     server_version: '',
     consent: false,
     uploaded: false,
