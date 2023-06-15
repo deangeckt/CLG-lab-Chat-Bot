@@ -10,7 +10,7 @@ openai.api_key = os.environ['OPENAI_API_KEY']
 
 def openai_call(messages: list[dict]) -> Tuple[str, bool]:
     response = openai.ChatCompletion.create(
-      model="gpt-3.5-turbo",
+      model="gpt-3.5-turbo-16k",
       messages=messages
     )
 

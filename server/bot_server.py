@@ -6,10 +6,11 @@ from code_switch.cs_unit import CSUnit
 from google_cloud.database import Database
 from google_cloud.translate import Translate
 
-from bots.rule_based.rule_based_bot_ins import RuleBasedBotInstructor
+# from bots.rule_based.rule_based_bot_ins import RuleBasedBotInstructor
 # from bots.rule_based.rule_based_bot_nav import RuleBasedBotNavigator
 # from code_switch.netzer.code_switch_unit import CodeSwitchUnit
 from bots.gpt.gpt_bot_nav import GptBotNavigator
+from bots.gpt.gpt_bot_ins import GptBotInstructor
 from bots.gpt.gpt_cs import GPTCodeSwitch
 
 
@@ -25,7 +26,7 @@ class BotServer:
         if guid is None:
             guid = str(uuid.uuid4())
         map_id = f'map_{map_index + 1}'
-        bot: Bot = GptBotNavigator(map_id) if game_role == 1 else RuleBasedBotInstructor(map_id)
+        bot: Bot = GptBotNavigator(map_id) if game_role == 1 else GptBotInstructor(map_id)
         self.sessions[guid] = {'bot': bot,
                                'cs': GPTCodeSwitch()}
         return guid

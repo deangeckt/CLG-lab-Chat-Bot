@@ -7,7 +7,7 @@ from flask_cors import CORS
 from bot_server import BotServer
 from google_cloud.storage import save_to_storage
 
-VERSION = '2.2.0_p'
+VERSION = '2.2.2_p'
 
 app = Flask(__name__)
 CORS(app)
