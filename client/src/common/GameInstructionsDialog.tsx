@@ -33,8 +33,8 @@ function GameInstructionsDialog({}): JSX.Element {
         let img_map_name = '';
         if (game.game_config.game_role == 1) img_map_name = game.map_metadata.im_src;
         else {
-            const prefix = game.map_metadata.im_src.split('.jpg')[0];
-            img_map_name = prefix + '_nav.jpg';
+            const prefix = game.map_metadata.im_src.split('_')[0];
+            img_map_name = prefix + '_0_nav.jpg';
         }
 
         image.src = require(`../map_task/maps/${img_map_name}`);

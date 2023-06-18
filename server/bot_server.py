@@ -42,22 +42,22 @@ class BotServer:
         if guid not in self.sessions:
             print('guid not in self! getting DB')
             self.register(map_index=map_idx, game_role=game_role, guid=guid)
-            db_data = self.database.load(guid)
+            # db_data = self.database.load(guid)
 
         bot: Bot = self.sessions[guid]['bot']
         cs_unit: CSUnit = self.sessions[guid]['cs']
 
-        if db_data is not None:
-            print('db: ', db_data)
-            cs_unit.db_load(db_data)
-            bot.db_load(db_data)
+        # if db_data is not None:
+        #     print('db: ', db_data)
+        #     cs_unit.db_load(db_data)
+        #     bot.db_load(db_data)
 
         en_bot_resp, is_finish = bot.call(en_user_msg, user_state)
         spanglish_bot_resp = cs_unit.call(user_msg, en_bot_resp)
 
         # push to DB when call is finished
-        data = cs_unit.db_push()
-        data.update(bot.db_push())
-        self.database.push(data, guid)
+        # data = cs_unit.db_push()
+        # data.update(bot.db_push())
+        # self.database.push(data, guid)
 
         return spanglish_bot_resp, is_finish

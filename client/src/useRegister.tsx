@@ -1,10 +1,9 @@
 import { useContext } from 'react';
 import { AppContext } from './AppContext';
 import { register } from './api';
-import { maps, ISingleGameState, init_game_state, init_map_survey, IProlific } from './Wrapper';
+import { maps, ISingleGameState, init_game_state, init_map_survey, IProlific, game_role } from './Wrapper';
 import { bot_welcome_str } from './common/strings';
 import { useNavigate } from 'react-router-dom';
-const game_role = 1;
 
 export function useRegister() {
     const { state, setState } = useContext(AppContext);

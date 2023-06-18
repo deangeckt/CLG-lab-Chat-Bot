@@ -281,6 +281,8 @@ export const init_game_state: GameState = {
     open_instructions: true,
 };
 
+export const game_role = 0;
+
 export const init_app_state: IAppState = {
     games: [
         {
@@ -289,7 +291,7 @@ export const init_app_state: IAppState = {
             game_state: JSON.parse(JSON.stringify(init_game_state)),
             map_survey: JSON.parse(JSON.stringify(init_map_survey)),
             user_map_path: [],
-            game_config: { game_role: 1, map_index: 0, guid: '' },
+            game_config: { game_role: game_role, map_index: 0, guid: '' },
         },
     ],
     general_survey: {
@@ -632,7 +634,7 @@ export const init_app_state: IAppState = {
         },
     },
     registerd: 'no',
-    clinet_version: '2.1.1_p',
+    clinet_version: '2.2.2_p',
     server_version: '',
     consent: false,
     uploaded: false,

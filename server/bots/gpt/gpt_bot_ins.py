@@ -38,7 +38,12 @@ class GptBotInstructor(Bot):
         return [msg], False
 
     def db_push(self) -> dict:
+        # chat is too long for DB
+        # return {'chat': self.messages}
         return {}
 
     def db_load(self, data):
         pass
+        # self.messages = []
+        # for chat_ele in data['chat']:
+        #     self.messages.append({'role': chat_ele['role'], 'content': chat_ele['content']})
