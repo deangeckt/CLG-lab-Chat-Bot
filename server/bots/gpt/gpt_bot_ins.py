@@ -17,14 +17,13 @@ class GptBotInstructor(Bot):
 
         map_kw = kb[f'{map_id}']
 
-        system_prefix1 = kb['system_common_prefix1']
-        system_suffix1 = kb['system_common_suffix1']
-        system_suffix2 = kb['system_common_suffix2']
+        system_prefix = kb['system_common_prefix']
+        system_suffix = kb['system_common_suffix']
 
         system_map_prefix = kb['system_common_map_prefix']
 
 
-        system_content = f'{system_prefix1}\n{system_map_prefix}\n{map_kw}\n{system_suffix1}\n{system_suffix2}'
+        system_content = f'{system_prefix}\n{system_map_prefix}\n{map_kw}\n{system_suffix}'
         self.messages = [
             {"role": "system", "content": system_content},
         ]
