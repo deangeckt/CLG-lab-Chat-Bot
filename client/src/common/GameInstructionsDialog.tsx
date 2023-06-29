@@ -4,7 +4,8 @@ import { useContext } from 'react';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { AppContext } from '../AppContext';
 import { useGameInstructions } from './useGameInstructions';
-import { nav_instructions_str, nav_sub_title_str } from './strings';
+import { nav_instructions_str, nav_sub_title_str, ins_sub_title_str, ins_instructions_str } from './strings';
+import { role_strings } from '../Wrapper';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -20,6 +21,10 @@ function GameInstructionsDialog({}): JSX.Element {
     const [im, setIm] = useState<HTMLImageElement>();
     const { setGameInstructions } = useGameInstructions();
     const game = state.games[state.curr_game];
+
+    const sub_title_str = game.game_config.game_role === 0 ? nav_sub_title_str : ins_sub_title_str;
+    const instructions_str = game.game_config.game_role === 0 ? nav_instructions_str : ins_instructions_str;
+    const role_string = role_strings[state.games[state.curr_game].game_config.game_role];
 
     useEffect(() => {
         const image = new Image();
@@ -48,10 +53,12 @@ function GameInstructionsDialog({}): JSX.Element {
                 keepMounted
                 onClose={() => setGameInstructions(false)}
             >
-                <DialogTitle style={{ fontSize: '1.5rem' }}>Game instructions</DialogTitle>
+                <DialogTitle style={{ fontSize: '1.5rem' }}>
+                    Game instructions, your role is the {role_string}
+                </DialogTitle>
                 <DialogContent>
-                    <DialogContentText style={{ fontSize: '1.25rem' }}>{nav_sub_title_str}</DialogContentText>
-                    {nav_instructions_str.map((e) => (
+                    <DialogContentText style={{ fontSize: '1.25rem' }}>{sub_title_str}</DialogContentText>
+                    {instructions_str.map((e) => (
                         <DialogContentText key={e}>{e}</DialogContentText>
                     ))}
 
