@@ -20,6 +20,7 @@ export const nav_sub_title_str =
     'Thanks for your participation! You’ll be working with a partner to receive directions on a map, all using written text.';
 export const nav_instructions_str = [
     'You and your partner have been given the same map, the only difference is that you don"t have the route traced on the map.',
+    'Your task is to draw the path on your map based on the instructions you obtained from your partner using the chat.',
     'You can communicate with your partner as much as you would like using the chat.',
     "Don't hesitate to ask questions!",
     'To move around on the map, you can either use arrow keys on your keyboard or the mouse, just click on the purple dots.',
