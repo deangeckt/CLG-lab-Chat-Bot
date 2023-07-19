@@ -1,17 +1,23 @@
 import axios, { AxiosResponse } from 'axios';
 import { IAppState, MapCellIdx, UserSurvey } from './Wrapper';
+import axiosRetry from 'axios-retry';
 
 // export const baseUrl = 'http://localhost:8080/api/v1/';
 export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
 
 export const register = async (map_index: number, game_role: number, update: Function) => {
     try {
-        const response = (await axios.request({
-            url: baseUrl + 'register',
-            method: 'POST',
-            data: { map_index, game_role },
-        })) as AxiosResponse;
-        update(response.data, map_index);
+        const client = axios.create();
+        axiosRetry(client, {
+            retries: 3,
+            retryDelay: () => 3000,
+            retryCondition: () => true,
+        });
+
+        client
+            .post(baseUrl + 'register', { map_index, game_role })
+            .then((response) => update(response.data, map_index))
+            .catch(() => update(null, map_index));
     } catch (error: any) {
         update(null, map_index);
     }
@@ -33,7 +39,7 @@ export const callBot = async (
         })) as AxiosResponse;
         update(response.data);
     } catch (error: any) {
-        update('Bot not connected');
+        update({ is_finish: false, res: ['Something went wrong, try again'] });
     }
 };
 
@@ -46,8 +52,15 @@ const simplify_survey = (survey: UserSurvey) => {
     return survey_simpler;
 };
 
-export const upload = async (state: IAppState, update: Function) => {
+export const upload = async (state: IAppState, update: (success: boolean) => void) => {
     try {
+        const client = axios.create();
+        axiosRetry(client, {
+            retries: 3,
+            retryDelay: () => 3000,
+            retryCondition: () => true,
+        });
+
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { general_survey, games } = state;
         const general_survey_simpler = simplify_survey(general_survey);
@@ -63,20 +76,17 @@ export const upload = async (state: IAppState, update: Function) => {
             };
         });
 
-        (await axios.request({
-            url: baseUrl + 'upload',
-            method: 'POST',
-            data: {
+        client
+            .post(baseUrl + 'upload', {
                 games_data,
                 general_survey: general_survey_simpler,
                 clinet_version: state.clinet_version,
                 prolific: state.prolific,
-            },
-        })) as AxiosResponse;
-        update();
-        console.log('uploaded successfully');
+            })
+            .then(() => update(true))
+            .catch(() => update(false));
     } catch (error: any) {
         console.log('Server not connected');
-        update();
+        update(false);
     }
 };

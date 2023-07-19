@@ -10,20 +10,22 @@ export function useRegister() {
     const navigate = useNavigate();
 
     const new_game_cb = (data: any) => {
+        const new_game_role = state.curr_game % 2 ? 1 : 0;
+
         const games = [...state.games];
         const map_idx = state.curr_game + 1;
 
         const map_metadata = { ...maps[map_idx] };
         const map = map_metadata.im_src.split('_')[0];
-        map_metadata.im_src = `${map}_${game_role}.jpg`;
+        map_metadata.im_src = `${map}_${new_game_role}.jpg`;
 
         const new_game: ISingleGameState = {
-            chat: [{ id: 1 - game_role, msg: bot_welcome_str, timestamp: Date.now() }],
+            chat: [{ id: 1 - new_game_role, msg: bot_welcome_str, timestamp: Date.now() }],
             map_metadata: map_metadata,
             game_state: { ...JSON.parse(JSON.stringify(init_game_state)) },
             map_survey: { ...JSON.parse(JSON.stringify(init_map_survey)) },
             user_map_path: [maps[map_idx].start_cell],
-            game_config: { game_role: game_role, map_index: map_idx, guid: data.guid },
+            game_config: { game_role: new_game_role, map_index: map_idx, guid: data.guid },
         };
         games.push(new_game);
 
@@ -37,8 +39,9 @@ export function useRegister() {
     };
 
     const create_new_game = () => {
+        const new_game_role = state.curr_game % 2 ? 1 : 0;
         setState({ ...state, registerd: 'load' }); // override next - so thats ok
-        register(state.curr_game + 1, game_role, new_game_cb);
+        register(state.curr_game + 1, new_game_role, new_game_cb);
     };
 
     const register_game = (prolific: IProlific) => {

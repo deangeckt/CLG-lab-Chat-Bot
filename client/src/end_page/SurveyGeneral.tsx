@@ -55,14 +55,21 @@ function SurveyGeneral(): JSX.Element {
         });
     };
 
+    const onUploadFinish = (success: boolean) => {
+        if (success) {
+            SetReg('done');
+            setState({ ...state, uploaded: true });
+            window.open('https://app.prolific.co/submissions/complete?cc=C15G3HZJ');
+        } else {
+            SetReg('fail');
+        }
+    };
+
     const next = () => {
         scroll_begin();
         if (currGroup == survey_groups.length - 1) {
-            upload(state, () => {
-                SetReg('done');
-                setState({ ...state, uploaded: true });
-                window.open('https://app.prolific.co/submissions/complete?cc=C15G3HZJ');
-            });
+            // TODO: re-try on failure
+            upload(state, onUploadFinish);
             SetReg('loading');
         } else {
             SetCurrGroup(currGroup + 1);
@@ -158,6 +165,25 @@ function SurveyGeneral(): JSX.Element {
                     <Typography style={{ marginTop: '25%' }} variant="h4">
                         Thank you! <br /> <br /> prolific completion code: C15G3HZJ
                     </Typography>
+                ) : null}
+                {reg == 'fail' ? (
+                    <Button
+                        style={{
+                            textTransform: 'none',
+                            marginLeft: '16px',
+                            marginBottom: '16px',
+                        }}
+                        className="nav_btn"
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => {
+                            SetReg('loading');
+                            upload(state, onUploadFinish);
+                        }}
+                    >
+                        {' '}
+                        Try Agian
+                    </Button>
                 ) : null}
             </div>
         </div>

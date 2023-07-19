@@ -136,16 +136,16 @@ export const maps: MapMetadata[] = [
         start_cell: { r: 3, c: 9 },
         map_idx: 2,
     },
-    // {
-    //     im_width: 2304,
-    //     im_height: 1728,
-    //     im_src: 'map4_0.jpg',
-    //     rows: 18,
-    //     cols: 24,
-    //     end_cell: { r: 7, c: 0 },
-    //     start_cell: { r: 3, c: 23 },
-    //     map_idx: 3,
-    // },
+    {
+        im_width: 2304,
+        im_height: 1728,
+        im_src: 'map4_0.jpg',
+        rows: 18,
+        cols: 24,
+        end_cell: { r: 7, c: 0 },
+        start_cell: { r: 3, c: 23 },
+        map_idx: 3,
+    },
     // {
     //     im_width: 2304,
     //     im_height: 1728,
@@ -281,7 +281,7 @@ export const init_game_state: GameState = {
     open_instructions: true,
 };
 
-export const game_role = 0;
+export const game_role = 1;
 
 export const init_app_state: IAppState = {
     games: [

@@ -53,6 +53,8 @@ export function useChat() {
     };
 
     const addBotMsg = (data: any) => {
+        setBotType(false);
+
         const msgs: string[] = data.res;
         const is_finish = data.is_finish;
         const chatMsgs = msgs.map((msg) => ({
@@ -60,7 +62,11 @@ export function useChat() {
             id: 1 - state.games[state.curr_game].game_config.game_role,
             timestamp: Date.now(),
         }));
-        setBotType(false);
+
+        if (chatMsgs[0].msg == 'Something went wrong, try again') {
+            alert('Something went wrong, try again');
+            return;
+        }
         if (is_finish) updateChatAndFinish(chatMsgs, hh_end_modal_str);
         else updateChatState(chatMsgs);
     };
