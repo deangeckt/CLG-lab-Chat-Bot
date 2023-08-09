@@ -32,9 +32,20 @@ class GptBotNavigator(Bot):
 
     def __is_finished(self, bot_resp: str):
         t = bot_resp.lower()
-        if 'finished' in t: return True
+        if "*" in t:
+            if 'finished' in t: return True
+            if 'misión cumplida!' in t: return True
+            if 'terminado' in t: return True
+            if 'finalizado' in t: return True
+            if 'completado' in t: return True
+            if 'logrado' in t: return True
+            if 'felicidades' in t: return True
+            if 'finalizado'in t: return True
+
         match = bool(re.match(f"(.*)((reached|arrive|arrived) (.*) {self.final_object})(.*)", t))
         match |= bool(re.match(f"(.*)((reached|arrive|arrived) (.*) final (destination|object))(.*)", t))
+        match |= bool(re.match("(.*)((alcanzado|llegar|llegado) (.*) destino (final|objeto))(.*)", t))
+        match |= bool(re.match("(.*)((alcanzado|llegar|llegado) (.*) final (destino|objeto))(.*)", t))
 
         return match
 
