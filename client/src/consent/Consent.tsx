@@ -20,13 +20,10 @@ function Conset(): JSX.Element {
     React.useEffect(() => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const prolific_id = urlParams.get('PROLIFIC_PID');
-        const study_id = urlParams.get('STUDY_ID');
-        const seassion_id = urlParams.get('SESSION_ID');
+        const prolific_id = urlParams.get('PROLIFIC_PID') ?? '1';
+        const study_id = urlParams.get('STUDY_ID') ?? '1';
+        const seassion_id = urlParams.get('SESSION_ID') ?? '1';
 
-        if (!prolific_id || !study_id || !seassion_id) {
-            return;
-        }
         setIsProlific(true);
 
         if (state.registerd === 'yes') return;

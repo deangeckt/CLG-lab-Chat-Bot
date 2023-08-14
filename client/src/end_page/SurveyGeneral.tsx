@@ -68,7 +68,6 @@ function SurveyGeneral(): JSX.Element {
     const next = () => {
         scroll_begin();
         if (currGroup == survey_groups.length - 1) {
-            // TODO: re-try on failure
             upload(state, onUploadFinish);
             SetReg('loading');
         } else {

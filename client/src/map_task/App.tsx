@@ -23,6 +23,8 @@ function App(): JSX.Element {
     const { finish_early } = useApp();
     const version = `client: ${state.clinet_version}\nserver: ${state.server_version}`;
 
+    // TODO: remove finish button when ready
+
     return (
         <div className="App">
             <Header />
@@ -52,7 +54,7 @@ function App(): JSX.Element {
                 </Button> */}
             </div>
             <div className="App_Container">
-                <MapCanvas />
+                <MapCanvas width={window.innerWidth * 0.75} height={window.innerHeight * 0.8} />
                 <Chat />
             </div>
         </div>
