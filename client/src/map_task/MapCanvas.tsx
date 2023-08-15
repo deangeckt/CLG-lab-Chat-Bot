@@ -2,14 +2,15 @@ import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../AppContext';
 import { MapCellIdx } from '../Wrapper';
 import { nav_end_model_str } from '../common/strings';
-import './MapCanvas.css';
 import MapCanvasNavBtns from './MapCanvasNavBtns';
+import './MapCanvas.css';
 
 export interface IMapCanvas {
     width: number;
     height: number;
 }
 
+//Note map 3 size is a bit smaller - its a instrcutor role in the allternations so it doesnt matter
 const columns = 24;
 const rows = 18;
 const cells = columns * rows;
@@ -71,12 +72,11 @@ function MapCanvas({ width, height }: IMapCanvas): JSX.Element {
 
     useEffect(() => {
         if (game.game_state.end) return;
+        if (!state.consent) return;
         const start_player_idx = cell_idx_to_flat_idx(game.map_metadata.start_cell);
 
         if (role == 'nav') setPath([start_player_idx]);
     }, []);
-
-    // check map 2 size - its instrcutor so i think its ok
 
     const col_step = width / columns;
     const row_step = height / rows;

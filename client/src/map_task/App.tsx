@@ -23,8 +23,6 @@ function App(): JSX.Element {
     const { finish_early } = useApp();
     const version = `client: ${state.clinet_version}\nserver: ${state.server_version}`;
 
-    // TODO: remove finish button when ready
-
     return (
         <div className="App">
             <Header />
