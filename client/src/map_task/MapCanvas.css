@@ -59,7 +59,7 @@
 
 .map_nav_buttons {
     position: absolute;
-    bottom: 1%;
+    bottom: 2%;
     right: 1%;
     display: flex;
     flex-direction: column;
