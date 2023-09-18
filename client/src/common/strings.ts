@@ -36,7 +36,7 @@ export const ins_sub_title_str =
     'Thanks for your participation! En este estudio you will take turns giving and receiving directions para navegar una ruta en un mapa, all in chat format.';
 export const ins_instructions_str = [
     "Si tu mapa ya tiene a traced route, le vas a DAR directions a tu partner. Si tu mapa no tiene a traced route, you'll need to ASK QUESTIONS para saber which route to take (a path from ✕ to ✓).",
-    'Para navegar en el mapa puedes usar las flechas del keyboard o también el mouse, solo haz click on the purple dots.',
+    'Para navegar en el mapa puedes usar el navigation control panel con las flechas del keyboard o también con el mouse.',
     '',
     'BONUS PAYMENTS:',
     'Este es un research study about how people USE LANGUAGE to COMMUNICATE INFORMATION. Según tu performance, puedes recibir un bonus for both parts (usar el lenguaje y comunicarte eficientemente). ',
