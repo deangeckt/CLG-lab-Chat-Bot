@@ -44,17 +44,10 @@ class Bot(metaclass=ABCMeta):
 
     @staticmethod
     def informal_post_process(msg: str) -> list[str]:
-        basic =  [m.strip() for m in msg.lower().split('.') if len(m)]
-        return basic
-        # end_sentence_delim = ['!', '?', '.']
-        # end_tokens_indices = [msg.rfind(token) for token in end_sentence_delim]
-        # end_tokens_indices = list(filter(lambda x: x >= 0, end_tokens_indices))
-        # if end_tokens_indices:
-        #     offset = max(end_tokens_indices) + 1
-        #     if offset == len(msg):
-        #
-        #     return [msg[:offset], msg[offset:].strip()]
-        # else:
-        #     return [msg]
+        # return a list with up to 2 messages split by '.'
+        messages =  [m.strip() for m in msg.lower().split('.') if len(m)]
+        if len(messages) > 2:
+            mid = int(len(messages) / 2)
+            return ['. '.join(messages[:mid]), '. '.join(messages[mid:])]
 
-
+        return messages
