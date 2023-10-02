@@ -11,8 +11,9 @@ Translate.__wrapped__.translate_to_spa = lambda self, x: x
 Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
 
 server = BotServer()
-game_role = 1
-guid = server.register(map_index=0, game_role=game_role)
+game_role = 0
+guid, welcome_str = server.register(map_index=1, game_role=game_role)
+print(f'bot: {welcome_str}')
 while True:
     rsp, is_finish = server.call_bot(guid=guid, user_msg=input('user: '),
                                      map_idx=0,

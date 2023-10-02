@@ -7,7 +7,7 @@ from flask_cors import CORS
 from bot_server import BotServer
 from google_cloud.storage import save_to_storage
 
-VERSION = '2.2.7_p'
+VERSION = '2.3.0_p'
 
 app = Flask(__name__)
 CORS(app)
@@ -40,8 +40,8 @@ def register():
     """
     try:
         params = request.get_json()
-        guid = bot_server.register(params['map_index'], params['game_role'])
-        resp = {'version': VERSION, 'guid': guid}
+        guid, welcome_str = bot_server.register(params['map_index'], params['game_role'])
+        resp = {'version': VERSION, 'guid': guid, 'welcome_str': welcome_str}
         return resp, 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)

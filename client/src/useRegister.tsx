@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { AppContext } from './AppContext';
 import { register } from './api';
 import { maps, ISingleGameState, init_game_state, init_map_survey, IProlific, game_role } from './Wrapper';
-import { bot_welcome_str } from './common/strings';
 import { useNavigate } from 'react-router-dom';
 
 export function useRegister() {
@@ -20,7 +19,7 @@ export function useRegister() {
         map_metadata.im_src = `${map}_${new_game_role}.jpg`;
 
         const new_game: ISingleGameState = {
-            chat: [{ id: 1 - new_game_role, msg: bot_welcome_str, timestamp: Date.now() }],
+            chat: [{ id: 1 - new_game_role, msg: data.welcome_str, timestamp: Date.now() }],
             map_metadata: map_metadata,
             game_state: { ...JSON.parse(JSON.stringify(init_game_state)) },
             map_survey: { ...JSON.parse(JSON.stringify(init_map_survey)) },
@@ -69,7 +68,7 @@ export function useRegister() {
             registerd = 'err';
         }
         const chat = games[0].chat;
-        chat.push({ id: 1 - game_role, msg: bot_welcome_str, timestamp: Date.now() });
+        chat.push({ id: 1 - game_role, msg: data.welcome_str, timestamp: Date.now() });
         games[0].chat = chat;
         games[0].map_metadata = map_metadata;
         games[0].user_map_path = [maps[map_index].start_cell];

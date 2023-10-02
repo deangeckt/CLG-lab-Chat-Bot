@@ -14,8 +14,6 @@ export const end_page_group_5_str = 'Native Language Information';
 export const end_page_group_6_str = 'Second Language Information';
 export const end_page_group_7_str = 'Language Switching Information';
 
-export const bot_welcome_str = 'Welcome!';
-
 // Alternations - english new instructions
 
 // export const ins_sub_title_str =

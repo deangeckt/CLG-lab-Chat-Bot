@@ -9,7 +9,6 @@ from bots.gpt.openai_util import openai_call
 class GptBotNavigator(Bot):
     def __init__(self, map_id):
         super().__init__()
-        self.chat = []
 
         kb_path = resource_filename('bots', f'gpt/nav_kw.json')
         with open(kb_path, 'r') as f:
@@ -28,6 +27,7 @@ class GptBotNavigator(Bot):
         system_content = f'{system_prefix1}\n{system_prefix2}\n{system_map_prefix}\n{map_kw}\n{map_suffix_kw}\n{system_suffix}'
         self.messages = [
             {"role": "system", "content": system_content},
+            {'role': 'assistant', 'content': self.welcome_str}
         ]
 
     def __is_finished(self, bot_resp: str):
@@ -53,9 +53,15 @@ class GptBotNavigator(Bot):
     def call(self, user_msg, user_state=None) -> Tuple[list[str], bool]:
         self.messages.append({'role': 'user', 'content': user_msg})
         msg, resp = openai_call(self.messages)
-        if resp:
-            self.messages.append({'role': 'assistant', 'content': msg})
-        return [msg], self.__is_finished(msg)
+        is_finished = self.__is_finished(msg)
+        if not resp:
+            return [msg], is_finished
+
+        post_proc_msgs = self.informal_post_process(msg)
+        for pp_msg in post_proc_msgs:
+            self.messages.append({'role': 'assistant', 'content': pp_msg})
+        return post_proc_msgs, is_finished
+
 
     def db_push(self) -> dict:
         return {}

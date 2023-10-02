@@ -1,9 +1,23 @@
+import random
 from abc import ABCMeta, abstractmethod
 from typing import Tuple
 
 
 class Bot(metaclass=ABCMeta):
+    welcome_options = ['hola, q tal? empezamos el juego?',
+                       'hola, estas listo?',
+                       'hola!!! ya comenzamos?',
+                       'hey there, estas listo?',
+                       'hola, you ready?',
+                       'hi there, empezamos?',
+                       'hola, q tal? ready to go?',
+                       'hola, q tal? ready to start?',
+                       'hola, q tal? ready to play?',
+                       'hi there! que comience el juego!!'
+                       ]
+
     def __init__(self):
+        self.welcome_str = random.choice(Bot.welcome_options)
         pass
 
     @abstractmethod
@@ -27,3 +41,9 @@ class Bot(metaclass=ABCMeta):
         load / override state memory of the bot from DB
         """
         pass
+
+    @staticmethod
+    def informal_post_process(msg: str) -> list[str]:
+        msg =  msg.lower()
+        return [msg]
+

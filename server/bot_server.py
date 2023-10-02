@@ -29,7 +29,7 @@ class BotServer:
         bot: Bot = GptBotNavigator(map_id) if game_role == 1 else GptBotInstructor(map_id)
         self.sessions[guid] = {'bot': bot,
                                'cs': GPTCodeSwitch()}
-        return guid
+        return guid, bot.welcome_str
 
     def un_register(self, guid):
         if guid in self.sessions:
