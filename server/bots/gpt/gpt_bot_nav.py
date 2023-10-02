@@ -19,12 +19,13 @@ class GptBotNavigator(Bot):
 
         system_prefix1 = kb['system_common_prefix1']
         system_prefix2 = kb['system_common_prefix2']
+        system_prefix3 = kb['system_common_prefix3']
         system_suffix = kb['system_common_suffix1']
         system_map_prefix = kb['system_common_map_prefix']
 
         self.final_object = kb[f'{map_id}_final_object']
 
-        system_content = f'{system_prefix1}\n{system_prefix2}\n{system_map_prefix}\n{map_kw}\n{map_suffix_kw}\n{system_suffix}'
+        system_content = f'{system_prefix1}\n{system_prefix2}\n{system_prefix3}\n{system_map_prefix}\n{map_kw}\n{map_suffix_kw}\n{system_suffix}'
         self.messages = [
             {"role": "system", "content": system_content},
             {'role': 'assistant', 'content': self.welcome_str}

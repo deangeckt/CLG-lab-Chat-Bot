@@ -8,10 +8,12 @@ openai.api_key = os.environ['OPENAI_API_KEY']
 # https://platform.openai.com/docs/api-reference/chat/create
 # https://platform.openai.com/docs/guides/chat/introduction - finish code should be 'stop' only
 
+
+#gpt-3.5-turbo-16k
 def openai_call(messages: list[dict]) -> Tuple[str, bool]:
     try:
         response = openai.ChatCompletion.create(
-          model="gpt-3.5-turbo-16k",
+          model="gpt-4",
           messages=messages
         )
 
