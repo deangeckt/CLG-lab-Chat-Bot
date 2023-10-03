@@ -2,8 +2,8 @@ import axios, { AxiosResponse } from 'axios';
 import { IAppState, MapCellIdx, UserSurvey } from './Wrapper';
 import axiosRetry from 'axios-retry';
 
-export const baseUrl = 'http://localhost:8080/api/v1/';
-// export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
+// export const baseUrl = 'http://localhost:8080/api/v1/';
+export const baseUrl = 'https://map-task-server-juxn2vqqxa-nw.a.run.app/api/v1/';
 
 export const register = async (map_index: number, game_role: number, update: Function) => {
     try {

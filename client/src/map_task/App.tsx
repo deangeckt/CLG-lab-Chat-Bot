@@ -42,14 +42,14 @@ function App(): JSX.Element {
                     Your role: {role_string}
                 </Typography>
                 <Timer />
-                <Button
+                {/* <Button
                     style={{ textTransform: 'none' }}
                     variant="outlined"
                     color="primary"
                     onClick={() => finish_early()}
                 >
                     Finish
-                </Button>
+                </Button> */}
             </div>
             <div className="App_Container">
                 <MapCanvas width={window.innerWidth * 0.75} height={window.innerHeight * 0.8} />
