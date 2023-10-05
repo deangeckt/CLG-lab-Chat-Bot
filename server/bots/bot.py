@@ -4,9 +4,9 @@ from typing import Tuple
 
 
 class Bot(metaclass=ABCMeta):
-    welcome_options = ['hola, q tal? empezamos el juego?',
-                       'hola, estas listo?',
-                       'hola!!! ya comenzamos?',
+    welcome_options = ['hey, q tal? empezamos el juego?',
+                       'hey, estas listo?',
+                       'hey!!! ya comenzamos?',
                        'hey there, estas listo?',
                        'hola, you ready?',
                        'hi there, empezamos?',
