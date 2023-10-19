@@ -166,23 +166,27 @@ function SurveyGeneral(): JSX.Element {
                     </Typography>
                 ) : null}
                 {reg == 'fail' ? (
-                    <Button
-                        style={{
-                            textTransform: 'none',
-                            marginLeft: '16px',
-                            marginBottom: '16px',
-                        }}
-                        className="nav_btn"
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => {
-                            SetReg('loading');
-                            upload(state, onUploadFinish);
-                        }}
-                    >
-                        {' '}
-                        Try Agian
-                    </Button>
+                    <Box sx={{ display: 'flex', marginTop: '25%', flexDirection: 'column' }}>
+                        <Button
+                            style={{
+                                textTransform: 'none',
+                                fontSize: '20px',
+                            }}
+                            className="nav_btn"
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => {
+                                SetReg('loading');
+                                upload(state, onUploadFinish);
+                            }}
+                        >
+                            {' '}
+                            Please Click Here Again To Finish
+                        </Button>
+                        <p className="consentText" style={{ fontWeight: 700 }}>
+                            Please do not refresh the page as progress will be lost.
+                        </p>{' '}
+                    </Box>
                 ) : null}
             </div>
         </div>

@@ -20,9 +20,11 @@ function Conset(): JSX.Element {
     React.useEffect(() => {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
-        const prolific_id = urlParams.get('PROLIFIC_PID') ?? '1';
-        const study_id = urlParams.get('STUDY_ID') ?? '1';
-        const seassion_id = urlParams.get('SESSION_ID') ?? '1';
+        const prolific_id = urlParams.get('PROLIFIC_PID');
+        const study_id = urlParams.get('STUDY_ID');
+        const seassion_id = urlParams.get('SESSION_ID');
+
+        if (!prolific_id || !study_id || !seassion_id) return;
 
         setIsProlific(true);
 
@@ -38,10 +40,15 @@ function Conset(): JSX.Element {
     const redner_conset = () => {
         return (
             <>
-                <h6 className="consentText">
-                    {consent_txt1} <br /> <br /> {consent_txt2} <br /> <br /> Please do not refresh the page as progress
-                    will be lost.
-                </h6>
+                <div>
+                    <h6 className="consentText">
+                        {consent_txt1} <br /> <br /> {consent_txt2} <br /> <br />
+                    </h6>
+                    <p className="consentText" style={{ fontWeight: 700 }}>
+                        Please do not refresh the page as progress will be lost.
+                    </p>
+                </div>
+
                 <Button
                     className="register_btn"
                     style={{ textTransform: 'none' }}
@@ -60,9 +67,10 @@ function Conset(): JSX.Element {
             <Header />
             <div className="conset_container">
                 {!isProlific && (
-                    <Typography variant="h5" style={{ margin: '16px' }}>
-                        no prolific parameters found
-                    </Typography>
+                    <div style={{ fontSize: '18px', fontWeight: 700 }}>
+                        <p>No Prolific id found!</p>
+                        <p>Please return to Prolific and try again.</p>
+                    </div>
                 )}
                 {state.registerd === 'err' && (
                     <Typography variant="h5" style={{ margin: '16px' }}>
