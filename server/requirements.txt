@@ -4,8 +4,8 @@ gunicorn==20.1.0
 google-cloud-storage==2.5.0
 google-cloud-translate==3.12.0
 google-cloud-datastore==2.11.0
-APScheduler
 singleton-decorator
-langid
 openai
 codeswitch==1.1
+transformers==4.34.1
+torch==2.1.0
