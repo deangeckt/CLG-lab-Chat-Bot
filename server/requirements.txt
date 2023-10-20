@@ -1,10 +1,11 @@
 flask
 flask-cors
 gunicorn==20.1.0
-google-cloud-storage
-google-cloud-translate
-google-cloud-datastore
+google-cloud-storage==2.5.0
+google-cloud-translate==3.12.0
+google-cloud-datastore==2.11.0
 APScheduler
 singleton-decorator
 langid
 openai
+codeswitch==1.1

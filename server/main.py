@@ -1,10 +1,12 @@
 import json
 import os
+
 from flask import Flask, Response
 from flask import request
 from flask_cors import CORS
 
 from bot_server import BotServer
+from bots.cs_unit import CodeSwitchStrategy
 from google_cloud.storage import save_to_storage
 
 VERSION = '2.3.2_p'
@@ -12,7 +14,8 @@ VERSION = '2.3.2_p'
 app = Flask(__name__)
 CORS(app)
 
-bot_server = BotServer()
+cs_strategy = CodeSwitchStrategy.alternation_random
+bot_server = BotServer(cs_strategy)
 
 game_roles = {'navigator': 0, 'instructor': 1}
 game_roles_reverse = {0: 'navigator', 1: 'instructor'}
@@ -27,7 +30,7 @@ def call_bot():
                                              params['map_index'],
                                              params['game_role'],
                                              params['state'])
-        return json.dumps({'res': res, 'is_finish': is_finish}),200, {'Content-Type': 'application/json'}
+        return json.dumps({'res': res, 'is_finish': is_finish}), 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
@@ -55,7 +58,7 @@ def upload_api():
 
         upload_data = params
         upload_data['server_version'] = VERSION
-        upload_data['cs_strategy'] = 'english only'
+        upload_data['cs_strategy'] = cs_strategy.value
 
         for game in upload_data['games_data']:
             bot_server.un_register(game['config']['guid'])

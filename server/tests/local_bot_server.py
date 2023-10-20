@@ -1,16 +1,18 @@
 from bot_server import BotServer
+from bots.cs_unit import CodeSwitchStrategy
 from google_cloud.database import Database
 from google_cloud.translate import Translate
+
 
 def db_mock():
     pass
 
 
-Translate.__wrapped__.translate_to_eng = lambda self, x: x
-Translate.__wrapped__.translate_to_spa = lambda self, x: x
-Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
+# Translate.__wrapped__.translate_to_eng = lambda self, x: x
+# Translate.__wrapped__.translate_to_spa = lambda self, x: x
+# Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
 
-server = BotServer()
+server = BotServer(CodeSwitchStrategy.alternation_random)
 game_role = 0
 guid, welcome_str = server.register(map_index=1, game_role=game_role)
 print(f'bot: {welcome_str}')

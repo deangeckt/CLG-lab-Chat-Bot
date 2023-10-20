@@ -21,7 +21,6 @@ class GptBotInstructor(Bot):
 
         system_map_prefix = kb['system_common_map_prefix']
 
-
         system_content = f'{system_prefix}\n{system_map_prefix}\n{map_kw}\n{system_suffix}'
         self.messages = [
             {"role": "system", "content": system_content},

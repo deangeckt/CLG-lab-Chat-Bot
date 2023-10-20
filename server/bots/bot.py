@@ -17,8 +17,8 @@ class Bot(metaclass=ABCMeta):
                        ]
 
     def __init__(self):
+        self.messages = []
         self.welcome_str = random.choice(Bot.welcome_options)
-        pass
 
     @abstractmethod
     def call(self, user_msg, user_state=None) -> Tuple[list[str], bool]:
@@ -41,6 +41,15 @@ class Bot(metaclass=ABCMeta):
         load / override state memory of the bot from DB
         """
         pass
+
+    def switch_and_override_memory(self, bot_switched_resp: list[str]):
+        """
+         in case the CS strategy overrides last msg. support GPT bots.
+         """
+        for i in range(len(bot_switched_resp)):
+            self.messages.pop()
+        for new_msg in bot_switched_resp:
+            self.messages.append({'role': 'assistant', 'content': new_msg})
 
     @staticmethod
     def informal_post_process(msg: str) -> list[str]:

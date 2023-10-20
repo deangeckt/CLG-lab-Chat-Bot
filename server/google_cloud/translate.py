@@ -1,33 +1,47 @@
-from google.cloud import translate_v2 as translate
+# from google.cloud import translate_v2 as translate
 import html
 from singleton_decorator import singleton
+from google.cloud import translate
 
 
 @singleton
 class Translate:
     def __init__(self):
-        self.translate_client = translate.Client()
+        self.client = translate.TranslationServiceClient()
+        self.parent = f"projects/dialogue-362312/locations/global"
 
     def translate_to_eng(self, user_msg) -> str:
-        # TODO: version of english only
-        return user_msg
-        detected_lng = self.translate_client.detect_language(user_msg)
-        # we don't translate only when the model is 100% sure that its english!
-        # we don't want to miss CS sentences with some Spanish in them
-        # langId doesn't do a good job compared to google
-        if detected_lng['language'] == 'en' and detected_lng['confidence'] == 1:
-            return user_msg
+        response = self.client.translate_text(
+            request={
+                "parent": self.parent,
+                "contents": [user_msg],
+                "mime_type": "text/plain",
+                "source_language_code": "es",
+                "target_language_code": "en-US",
+            }
+        )
 
-        response = self.translate_client.translate(user_msg, target_language='en', source_language='es')
-        translated_text = response['translatedText']
-        translated_text = html.unescape(translated_text)
-        print('tr:', translated_text)
-        return translated_text
-
-    def translate_to_spa(self, en_msg: str) -> str:
-        # TODO: tmp version of english only for friends
-        return en_msg
-        response = self.translate_client.translate(en_msg, target_language='es', source_language='en')
-        translated_text = response['translatedText']
+        translated_text = response.translations[0].translated_text
         translated_text = html.unescape(translated_text)
         return translated_text
+
+    def translate_to_spa(self, user_msg: str) -> str:
+        response = self.client.translate_text(
+            request={
+                "parent": self.parent,
+                "contents": [user_msg],
+                "mime_type": "text/plain",
+                "source_language_code": "en-US",
+                "target_language_code": "es",
+            }
+        )
+
+        translated_text = response.translations[0].translated_text
+        translated_text = html.unescape(translated_text)
+        return translated_text
+
+
+if __name__ == "__main__":
+    t = Translate()
+    print(t.translate_to_spa('hello my friend'))
+    print(t.translate_to_eng('¿qué hago después?'))

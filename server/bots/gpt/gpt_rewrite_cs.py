@@ -1,9 +1,14 @@
 from typing import List
 from bots.gpt.openai_util import openai_call
-from code_switch.cs_unit import CSUnit
+from bots.cs_unit import CSUnit
 
 
-class GPTCodeSwitch(CSUnit):
+class GPTCodeSwitchReWrite(CSUnit):
+    """
+    This unit uses prompt to force GPT to re-write the bot response in a mixed language
+    UNUSED
+    """
+
     def __init__(self):
         super().__init__()
         self.chat = []
@@ -11,8 +16,6 @@ class GPTCodeSwitch(CSUnit):
         self.user_prefix = "Rewrite the following sentence in mixed English-Spanish:"
 
     def call(self, user_msg: str, en_bot_resp: List[str]) -> List[str]:
-        # TODO: currently disabled in the english version
-        return en_bot_resp
         resp = []
         for bot_prev_msg in en_bot_resp:
             user_content = f'{self.user_prefix} "{bot_prev_msg}"'
@@ -29,3 +32,6 @@ class GPTCodeSwitch(CSUnit):
 
     def db_load(self, data):
         pass
+
+    def is_switched(self):
+        return True
