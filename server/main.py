@@ -7,6 +7,7 @@ from flask_cors import CORS
 
 from bot_server import BotServer
 from bots.cs_unit import CodeSwitchStrategy
+from bots.lang_id import LangId
 from google_cloud.storage import save_to_storage
 
 VERSION = '2.3.2_p'
@@ -20,6 +21,7 @@ bot_server = BotServer(cs_strategy)
 game_roles = {'navigator': 0, 'instructor': 1}
 game_roles_reverse = {0: 'navigator', 1: 'instructor'}
 
+hold_memory = LangId()
 
 @app.route('/api/v1/call_bot', methods=['POST'])
 def call_bot():
