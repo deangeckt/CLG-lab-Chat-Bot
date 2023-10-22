@@ -1,7 +1,7 @@
 from typing import List
 
 from bots.cs_unit import CSUnit, CodeSwitchStrategy
-from bots.lang_id import LangId, LanguageId
+from bots.lang_id_bert import LangIdBert, LanguageId
 from google_cloud.translate import Translate
 import random
 
@@ -15,7 +15,7 @@ class CodeSwitchAlternation(CSUnit):
         super().__init__()
         self.cs_history = []
 
-        self.lid = LangId()
+        self.lid = LangIdBert()
         self.translate = Translate()
 
         self.strategy = strategy

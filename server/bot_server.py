@@ -13,7 +13,7 @@ from bots.gpt.cs_alternation import CodeSwitchAlternation
 class BotServer:
     def __init__(self, cs_strategy: CodeSwitchStrategy):
         self.sessions = {}
-        self.database = Database()
+        # self.database = Database()
         self.cs_strategy = cs_strategy
 
     def register(self, map_index, game_role, guid=None):

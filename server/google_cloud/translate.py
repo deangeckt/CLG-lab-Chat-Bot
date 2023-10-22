@@ -2,13 +2,17 @@
 import html
 from singleton_decorator import singleton
 from google.cloud import translate
+import time
 
 
 @singleton
 class Translate:
     def __init__(self):
+        s = time.time()
         self.client = translate.TranslationServiceClient()
         self.parent = f"projects/dialogue-362312/locations/global"
+        print('translate init time: ')
+        print(time.time() - s)
 
     def translate_to_eng(self, user_msg) -> str:
         response = self.client.translate_text(

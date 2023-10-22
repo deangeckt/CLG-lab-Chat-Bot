@@ -6,6 +6,5 @@ google-cloud-translate==3.12.0
 google-cloud-datastore==2.11.0
 singleton-decorator
 openai
-codeswitch==1.1
 transformers==4.34.1
 torch==2.1.0
