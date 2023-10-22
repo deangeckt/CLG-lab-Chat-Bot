@@ -29,7 +29,7 @@ class CodeSwitchAlternation(CSUnit):
 
     @staticmethod
     def __random_call(self, user_msg: str, bot_resp: List[str]) -> List[str]:
-        random_factor = 0.33
+        random_factor = 0.5
         if random.random() > random_factor:
             return bot_resp
 

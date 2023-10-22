@@ -3,7 +3,7 @@ from typing import Tuple
 
 from bots.bot import Bot
 from bots.cs_unit import CSUnit, CodeSwitchStrategy
-from google_cloud.database import Database
+# from google_cloud.database import Database
 
 from bots.gpt.gpt_bot_nav import GptBotNavigator
 from bots.gpt.gpt_bot_ins import GptBotInstructor
