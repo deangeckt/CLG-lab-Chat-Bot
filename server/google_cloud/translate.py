@@ -9,7 +9,7 @@ class Translate:
         self.client = translate.TranslationServiceClient()
         self.parent = f"projects/dialogue-362312/locations/global"
 
-    def translate_to_eng(self, user_msg) -> str:
+    def translate_to_eng(self, user_msg: str) -> str:
         response = self.client.translate_text(
             request={
                 "parent": self.parent,

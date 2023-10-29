@@ -23,7 +23,7 @@ class BotServer:
         bot: Bot = GptBotNavigator(map_id) if game_role == 1 else GptBotInstructor(map_id)
         self.sessions[guid] = {
             'bot': bot,
-            'cs': CodeSwitchAlternation(strategy=self.cs_strategy)
+            'cs': CodeSwitchAlternation(strategy=self.cs_strategy, welcome_str=bot.welcome_str)
         }
         return guid, bot.welcome_str
 

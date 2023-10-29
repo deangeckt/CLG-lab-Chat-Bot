@@ -12,7 +12,7 @@ def db_mock():
 # Translate.__wrapped__.translate_to_spa = lambda self, x: x
 # Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
 
-server = BotServer(CodeSwitchStrategy.alternation_random)
+server = BotServer(CodeSwitchStrategy.alternation_short_context)
 game_role = 0
 guid, welcome_str = server.register(map_index=1, game_role=game_role)
 

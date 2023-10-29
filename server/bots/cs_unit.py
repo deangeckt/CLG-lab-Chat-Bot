@@ -5,7 +5,7 @@ from typing import List
 class CodeSwitchStrategy(str, Enum):
     none = "none"
     alternation_random = "alternation_random"
-    alternation_sequence = "alternation_sequence"
+    alternation_short_context = "alternation_short_context_uter"
 
 class CSUnit(metaclass=ABCMeta):
     def __init__(self):
