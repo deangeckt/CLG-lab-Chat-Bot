@@ -137,3 +137,6 @@ venv.bak/
 
 # mkdocs documentation
 /site
+
+*.bin
+*.safetensors
