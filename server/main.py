@@ -9,12 +9,12 @@ from bot_server import BotServer
 from bots.cs_unit import CodeSwitchStrategy
 from google_cloud.storage import save_to_storage
 
-VERSION = '2.3.3_p'
+VERSION = '2.3.4_p'
 
 app = Flask(__name__)
 CORS(app)
 
-cs_strategy = CodeSwitchStrategy.alternation_short_context
+cs_strategy = CodeSwitchStrategy.alternation_switch_last_user
 bot_server = BotServer(cs_strategy)
 
 game_roles = {'navigator': 0, 'instructor': 1}
