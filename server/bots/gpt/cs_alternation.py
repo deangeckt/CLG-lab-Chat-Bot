@@ -22,7 +22,8 @@ class CodeSwitchAlternation(CSUnit):
             CodeSwitchStrategy.none: self.__none_call,
             CodeSwitchStrategy.alternation_random: self.__random_call,
             CodeSwitchStrategy.alternation_short_context: self.__short_context_call,
-            CodeSwitchStrategy.alternation_switch_last_user: self.__switch_last_user_call
+            CodeSwitchStrategy.alternation_switch_last_user: self.__switch_last_user_call,
+            CodeSwitchStrategy.alternation_align_last_user: self.__align_last_user_call
         }
 
         self.is_last_switched = False
@@ -69,7 +70,6 @@ class CodeSwitchAlternation(CSUnit):
         if len(last_langs_set) > 1:
             return bot_resp
 
-
         self.is_last_switched = True
 
         lang = self.cs_history[-1]
@@ -89,13 +89,37 @@ class CodeSwitchAlternation(CSUnit):
 
     def __switch_last_user_call(self, user_msg: str, bot_resp: List[str]) -> List[str]:
         """
-        on the Turn level - i.e.: can translate more than one utterance
+        on the Turn level - i.e.: can translate more than one utterance (translate to the opposite of the user lng)
         """
         user_lng = self.lid.identify(user_msg)
         if user_lng == LanguageId.mix:
             return bot_resp
 
+        bot_langs = [self.lid.identify(msg) for msg in bot_resp]
+        # user lng != bot lng, no need to translate
+        if len(set(bot_langs)) == 1 and user_lng not in set(bot_langs):
+            return bot_resp
+
         translate_cb = self.translate.translate_to_spa if user_lng == LanguageId.eng else self.translate.translate_to_eng
+        bot_resp_translated = [translate_cb(msg) for msg in bot_resp]
+        self.is_last_switched = True
+        return bot_resp_translated
+
+
+    def __align_last_user_call(self, user_msg: str, bot_resp: List[str]) -> List[str]:
+        """
+        on the Turn level - i.e.: can translate more than one utterance (translate to the user lng)
+        """
+        user_lng = self.lid.identify(user_msg)
+        if user_lng == LanguageId.mix:
+            return bot_resp
+
+        bot_langs = [self.lid.identify(msg) for msg in bot_resp]
+        # user lng == bot lng, no need to translate
+        if len(set(bot_langs)) == 1 and user_lng in set(bot_langs):
+            return bot_resp
+
+        translate_cb = self.translate.translate_to_eng if user_lng == LanguageId.eng else self.translate.translate_to_spa
         bot_resp_translated = [translate_cb(msg) for msg in bot_resp]
         self.is_last_switched = True
         return bot_resp_translated

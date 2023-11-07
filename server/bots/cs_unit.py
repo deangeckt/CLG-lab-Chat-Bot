@@ -7,6 +7,8 @@ class CodeSwitchStrategy(str, Enum):
     alternation_random = "alternation_random"
     alternation_short_context = "alternation_short_context_uter"
     alternation_switch_last_user = "alternation_switch_last_user"
+    alternation_align_last_user = "alternation_align_last_user"
+
 
 class CSUnit(metaclass=ABCMeta):
     def __init__(self):
