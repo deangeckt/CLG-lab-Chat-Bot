@@ -156,8 +156,23 @@ function SurveyGeneral(): JSX.Element {
                     </>
                 ) : null}
                 {reg == 'loading' ? (
-                    <Box sx={{ display: 'flex', marginTop: '25%' }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            marginTop: '25%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
                         <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
+                        <Typography style={{ marginTop: '1em' }} variant="h5">
+                            Please wait, this might take some time. <br /> You will be redirected to prolific when done.{' '}
+                            <br /> In case you are not redirected, please click the button again.
+                        </Typography>
+                        <p className="consentText" style={{ fontWeight: 700 }}>
+                            Please do not refresh the page as progress will be lost.
+                        </p>{' '}
                     </Box>
                 ) : null}
                 {reg == 'done' ? (
