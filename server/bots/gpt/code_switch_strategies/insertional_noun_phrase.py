@@ -1,51 +1,50 @@
 from typing import List
-
-import spacy
-from spacy.tokens import Doc
 from bots.gpt.code_switch_strategies.code_switch_strategy import CodeSwitchStrategy
-from bots.lang_id_bert import LanguageId
+from bots.models.lang_id_bert import LanguageId
+from bots.models.np_extractor_spacy import NounPhraseExtractor
 
 
 class InsertionalNounPhraseTest(CodeSwitchStrategy):
     """
     """
+
     def __init__(self):
         super().__init__()
-        # TODO: singleton wrapper
-        self.en_nlp = spacy.load("en_core_web_sm")
-        self.es_nlp = spacy.load("es_core_news_md")
+        self.noun_phrase_extractor = NounPhraseExtractor()
+        # TODO: fill the list, is it ok for the maps?
+        self.dict_mock = {'bench', 'dog', 'tiger', 'spider', 'leopard', 'parrot',
+                          'elephant', 'rock', 'rocks', 'frog', 'tree', 'twig'}
 
-
-    @staticmethod
-    def __merge_phrases(doc: Doc):
-        with doc.retokenize() as retokenizer:
-            for np in list(doc.noun_chunks):
-                attrs = {
-                    "tag": np.root.tag_,
-                    "lemma": np.root.lemma_,
-                    "ent_type": np.root.ent_type_,
-                }
-                retokenizer.merge(np, attrs=attrs)
-        return doc
-
-    def __extract_noun_phrase(self, text, lang) -> list[str]:
-        if lang == LanguageId.mix: return []
-        nlp = self.en_nlp if lang == LanguageId.eng else self.es_nlp
-        doc = nlp(text)
-        doc = self.__merge_phrases(doc)
-
-        nouns = []
-        for token in doc:
-            if token.pos_ == 'NOUN':
-                nouns.append(token.text)
-        return nouns
-
-
+    # TODO: currently i override the bot history with cs - effect GPT next time...
     def call(self, user_msg: str, bot_resp: List[str]) -> tuple[list[str], bool]:
-        nouns = []
+        nouns_bot_resp = []
+        bot_langs = []
         for msg in bot_resp:
-            bot_lang = self.lid.identify(msg)
-            nouns.extend(self.__extract_noun_phrase(msg, bot_lang))
+            bot_lang: LanguageId = self.lid.identify(msg)
+            bot_langs.append(bot_lang)
+            nouns_bot_resp.append(self.noun_phrase_extractor.extract(msg, bot_lang))
 
-        return bot_resp, False
+        candidates = []
+        for resp_idx, nouns_per_resp in enumerate(nouns_bot_resp):
+            for np in nouns_per_resp:
+                if any([token in self.dict_mock for token in np.split(' ')]):
+                    candidates.append((np, resp_idx))
 
+        if not candidates:
+            return bot_resp, False
+
+        # TODO: all candidates? only one? if so which one? or multiple?
+
+        for selected_np, selected_idx in candidates:
+            lang = bot_langs[selected_idx]
+            translate_cb = self.translate.translate_to_spa if lang == LanguageId.eng else self.translate.translate_to_eng
+
+            # TODO; should lower? noticed that spanish get be with upper - seems better
+            translated_np = translate_cb(selected_np).lower()
+            print(f'Translated selected noun phrase: {selected_np} --- to: {translated_np}')
+
+            msg = bot_resp[selected_idx]
+            # replace: no need to check if the string is in
+            bot_resp[selected_idx] = msg.replace(selected_np, translated_np)
+
+        return bot_resp, True

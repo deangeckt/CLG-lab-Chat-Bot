@@ -1,6 +1,6 @@
 from typing import List
 from bots.gpt.code_switch_strategies.code_switch_strategy import CodeSwitchStrategy
-from bots.lang_id_bert import LanguageId
+from bots.models.lang_id_bert import LanguageId
 
 
 class AlternationAlignLastUser(CodeSwitchStrategy):

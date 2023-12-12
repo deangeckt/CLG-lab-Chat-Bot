@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import List
 
-from bots.lang_id_bert import LangIdBert
+from bots.models.lang_id_bert import LangIdBert
 from google_cloud.translate import Translate
 
 

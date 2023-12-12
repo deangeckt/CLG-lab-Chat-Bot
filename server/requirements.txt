@@ -8,3 +8,4 @@ singleton-decorator
 openai==0.27.7
 transformers==4.34.1
 torch==2.1.0
+spacy==3.7.2
