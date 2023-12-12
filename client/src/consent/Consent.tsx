@@ -70,7 +70,7 @@ function Conset(): JSX.Element {
                     >
                         <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
                         <p className="" style={{ fontWeight: 700, color: main_blue }}>
-                            Loading the experiemnt, this might take a few seconds...
+                            Loading the experiment, this might take a few seconds...
                         </p>
                     </Box>
                 )}
