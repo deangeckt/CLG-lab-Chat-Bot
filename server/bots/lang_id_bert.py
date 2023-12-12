@@ -20,6 +20,7 @@ class LangIdBert:
         self.lid = pipeline('ner', model=self.model, tokenizer=self.tokenizer)
         print('bert init time: ')
         print(time.time() - s)
+
     @staticmethod
     def __cs_clf_heuristic(langs: list) -> LanguageId:
         if LanguageId.eng in langs and LanguageId.es in langs:

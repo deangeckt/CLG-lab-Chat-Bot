@@ -2,16 +2,16 @@ import uuid
 from typing import Tuple
 
 from bots.bot import Bot
-from bots.cs_unit import CSUnit, CodeSwitchStrategy
+from bots.cs_unit import CSUnit, CodeSwitchStrategyName
 # from google_cloud.database import Database
 
 from bots.gpt.gpt_bot_nav import GptBotNavigator
 from bots.gpt.gpt_bot_ins import GptBotInstructor
-from bots.gpt.cs_alternation import CodeSwitchAlternation
+from bots.gpt.code_switch_strategies.code_switch_strategies import CodeSwitchStrategies
 
 
 class BotServer:
-    def __init__(self, cs_strategy: CodeSwitchStrategy):
+    def __init__(self, cs_strategy: CodeSwitchStrategyName):
         self.sessions = {}
         # self.database = Database()
         self.cs_strategy = cs_strategy
@@ -23,7 +23,7 @@ class BotServer:
         bot: Bot = GptBotNavigator(map_id) if game_role == 1 else GptBotInstructor(map_id)
         self.sessions[guid] = {
             'bot': bot,
-            'cs': CodeSwitchAlternation(strategy=self.cs_strategy, welcome_str=bot.welcome_str)
+            'cs': CodeSwitchStrategies(strategy=self.cs_strategy, welcome_str=bot.welcome_str)
         }
         return guid, bot.welcome_str
 

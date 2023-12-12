@@ -6,7 +6,7 @@ from bots.cs_unit import CSUnit
 class GPTCodeSwitchReWrite(CSUnit):
     """
     This unit uses prompt to force GPT to re-write the bot response in a mixed language
-    UNUSED
+    -----UNUSED-----
     """
 
     def __init__(self):

@@ -44,7 +44,7 @@ class Bot(metaclass=ABCMeta):
 
     def switch_and_override_memory(self, bot_switched_resp: list[str]):
         """
-         in case the CS strategy overrides last msg. support GPT bots.
+         in case the CS strategy overrides last msg. used by GPT bots.
          """
         for i in range(len(bot_switched_resp)):
             self.messages.pop()

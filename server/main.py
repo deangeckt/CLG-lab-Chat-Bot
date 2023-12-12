@@ -6,15 +6,15 @@ from flask import request
 from flask_cors import CORS
 
 from bot_server import BotServer
-from bots.cs_unit import CodeSwitchStrategy
+from bots.cs_unit import CodeSwitchStrategyName
 from google_cloud.storage import save_to_storage
 
-VERSION = '2.3.5_p'
+VERSION = '2.4.0_p'
 
 app = Flask(__name__)
 CORS(app)
 
-cs_strategy = CodeSwitchStrategy.alternation_align_last_user
+cs_strategy = CodeSwitchStrategyName.insertional_noun_phrase
 bot_server = BotServer(cs_strategy)
 
 game_roles = {'navigator': 0, 'instructor': 1}
