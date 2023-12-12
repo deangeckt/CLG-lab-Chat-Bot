@@ -37,7 +37,7 @@ function Conset(): JSX.Element {
         navigate('/map_task');
     };
 
-    const redner_conset = () => {
+    const redner_conset = (ready: boolean) => {
         return (
             <>
                 <div>
@@ -48,16 +48,32 @@ function Conset(): JSX.Element {
                         Please do not refresh the page as progress will be lost.
                     </p>
                 </div>
-
-                <Button
-                    className="register_btn"
-                    style={{ textTransform: 'none' }}
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => onClick()}
-                >
-                    Accept
-                </Button>
+                {ready ? (
+                    <Button
+                        className="register_btn"
+                        style={{ textTransform: 'none' }}
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => onClick()}
+                    >
+                        Accept and Begin
+                    </Button>
+                ) : (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            margin: '32px',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
+                        <p className="" style={{ fontWeight: 700, color: main_blue }}>
+                            Loading the experiemnt, this might take a few seconds...
+                        </p>
+                    </Box>
+                )}
             </>
         );
     };
@@ -77,12 +93,8 @@ function Conset(): JSX.Element {
                         An errur occured, please try again later
                     </Typography>
                 )}
-                {state.registerd === 'yes' && redner_conset()}
-                {state.registerd === 'load' && (
-                    <Box sx={{ display: 'flex', margin: '32px' }}>
-                        <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
-                    </Box>
-                )}
+                {state.registerd === 'yes' && redner_conset(true)}
+                {state.registerd === 'load' && redner_conset(false)}
             </div>
         </div>
     );
