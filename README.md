@@ -15,3 +15,7 @@
 - server:
   * local run without the web client - run local.py
   * local run with the web client - run main.py
+  * update models:
+    bots/models/es_core_news_md-3.7.0/*
+    bots/models/en_core_web_sm-3.7.1/*
+    bots/models/spaeng-lid-lince/*
