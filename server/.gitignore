@@ -142,3 +142,4 @@ venv.bak/
 *.safetensors
 bots/models/es_core_news_md-3.7.0/*
 bots/models/en_core_web_sm-3.7.1/*
+bot/models/spaeng-lid-lince/*
