@@ -28,7 +28,8 @@ class GptBotNavigator(Bot):
         system_content = f'{system_prefix1}\n{system_prefix2}\n{system_prefix3}\n{system_map_prefix}\n{map_kw}\n{map_suffix_kw}\n{system_suffix}'
         self.messages = [
             {"role": "system", "content": system_content},
-            {'role': 'assistant', 'content': self.welcome_str}
+            # TODO: make sure
+            # {'role': 'assistant', 'content': self.welcome_str}
         ]
 
     def __is_finished(self, bot_resp: str):

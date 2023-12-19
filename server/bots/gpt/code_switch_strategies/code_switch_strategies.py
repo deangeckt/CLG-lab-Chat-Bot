@@ -5,7 +5,8 @@ from bots.gpt.code_switch_strategies.alternation_random import AlternationRandom
 from bots.gpt.code_switch_strategies.alternation_short_ctx import AlternationShortContext
 from bots.gpt.code_switch_strategies.alternation_switch_last_user import AlternationSwitchLastUser
 from bots.gpt.code_switch_strategies.baseline import Baseline
-from bots.gpt.code_switch_strategies.insertional_noun_phrase import InsertionalNounPhraseTest
+from bots.gpt.code_switch_strategies.insertional_noun_phrase_example import InsertionalNounPhraseExample
+from bots.gpt.code_switch_strategies.insertional_spanish_incongruent import InsertionalSpanishIncongruent
 
 
 class CodeSwitchStrategies(CSUnit):
@@ -14,7 +15,7 @@ class CodeSwitchStrategies(CSUnit):
     Insertional strategies detect NP and translate only it
     """
 
-    def __init__(self, strategy: CodeSwitchStrategyName, welcome_str: str):
+    def __init__(self, strategy: CodeSwitchStrategyName, welcome_str: str, map_index: int):
         super().__init__()
 
         self.strategy = strategy
@@ -24,7 +25,7 @@ class CodeSwitchStrategies(CSUnit):
             CodeSwitchStrategyName.alternation_short_context: AlternationShortContext(welcome_str),
             CodeSwitchStrategyName.alternation_switch_last_user: AlternationSwitchLastUser(),
             CodeSwitchStrategyName.alternation_align_last_user: AlternationAlignLastUser(),
-            CodeSwitchStrategyName.insertional_noun_phrase: InsertionalNounPhraseTest()
+            CodeSwitchStrategyName.insertional_spanish_incongruent: InsertionalSpanishIncongruent(map_index)
         }
 
         self.is_last_switched = False

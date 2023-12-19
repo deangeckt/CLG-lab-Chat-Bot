@@ -14,7 +14,6 @@ class LangIdBert:
     def __init__(self):
         s = time.time()
         # https://huggingface.co/sagorsarker/codeswitch-spaeng-lid-lince
-        #TODO: remove git ignore all the folder, just like spacy and add to README how to get.
         model_path = f'bots/models/spaeng-lid-lince'
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
         self.model = AutoModelForTokenClassification.from_pretrained(model_path)

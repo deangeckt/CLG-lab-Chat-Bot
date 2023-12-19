@@ -9,7 +9,7 @@ class CodeSwitchStrategyName(str, Enum):
     alternation_short_context = "alternation_short_context_uter"  # '2.3.3_p'
     alternation_switch_last_user = "alternation_switch_last_user"  # '2.3.4_p'
     alternation_align_last_user = "alternation_align_last_user"  # '2.3.5_p'
-    insertional_noun_phrase = "insertional_noun_phrase"  # '2.4.0_p'
+    insertional_spanish_incongruent = "insertional_spanish_incongruent"  # '2.4.0_p'
 
 
 class CSUnit(metaclass=ABCMeta):

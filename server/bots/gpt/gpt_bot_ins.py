@@ -24,7 +24,8 @@ class GptBotInstructor(Bot):
         system_content = f'{system_prefix}\n{system_map_prefix}\n{map_kw}\n{system_suffix}'
         self.messages = [
             {"role": "system", "content": system_content},
-            {'role': 'assistant', 'content': self.welcome_str}
+            # TODO: make sure
+            # {'role': 'assistant', 'content': self.welcome_str}
         ]
 
     def call(self, user_msg, user_state=None) -> Tuple[list[str], bool]:
