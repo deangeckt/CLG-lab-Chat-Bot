@@ -20,7 +20,7 @@ class BotServer:
         if guid is None:
             guid = str(uuid.uuid4())
         map_id = f'map_{map_index + 1}'
-        bot: Bot = GptBotNavigator(map_id) if game_role == 1 else GptBotInstructor(map_id)
+        bot: Bot = GptBotNavigator(map_id, self.cs_strategy) if game_role == 1 else GptBotInstructor(map_id, self.cs_strategy)
         self.sessions[guid] = {
             'bot': bot,
             'cs': CodeSwitchStrategies(strategy=self.cs_strategy,

@@ -7,8 +7,8 @@ from bots.gpt.openai_util import openai_call
 
 
 class GptBotNavigator(Bot):
-    def __init__(self, map_id):
-        super().__init__()
+    def __init__(self, map_id, cs_strategy):
+        super().__init__(cs_strategy)
 
         kb_path = resource_filename('bots', f'gpt/nav_kw.json')
         with open(kb_path, 'r') as f:
@@ -28,8 +28,7 @@ class GptBotNavigator(Bot):
         system_content = f'{system_prefix1}\n{system_prefix2}\n{system_prefix3}\n{system_map_prefix}\n{map_kw}\n{map_suffix_kw}\n{system_suffix}'
         self.messages = [
             {"role": "system", "content": system_content},
-            # TODO: make sure
-            # {'role': 'assistant', 'content': self.welcome_str}
+            {'role': 'assistant', 'content': self.welcome_str}
         ]
 
     def __is_finished(self, bot_resp: str):

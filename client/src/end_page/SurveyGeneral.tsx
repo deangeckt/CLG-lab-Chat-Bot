@@ -167,7 +167,7 @@ function SurveyGeneral(): JSX.Element {
                     >
                         <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
                         <Typography style={{ marginTop: '1em' }} variant="h5">
-                            Please wait, this might take some time. <br /> You will be redirected to prolific when done.{' '}
+                            Please wait, this might take some time. <br /> You will be redirected to Prolific when done.{' '}
                             <br /> In case you are not redirected, please click the button again.
                         </Typography>
                         <p className="consentText" style={{ fontWeight: 700 }}>
@@ -177,7 +177,7 @@ function SurveyGeneral(): JSX.Element {
                 ) : null}
                 {reg == 'done' ? (
                     <Typography style={{ marginTop: '25%' }} variant="h4">
-                        Thank you! <br /> <br /> prolific completion code: C15G3HZJ
+                        Thank you! <br /> <br /> Prolific completion code: C15G3HZJ
                     </Typography>
                 ) : null}
                 {reg == 'fail' ? (

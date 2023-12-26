@@ -30,7 +30,6 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
 
         return ''.join(result)
 
-    # TODO: translate nouns via fixed dict?
 
     def __congruent(self, nouns_bot_resp: list, bot_resp: List[str]):
         """
@@ -92,16 +91,14 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
             bot_lang: LanguageId = self.lid.identify(msg)
             extracted_nouns = self.noun_phrase_extractor.extract_nouns_with_det(msg, bot_lang) \
                 if bot_lang == LanguageId.es else []
-            # TODO here we can select nouns only from out list to avoid FP bu spacy
-            # TODO: prefer - a set of MASC and FEM nouns so we both filter and help the next function
             print(extracted_nouns)
             nouns_bot_resp.append(extracted_nouns)
 
         if not any([len(nouns) for nouns in nouns_bot_resp]):
             return bot_resp, False
 
+        # TODO choose per map
+        # TODO: add dicts -  nouns, genders ,translates
         self.__incongruent_2(nouns_bot_resp, bot_resp)
 
-        # TODO: do we ovverride?
-        #  i suspect it kills the logic - i.e. it will mix on its own and we won't do our logic since its not spanish
-        return bot_resp, True
+        return bot_resp, False

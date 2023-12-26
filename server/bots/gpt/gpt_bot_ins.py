@@ -7,8 +7,8 @@ from bots.gpt.openai_util import openai_call
 
 
 class GptBotInstructor(Bot):
-    def __init__(self, map_id):
-        super().__init__()
+    def __init__(self, map_id, cs_strategy):
+        super().__init__(cs_strategy)
 
         kb_path = resource_filename('bots', f'gpt/ins_kw.json')
         with open(kb_path, 'r') as f:
@@ -24,8 +24,7 @@ class GptBotInstructor(Bot):
         system_content = f'{system_prefix}\n{system_map_prefix}\n{map_kw}\n{system_suffix}'
         self.messages = [
             {"role": "system", "content": system_content},
-            # TODO: make sure
-            # {'role': 'assistant', 'content': self.welcome_str}
+            {'role': 'assistant', 'content': self.welcome_str}
         ]
 
     def call(self, user_msg, user_state=None) -> Tuple[list[str], bool]:

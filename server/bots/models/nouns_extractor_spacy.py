@@ -12,6 +12,7 @@ from bots.models.lang_id_bert import LanguageId
 class NounsExtractor:
     def __init__(self):
         s = time.time()
+        #TODO: restore
         # self.en_nlp = spacy.load(r'bots/models/en_core_web_sm-3.7.1')
         self.es_nlp = spacy.load(r'bots/models/es_core_news_md-3.7.0')
         print('spacy init time: ')
@@ -40,7 +41,6 @@ class NounsExtractor:
         if lang == LanguageId.mix: return []
         nlp = self.en_nlp if lang == LanguageId.eng else self.es_nlp
         doc = nlp(text)
-        # TODO: single det per noun?
 
         res = []
         for token in doc:
@@ -48,7 +48,7 @@ class NounsExtractor:
                 continue
             found_det = False
             for left_token in reversed(list(token.lefts)):
-                if left_token.pos_ == 'DET':
+                if left_token.pos_ == 'DET' or left_token.pos_ == 'ADP':
                     res.append((left_token, token))
                     found_det = True
                     break
@@ -83,7 +83,4 @@ if __name__ == "__main__":
     substitutions = [{'orig': det.text, 'new': 'x', 'idx': det.idx} for det, noun in nouns if det]
     substitutions[0]['new'] = 'mock'
     print(__replace_substrings(text, substitutions))
-
-
-
 
