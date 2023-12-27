@@ -14,6 +14,28 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
     def __init__(self, map_index: int):
         super().__init__()
         self.noun_phrase_extractor = NounsExtractor()
+        # TODO: add dicts -  nouns and their translations dict
+        self.es_to_eng_nouns = {}
+
+        # TODO: dont need to check if the noun is MASC or FEM. just check the DET in the masc list, if so switch
+        # TODO: in the incongurent 2 - check if the det in the reverse dict - i.e. FEM DET
+        # https://en.wikipedia.org/wiki/Spanish_determiners
+        self.masc_femi_determiners_dict = {
+            'al': 'la',  # the singular
+            'el': 'la',  # the singular (in the reverse dict la -> el)
+            'los': 'las',  # the plural
+            'ese': 'esa',  # that
+            'este': 'esta',  # this
+            'esos': 'esas',  # those
+            'estos': 'estas',  # those
+            'un': 'una',  # a singular
+            'unos': 'unas',  # a plural
+            'nuestro': 'nuestra',  # my
+            'nuestros': 'nuestras',  # ours
+            'vuestro': 'vuestra',  # your
+            'vuestros': 'vuestras',  # theirs
+            'del': 'de la'  # edge case: to the
+        }
 
     @staticmethod
     def __replace_substrings(text: str, substitutions: list[dict]) -> str:
@@ -30,60 +52,44 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
 
         return ''.join(result)
 
+    def __swap(self, nouns_bot_resp: list, bot_resp: List[str], det_dict: dict):
+        for resp_idx, nouns in enumerate(nouns_bot_resp):
+            substitutions = []
+            for det, noun in nouns:
+                if noun not in self.es_to_eng_nouns:
+                    continue
+
+                if det and det.text in det_dict:
+                    substitutions.append({'orig': det.text, 'new': det_dict[det.text], 'idx': det.idx})
+                    print(f'{resp_idx}:Swapped det: {det.text} to: {det_dict[det.text]}')
+
+                translated_noun = self.es_to_eng_nouns[noun]
+                substitutions.append({'orig': noun.text, 'new': translated_noun, 'idx': noun.idx})
+                print(f'{resp_idx}:Swapped noun: {noun} to: {translated_noun}')
+
+            bot_resp[resp_idx] = self.__replace_substrings(text=bot_resp[resp_idx], substitutions=substitutions)
 
     def __congruent(self, nouns_bot_resp: list, bot_resp: List[str]):
         """
         e.g.: el fork/la spoon	i.e. all [Spa] DETs match expected gender
         we assume the gender are fine and don't switch
         """
-        for resp_idx, nouns in enumerate(nouns_bot_resp):
-            substitutions = []
-            for det, noun in nouns:
-                translated_noun = self.translate.translate_to_eng(noun.text).lower()
-                substitutions.append({'orig': noun.text, 'new': translated_noun, 'idx': noun.idx})
-                print(f'{resp_idx}:Swapped noun: {noun} to: {translated_noun}')
-
-            bot_resp[resp_idx] = self.__replace_substrings(text=bot_resp[resp_idx], substitutions=substitutions)
-
+        self.__swap(nouns_bot_resp, bot_resp, det_dict={})
 
     def __incongruent_1(self, nouns_bot_resp: list, bot_resp: List[str]):
         """
         e.g.: LA fork/la spoon	i.e. for MASC Ns only, Spanish DET switches genders
         (prediction: increase task times/decrease enjoyment for regular CSers)
         """
-        masc_nouns_det_swap = {'el': 'la'}
-        for resp_idx, nouns in enumerate(nouns_bot_resp):
-            substitutions = []
-            for det, noun in nouns:
-                translated_noun = self.translate.translate_to_eng(noun.text).lower()
-                if det and det.text in masc_nouns_det_swap: # TODO: and noun is MASC
-                    substitutions.append({'orig': det.text, 'new': 'la', 'idx': det.idx})
-                    print(f'{resp_idx}:Swapped masc det: {det.text} to: la')
-
-                substitutions.append({'orig': noun.text, 'new': translated_noun, 'idx': noun.idx})
-                print(f'{resp_idx}:Swapped noun: {noun} to: {translated_noun}')
-
-            bot_resp[resp_idx] = self.__replace_substrings(text=bot_resp[resp_idx], substitutions=substitutions)
-
+        self.__swap(nouns_bot_resp, bot_resp, self.masc_femi_determiners_dict)
 
     def __incongruent_2(self, nouns_bot_resp: list, bot_resp: List[str]):
         """
         el fork/EL spoon	i.e. for FEM Ns only, Spa DET switches genders
         (prediction: may increase task times/decrease enjoyment for non-CSers, or no effect)
         """
-        masc_nouns_det_swap = {'la': 'el'}
-        for resp_idx, nouns in enumerate(nouns_bot_resp):
-            substitutions = []
-            for det, noun in nouns:
-                translated_noun = self.translate.translate_to_eng(noun.text).lower()
-                if det and det.text in masc_nouns_det_swap: # TODO: and noun is FEM
-                    substitutions.append({'orig': det.text, 'new': 'el', 'idx': det.idx})
-                    print(f'{resp_idx}:Swapped fem det: {det.text} to: el')
-
-                substitutions.append({'orig': noun.text, 'new': translated_noun, 'idx': noun.idx})
-                print(f'{resp_idx}:Swapped noun: {noun} to: {translated_noun}')
-
-            bot_resp[resp_idx] = self.__replace_substrings(text=bot_resp[resp_idx], substitutions=substitutions)
+        femi_masc_determiners_dict = {v: k for k, v in self.masc_femi_determiners_dict.items()}
+        self.__swap(nouns_bot_resp, bot_resp, femi_masc_determiners_dict)
 
     def call(self, user_msg: str, bot_resp: List[str]) -> tuple[list[str], bool]:
         nouns_bot_resp = []
@@ -98,7 +104,6 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
             return bot_resp, False
 
         # TODO choose per map
-        # TODO: add dicts -  nouns, genders ,translates
         self.__incongruent_2(nouns_bot_resp, bot_resp)
 
         return bot_resp, False

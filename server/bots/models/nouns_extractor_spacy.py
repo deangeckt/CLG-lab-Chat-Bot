@@ -38,6 +38,12 @@ class NounsExtractor:
         return [token.text for token in doc if token.pos_ == 'NOUN']
 
     def extract_nouns_with_det(self, text: str, lang: LanguageId) -> list[Tuple[Token, Token]]:
+        """
+        valid tuples:
+        DET, NOUN
+        ADP (del), NOUN
+        ADP (de), DET, NOUN
+        """
         if lang == LanguageId.mix: return []
         nlp = self.en_nlp if lang == LanguageId.eng else self.es_nlp
         doc = nlp(text)
@@ -77,10 +83,22 @@ if __name__ == "__main__":
     ex = NounsExtractor()
     text = 'el el gran tenedor marrón estaba sobre la mesa'
     text = 'vale, he pasado al tigre y estoy en camino hacia el loro y el elefante'
+    text = 'He pasado el tigre y voy camino de la perra y el elefante.'
+
     nouns = ex.extract_nouns_with_det(text, LanguageId.es)
     print(nouns)
     print()
     substitutions = [{'orig': det.text, 'new': 'x', 'idx': det.idx} for det, noun in nouns if det]
-    substitutions[0]['new'] = 'mock'
+    substitutions[0]['new'] = 'de la'
     print(__replace_substrings(text, substitutions))
+
+
+    '''
+    
+    la / esa- FEM
+    el / al / ese- MASC
+    
+    del loro    (adp noun) -> switch to "de la parrot"  # NO NEED TO CHANGE LOGIC, JUST THE SWAP DICT
+    de la perra (adp, det, noun) -> switch to "del parrot" # edge case where u have 3 in the tuple
+    '''
 
