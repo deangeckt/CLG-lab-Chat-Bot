@@ -38,6 +38,7 @@ class NounsExtractor:
         return [token.text for token in doc if token.pos_ == 'NOUN']
 
     def extract_nouns_with_det(self, text: str, lang: LanguageId) -> list[Tuple[Token, Token]]:
+        #TODO: impl
         """
         valid tuples:
         DET, NOUN
@@ -93,12 +94,4 @@ if __name__ == "__main__":
     print(__replace_substrings(text, substitutions))
 
 
-    '''
-    
-    la / esa- FEM
-    el / al / ese- MASC
-    
-    del loro    (adp noun) -> switch to "de la parrot"  # NO NEED TO CHANGE LOGIC, JUST THE SWAP DICT
-    de la perra (adp, det, noun) -> switch to "del parrot" # edge case where u have 3 in the tuple
-    '''
 

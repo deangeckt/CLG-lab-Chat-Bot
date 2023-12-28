@@ -2,6 +2,7 @@ from typing import List
 from bots.gpt.code_switch_strategies.code_switch_strategy import CodeSwitchStrategy
 from bots.models.lang_id_bert import LanguageId
 from bots.models.nouns_extractor_spacy import NounsExtractor
+import codecs
 
 
 class InsertionalSpanishIncongruent(CodeSwitchStrategy):
@@ -14,11 +15,10 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
     def __init__(self, map_index: int):
         super().__init__()
         self.noun_phrase_extractor = NounsExtractor()
-        # TODO: add dicts -  nouns and their translations dict
-        self.es_to_eng_nouns = {}
+        nouns_file = codecs.open('bots/gpt/code_switch_strategies/spanish_nouns_set.txt', "r", "utf-8")
+        self.es_to_eng_nouns = {n.strip().split('_')[0]: n.strip().split('_')[1] for n in nouns_file.readlines()}
 
-        # TODO: dont need to check if the noun is MASC or FEM. just check the DET in the masc list, if so switch
-        # TODO: in the incongurent 2 - check if the det in the reverse dict - i.e. FEM DET
+        # TODO: dont need to check if the noun is MASC or FEM. its decided by the det?
         # https://en.wikipedia.org/wiki/Spanish_determiners
         self.masc_femi_determiners_dict = {
             'al': 'la',  # the singular
@@ -36,6 +36,12 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
             'vuestros': 'vuestras',  # theirs
             'del': 'de la'  # edge case: to the
         }
+
+        '''
+        edge case:
+        del loro    (adp noun) -> switch to "de la parrot"  # NO NEED TO CHANGE LOGIC, JUST THE SWAP DICT
+        de la perra (adp, det, noun) -> switch to "del parrot" # edge case where u have 3 in the tuple
+        '''
 
     @staticmethod
     def __replace_substrings(text: str, substitutions: list[dict]) -> str:
@@ -56,14 +62,14 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         for resp_idx, nouns in enumerate(nouns_bot_resp):
             substitutions = []
             for det, noun in nouns:
-                if noun not in self.es_to_eng_nouns:
+                if noun.text not in self.es_to_eng_nouns:
                     continue
 
                 if det and det.text in det_dict:
                     substitutions.append({'orig': det.text, 'new': det_dict[det.text], 'idx': det.idx})
                     print(f'{resp_idx}:Swapped det: {det.text} to: {det_dict[det.text]}')
 
-                translated_noun = self.es_to_eng_nouns[noun]
+                translated_noun = self.es_to_eng_nouns[noun.text]
                 substitutions.append({'orig': noun.text, 'new': translated_noun, 'idx': noun.idx})
                 print(f'{resp_idx}:Swapped noun: {noun} to: {translated_noun}')
 
@@ -97,13 +103,13 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
             bot_lang: LanguageId = self.lid.identify(msg)
             extracted_nouns = self.noun_phrase_extractor.extract_nouns_with_det(msg, bot_lang) \
                 if bot_lang == LanguageId.es else []
-            print(extracted_nouns)
+            print('extracted_nouns:', extracted_nouns)
             nouns_bot_resp.append(extracted_nouns)
 
         if not any([len(nouns) for nouns in nouns_bot_resp]):
             return bot_resp, False
 
-        # TODO choose per map
-        self.__incongruent_2(nouns_bot_resp, bot_resp)
+        # TODO choose per map - what is the experiment setup? 4 maps but 3 conditions here
+        self.__incongruent_1(nouns_bot_resp, bot_resp)
 
         return bot_resp, False
