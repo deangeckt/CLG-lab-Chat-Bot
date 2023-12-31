@@ -7,6 +7,7 @@ puma_cougar
 jaguar_jaguar
 lince_lynx
 loro_parrot
+papagayo_parrot
 pájaro_bird
 rocas_rocks
 rana_frog

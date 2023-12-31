@@ -7,9 +7,7 @@ import codecs
 
 class InsertionalSpanishIncongruent(CodeSwitchStrategy):
     """
-        WIP
-        this CS strategy uses a different sub strategy / condition per map, but the order of map remains:
-        Ins, Nav, Ins, Nav
+        this CS strategy uses a different sub strategy / condition per map, but the order of map remains: Ins, Nav, Ins, Nav
     """
 
     def __init__(self, map_index: int):
@@ -18,10 +16,9 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         nouns_file = codecs.open('bots/gpt/code_switch_strategies/spanish_nouns_set.txt', "r", "utf-8")
         self.es_to_eng_nouns = {n.strip().split('_')[0]: n.strip().split('_')[1] for n in nouns_file.readlines()}
 
-        # TODO: dont need to check if the noun is MASC or FEM. its decided by the det?
+        # TODO: dont need to check if the noun is MASC or FEM. its decided by the det
         # https://en.wikipedia.org/wiki/Spanish_determiners
         self.masc_femi_determiners_dict = {
-            'al': 'la',  # the singular
             'el': 'la',  # the singular (in the reverse dict la -> el)
             'los': 'las',  # the plural
             'ese': 'esa',  # that
@@ -34,13 +31,17 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
             'nuestros': 'nuestras',  # ours
             'vuestro': 'vuestra',  # your
             'vuestros': 'vuestras',  # theirs
-            'del': 'de la'  # edge case: to the
+            #### ADP
+            'del': 'de la',  # edge case: to the
+            'al': 'a la',  # edge case: to the (al = a + el shortcut)
         }
 
         '''
         edge case:
-        del loro    (adp noun) -> switch to "de la parrot"  # NO NEED TO CHANGE LOGIC, JUST THE SWAP DICT
+        del loro    (adp, noun) -> switch to "de la parrot"  # NO NEED TO CHANGE LOGIC, JUST THE SWAP DICT
         de la perra (adp, det, noun) -> switch to "del parrot" # edge case where u have 3 in the tuple
+        al parque (adp, noun) 
+        a la playa (adp, det, noun)
         '''
 
     @staticmethod
@@ -62,16 +63,21 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         for resp_idx, nouns in enumerate(nouns_bot_resp):
             substitutions = []
             for det, noun in nouns:
-                if noun.text not in self.es_to_eng_nouns:
+                noun_text = noun['text']
+                noun_idx = noun['idx']
+                if noun_text not in self.es_to_eng_nouns:
                     continue
 
-                if det and det.text in det_dict:
-                    substitutions.append({'orig': det.text, 'new': det_dict[det.text], 'idx': det.idx})
-                    print(f'{resp_idx}:Swapped det: {det.text} to: {det_dict[det.text]}')
+                det_text = det['text']
+                det_idx = det['idx']
 
-                translated_noun = self.es_to_eng_nouns[noun.text]
-                substitutions.append({'orig': noun.text, 'new': translated_noun, 'idx': noun.idx})
-                print(f'{resp_idx}:Swapped noun: {noun} to: {translated_noun}')
+                if det_text in det_dict:
+                    substitutions.append({'orig': det_text, 'new': det_dict[det_text], 'idx': det_idx})
+                    print(f'{resp_idx}:Swapped det: {det_text} to: {det_dict[det_text]}')
+
+                translated_noun = self.es_to_eng_nouns[noun_text]
+                substitutions.append({'orig': noun_text, 'new': translated_noun, 'idx': noun_idx})
+                print(f'{resp_idx}:Swapped noun: {noun_text} to: {translated_noun}')
 
             bot_resp[resp_idx] = self.__replace_substrings(text=bot_resp[resp_idx], substitutions=substitutions)
 
@@ -101,6 +107,8 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         nouns_bot_resp = []
         for msg in bot_resp:
             bot_lang: LanguageId = self.lid.identify(msg)
+            print(bot_lang, msg)
+            print()
             extracted_nouns = self.noun_phrase_extractor.extract_nouns_with_det(msg, bot_lang) \
                 if bot_lang == LanguageId.es else []
             print('extracted_nouns:', extracted_nouns)
