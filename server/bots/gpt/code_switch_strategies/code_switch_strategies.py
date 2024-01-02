@@ -5,7 +5,6 @@ from bots.gpt.code_switch_strategies.alternation_random import AlternationRandom
 from bots.gpt.code_switch_strategies.alternation_short_ctx import AlternationShortContext
 from bots.gpt.code_switch_strategies.alternation_switch_last_user import AlternationSwitchLastUser
 from bots.gpt.code_switch_strategies.baseline import Baseline
-from bots.gpt.code_switch_strategies.insertional_noun_phrase_example import InsertionalNounPhraseExample
 from bots.gpt.code_switch_strategies.insertional_spanish_incongruent import InsertionalSpanishIncongruent
 
 

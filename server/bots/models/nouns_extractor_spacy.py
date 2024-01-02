@@ -12,8 +12,7 @@ from bots.models.lang_id_bert import LanguageId
 class NounsExtractor:
     def __init__(self):
         s = time.time()
-        # TODO: restore
-        # self.en_nlp = spacy.load(r'bots/models/en_core_web_sm-3.7.1')
+        self.en_nlp = spacy.load(r'bots/models/en_core_web_sm-3.7.1')
         self.es_nlp = spacy.load(r'bots/models/es_core_news_md-3.7.0')
         print('spacy init time: ')
         print(time.time() - s)

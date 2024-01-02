@@ -16,6 +16,7 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
 
     def __init__(self, map_index: int):
         super().__init__()
+        self.map_index = map_index
         self.noun_phrase_extractor = NounsExtractor()
         nouns_file = codecs.open('bots/gpt/code_switch_strategies/spanish_nouns_set.txt', "r", "utf-8")
         self.es_to_eng_nouns = {n.strip().split('_')[0]: n.strip().split('_')[1] for n in nouns_file.readlines()}
@@ -145,7 +146,10 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         if not any([len(nouns) for nouns in nouns_bot_resp]):
             return bot_resp, False
 
-        # TODO choose per map - what is the experiment setup? 4 maps but 3 conditions here
-        self.__incongruent_1(nouns_bot_resp, bot_resp)
+        # TODO experiment settings not decided yet
+        if self.map_index % 2 == 0:
+            self.__incongruent_1(nouns_bot_resp, bot_resp)
+        else:
+            self.__incongruent_2(nouns_bot_resp, bot_resp)
 
         return bot_resp, False
