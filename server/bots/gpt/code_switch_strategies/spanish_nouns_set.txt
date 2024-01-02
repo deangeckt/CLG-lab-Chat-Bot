@@ -46,7 +46,7 @@ pecho_chest
 puente_bridge
 ramita_twig
 mariposa_butterfly
-árboles_tree
+árboles_trees
 árbol_tree
 ramas _branches
 rama_branch

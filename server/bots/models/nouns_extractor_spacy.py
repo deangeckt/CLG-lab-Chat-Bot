@@ -37,7 +37,13 @@ class NounsExtractor:
         doc = self.__merge_phrases(doc)
         return [token.text for token in doc if token.pos_ == 'NOUN']
 
-    def extract_nouns_with_det(self, text: str, lang: LanguageId) -> list[Tuple[dict, dict]]:
+    @staticmethod
+    def __extract_adj_of_nouns(noun: Token) -> list[Token]:
+        res = [token for token in noun.lefts if token.pos_ == 'ADJ']
+        res.extend([token for token in noun.rights if token.pos_ == 'ADJ'])
+        return res
+
+    def extract_nouns_with_det(self, text: str, lang: LanguageId) -> list[Tuple[list, dict, dict]]:
         """
         valid tuples:
         DET, ..., NOUN
@@ -48,6 +54,7 @@ class NounsExtractor:
         nlp = self.en_nlp if lang == LanguageId.eng else self.es_nlp
         doc = nlp(text)
 
+        # TODO: currently nouns without DET are ignored
         res = []
         for token in doc:
             if token.pos_ != 'NOUN':
@@ -68,10 +75,10 @@ class NounsExtractor:
 
             if det_token is None:
                 if left_tokens[0].pos_ == 'ADP' and left_tokens[0].text in ['del', 'al']:
-                    res.append(({'text': left_tokens[0].text, 'idx': left_tokens[0].idx},
-                                {'text': token.text, 'idx': token.idx}))
+                    det_obj = {'text': left_tokens[0].text, 'idx': left_tokens[0].idx}
                 else:
-                    print(f'un-handled 1: {token.text}')
+                    print(f'not DET token for: {token.text}')
+                    continue
             else:
                 if (
                         det_token_idx + 1 < len(left_tokens) and
@@ -79,11 +86,15 @@ class NounsExtractor:
                         left_tokens[det_token_idx + 1].pos_ == 'ADP' and
                         left_tokens[det_token_idx + 1].text in ['a', 'de']
                 ):
-                    res.append(({'text': left_tokens[det_token_idx + 1].text + ' la', 'idx': left_tokens[det_token_idx + 1].idx},
-                                {'text': token.text, 'idx': token.idx}))
+                    det_obj = {'text': left_tokens[det_token_idx + 1].text + ' la',
+                               'idx': left_tokens[det_token_idx + 1].idx}
                 else:
-                    res.append(({'text': det_token.text, 'idx': det_token.idx},
-                                {'text': token.text, 'idx': token.idx}))
+
+                    det_obj = {'text': det_token.text, 'idx': det_token.idx}
+
+            noun_obj = {'text': token.text, 'idx': token.idx}
+            adj_list = self.__extract_adj_of_nouns(token)
+            res.append((adj_list, det_obj, noun_obj))
 
         return res
 
@@ -101,10 +112,14 @@ if __name__ == "__main__":
         'voy a la playa',
         'Voy al parque',
         'He pasado el tigre y voy camino del perro y el elefante.',
-        'He pasado el tigre y voy camino de la perra y el elefante.'
-
+        'He pasado el tigre y voy camino de la perra y el elefante.',
+        
+        # adj
+        'la pequeña perra negra fea',
+        'el pequeño perro negro feo'
     ]
     for t in texts:
         print(t)
         print(ex.extract_nouns_with_det(t, LanguageId.es))
         print()
+
