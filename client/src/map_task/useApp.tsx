@@ -1,67 +1,33 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AppContext } from '../AppContext';
 import { useNavigate } from 'react-router-dom';
-import { notifyHumanEnd } from '../api';
-import { maps } from '../Wrapper';
-import { bot_welcome_str, finish_btn_modal_str } from '../common/strings';
+import { finish_btn_modal_str } from '../common/strings';
 
 export function useApp() {
     const { state, setState } = useContext(AppContext);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (!state.consent) navigate('/');
+    }, []);
+
     const open_ending_modal = (text: string) => {
-        const game_state = state.game_state;
+        const games = [...state.games];
+
+        const game_state = games[state.curr_game].game_state;
         game_state.end = true;
         game_state.end_modal_text = text;
-        setState({ ...state, game_state });
+
+        setState({ ...state, games });
     };
 
     const finish_early = () => {
-        if (state.game_config.game_mode == 'human') {
-            notifyHumanEnd(state.game_config.guid, state.game_config.game_role);
-            navigate_to_end_page();
-        } else {
-            open_ending_modal(finish_btn_modal_str);
-        }
+        open_ending_modal(finish_btn_modal_str);
     };
 
     const navigate_to_end_page = () => {
-        const path = '/survey';
-        navigate(path);
+        navigate('/map_survey');
     };
 
-    const register_cb = (data: any, map_index: number) => {
-        const map_metadata = maps[map_index];
-        const game_config = state.game_config;
-        let server_version = '';
-        game_config.registerd = 'yes';
-
-        if (data) {
-            server_version = data.version;
-            game_config.game_role = data.role;
-            game_config.guid = data.guid;
-            const map = map_metadata.im_src.split('_')[0];
-            map_metadata.im_src = `${map}_${data.role}.jpg`;
-        } else {
-            game_config.registerd = 'err';
-        }
-        let chat = [...state.chat];
-        if (game_config.game_mode == 'bot') {
-            chat = chat.concat([{ id: 1 - state.game_config.game_role, msg: bot_welcome_str, timestamp: Date.now() }]);
-        }
-        console.log(game_config);
-
-        setState({
-            ...state,
-            game_config,
-            chat,
-            map_metadata,
-            user_map_path: [maps[map_index].start_cell],
-            server_version,
-        });
-
-        if (game_config.registerd != 'err') navigate('/map_task');
-    };
-
-    return { open_ending_modal, navigate_to_end_page, register_cb, finish_early };
+    return { open_ending_modal, navigate_to_end_page, finish_early };
 }

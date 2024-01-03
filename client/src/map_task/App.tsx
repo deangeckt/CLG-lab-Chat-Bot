@@ -19,7 +19,7 @@ function App(): JSX.Element {
     const { state } = useContext(AppContext);
     const { setGameInstructions } = useGameInstructions();
 
-    const role_string = role_strings[state.game_config.game_role];
+    const role_string = role_strings[state.games[state.curr_game].game_config.game_role];
     const { finish_early } = useApp();
     const version = `client: ${state.clinet_version}\nserver: ${state.server_version}`;
 
@@ -38,22 +38,21 @@ function App(): JSX.Element {
                         <InfoIcon style={{ color: main_gray, fontSize: 40 }} />
                     </IconButton>
                 </div>
-
                 <Typography variant="h4" style={{ alignSelf: 'center' }}>
                     Your role: {role_string}
                 </Typography>
-                {state.game_config.game_mode == 'bot' ? <Timer /> : null}
-                <Button
+                <Timer />
+                {/* <Button
                     style={{ textTransform: 'none' }}
                     variant="outlined"
                     color="primary"
                     onClick={() => finish_early()}
                 >
                     Finish
-                </Button>
+                </Button> */}
             </div>
             <div className="App_Container">
-                <MapCanvas />
+                <MapCanvas width={window.innerWidth * 0.75} height={window.innerHeight * 0.8} />
                 <Chat />
             </div>
         </div>

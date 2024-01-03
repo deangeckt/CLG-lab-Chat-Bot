@@ -7,11 +7,16 @@ import { IQuestionInterface } from '../Wrapper';
 
 function SelectQuestion(data: IQuestionInterface): JSX.Element {
     const { state, setState } = useContext(AppContext);
+    const survey = data.survey === 'general' ? state.general_survey : state.games[state.curr_game].map_survey;
 
     const simple_set = (e: any) => {
-        const user_survey = state.user_survey;
-        user_survey[data.id].answer = e.target.value.toString();
-        setState({ ...state, user_survey });
+        survey[data.id].answer = e.target.value.toString();
+        if (data.survey === 'general') setState({ ...state, general_survey: survey });
+        else {
+            const games = [...state.games];
+            games[state.curr_game].map_survey = survey;
+            setState({ ...state, games: games });
+        }
     };
 
     return (
@@ -25,7 +30,7 @@ function SelectQuestion(data: IQuestionInterface): JSX.Element {
                 id={data.id}
                 select
                 label="Select"
-                value={state.user_survey[data.id].answer}
+                value={survey[data.id].answer}
             >
                 {data.meta.selectOptions!.map((option) => (
                     <MenuItem key={option} value={option}>

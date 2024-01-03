@@ -9,6 +9,7 @@ import './Chat.css';
 function Chat(): JSX.Element {
     const { state } = useContext(AppContext);
     const { botType, onKeyPress, sendUserMsg, inputTxt, setInputTxt } = useChat();
+    const game_role = state.games[state.curr_game].game_config.game_role;
 
     useEffect(() => {
         const cc = document.getElementById('chat_list');
@@ -17,14 +18,14 @@ function Chat(): JSX.Element {
             top: cc.scrollHeight,
             behavior: 'smooth',
         });
-    }, [state.chat]);
+    }, [state.games[state.curr_game].chat]);
 
     return (
         <div className="chat_container">
             <List id="chat_list" style={{ height: '90%', overflowY: 'auto' }}>
-                {state.chat.map(function (c, idx) {
-                    const direction = c.id != state.game_config.game_role ? 'row' : 'row-reverse';
-                    const color = c.id != state.game_config.game_role ? main_gray : main_blue;
+                {state.games[state.curr_game].chat.map(function (c, idx) {
+                    const direction = c.id != game_role ? 'row' : 'row-reverse';
+                    const color = c.id != game_role ? main_gray : main_blue;
 
                     return (
                         <ListItem key={idx}>

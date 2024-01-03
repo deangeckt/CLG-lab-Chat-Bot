@@ -6,14 +6,20 @@ import { IQuestionInterface } from '../Wrapper';
 
 function RatingQuestion(data: IQuestionInterface): JSX.Element {
     const { state, setState } = useContext(AppContext);
-    const [na, setNa] = useState(false);
     const left_caption = data.meta.sliderLeftText ? data.meta.sliderLeftText : 'not at all likely';
     const right_caption = data.meta.slideRightText ? data.meta.slideRightText : 'extremely likely';
+    const survey = data.survey === 'general' ? state.general_survey : state.games[state.curr_game].map_survey;
+
+    const [na, setNa] = useState(survey[data.id].answer === 'na');
 
     const simple_set = (val: number | string) => {
-        const user_survey = state.user_survey;
-        user_survey[data.id].answer = val;
-        setState({ ...state, user_survey });
+        survey[data.id].answer = val;
+        if (data.survey === 'general') setState({ ...state, general_survey: survey });
+        else {
+            const games = [...state.games];
+            games[state.curr_game].map_survey = survey;
+            setState({ ...state, games: games });
+        }
     };
 
     const toggle_na = () => {
@@ -22,7 +28,7 @@ function RatingQuestion(data: IQuestionInterface): JSX.Element {
         setNa(!na);
     };
 
-    const curr_ans = na ? null : state.user_survey[data.id].answer;
+    const curr_ans = na ? null : survey[data.id].answer;
 
     return (
         <>

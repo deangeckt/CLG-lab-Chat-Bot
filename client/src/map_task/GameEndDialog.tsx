@@ -17,18 +17,19 @@ const Transition = React.forwardRef(function Transition(
 function GameEndDialog(): JSX.Element {
     const { state } = useContext(AppContext);
     const { navigate_to_end_page } = useApp();
+    const game = state.games[state.curr_game];
 
     return (
         <>
             <Dialog
-                open={state.game_state.end}
+                open={game.game_state.end}
                 TransitionComponent={Transition as any}
                 keepMounted
                 onClose={navigate_to_end_page}
             >
-                <DialogTitle>{state.game_state.end_modal_title}</DialogTitle>
+                <DialogTitle>{game.game_state.end_modal_title}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>{state.game_state.end_modal_text}</DialogContentText>
+                    <DialogContentText>{game.game_state.end_modal_text}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button

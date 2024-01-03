@@ -1,18 +1,19 @@
 from bot_server import BotServer
-from google_cloud.database import Database
-from google_cloud.translate import Translate
+from bots.cs_unit import CodeSwitchStrategyName
 
 def db_mock():
     pass
 
 
-Translate.__wrapped__.translate_to_eng = lambda self, x: x
-Translate.__wrapped__.translate_to_spa = lambda self, x: x
-Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
+# Translate.__wrapped__.translate_to_eng = lambda self, x: x
+# Translate.__wrapped__.translate_to_spa = lambda self, x: x
+# Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
 
-server = BotServer("goldfish")
-game_role = 0
-guid = server.register(map_index=0, game_role=game_role)
+server = BotServer(CodeSwitchStrategyName.insertional_spanish_incongruent)
+game_role = 1
+guid, welcome_str = server.register(map_index=0, game_role=game_role)
+
+print(f'bot: {welcome_str}')
 while True:
     rsp, is_finish = server.call_bot(guid=guid, user_msg=input('user: '),
                                      map_idx=0,

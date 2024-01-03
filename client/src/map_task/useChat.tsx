@@ -1,7 +1,6 @@
-import { useContext, useState, useEffect, useRef } from 'react';
-import { callBot, callHuman, huamn_to_human_event } from '../api';
+import { useContext, useState } from 'react';
+import { callBot } from '../api';
 import { AppContext } from '../AppContext';
-import { useApp } from './useApp';
 import { ChatMsg } from '../Wrapper';
 import { hh_end_modal_str } from '../common/strings';
 
@@ -9,38 +8,32 @@ export function useChat() {
     const { state, setState } = useContext(AppContext);
     const [inputTxt, setInputTxt] = useState('');
     const [botType, setBotType] = useState(false);
-    const stateRef = useRef(state);
-    const { open_ending_modal } = useApp();
-
-    useEffect(() => {
-        stateRef.current = state;
-    }, [state]);
-
-    useEffect(() => {
-        if (state.game_config.game_mode != 'human') return;
-        huamn_to_human_event(state.game_config.guid, addOtherHumanMsg);
-    }, []);
 
     const updateChatState = (newMsg: ChatMsg[]) => {
-        const chat = [...stateRef.current.chat].concat(newMsg);
-        setState({ ...stateRef.current, chat });
+        const games = [...state.games];
+        const chat = games[state.curr_game].chat.concat(newMsg);
+        games[state.curr_game].chat = chat;
+        setState({ ...state, games: games });
     };
 
     const updateChatAndFinish = (newMsg: ChatMsg[], endModalText: string) => {
-        const game_state = state.game_state;
+        const games = [...state.games];
+        const game_state = games[state.curr_game].game_state;
         game_state.end = true;
         game_state.end_modal_text = endModalText;
-        const chat = [...stateRef.current.chat].concat(newMsg);
-        setState({ ...stateRef.current, chat, game_state });
+        const chat = games[state.curr_game].chat.concat(newMsg);
+        games[state.curr_game].chat = chat;
+        setState({ ...state, games: games });
     };
 
     const sendUserMsg = () => {
         if (!inputTxt) return;
-        const curr_cell = state.user_map_path[state.user_map_path.length - 1];
+        const user_map_path = state.games[state.curr_game].user_map_path;
+        const curr_cell = user_map_path[user_map_path.length - 1];
 
         const selfChatMsg: ChatMsg = {
             msg: inputTxt,
-            id: state.game_config.game_role,
+            id: state.games[state.curr_game].game_config.game_role,
             timestamp: Date.now(),
             curr_nav_cell: curr_cell,
         };
@@ -48,38 +41,34 @@ export function useChat() {
         updateChatState([selfChatMsg]);
         setInputTxt('');
 
-        if (state.game_config.game_mode == 'bot') {
-            setBotType(true);
-            const curr_cell = state.user_map_path[state.user_map_path.length - 1];
-            callBot(
-                state.game_config.guid,
-                inputTxt,
-                curr_cell,
-                state.map_metadata.map_idx,
-                state.game_config.game_role,
-                addBotMsg,
-            );
-        } else {
-            callHuman(state.game_config.guid, selfChatMsg);
-        }
+        setBotType(true);
+        callBot(
+            state.games[state.curr_game].game_config.guid,
+            inputTxt,
+            curr_cell,
+            state.games[state.curr_game].map_metadata.map_idx,
+            state.games[state.curr_game].game_config.game_role,
+            addBotMsg,
+        );
     };
 
     const addBotMsg = (data: any) => {
+        setBotType(false);
+
         const msgs: string[] = data.res;
         const is_finish = data.is_finish;
-        const chatMsgs = msgs.map((msg) => ({ msg: msg, id: 1 - state.game_config.game_role, timestamp: Date.now() }));
-        setBotType(false);
+        const chatMsgs = msgs.map((msg) => ({
+            msg: msg,
+            id: 1 - state.games[state.curr_game].game_config.game_role,
+            timestamp: Date.now(),
+        }));
+
+        if (chatMsgs[0].msg == 'Something went wrong, try again') {
+            alert('Something went wrong, try again');
+            return;
+        }
         if (is_finish) updateChatAndFinish(chatMsgs, hh_end_modal_str);
         else updateChatState(chatMsgs);
-    };
-
-    const addOtherHumanMsg = (guid: string, msg: ChatMsg, other_finished: boolean) => {
-        if (state.game_config.guid !== guid) return;
-        if (msg.id === state.game_config.game_role) return;
-        if (other_finished) {
-            localStorage.setItem('state', JSON.stringify(stateRef.current));
-            open_ending_modal(hh_end_modal_str);
-        } else updateChatState([msg]);
     };
 
     const onKeyPress = (e: any) => {

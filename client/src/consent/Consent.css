@@ -1,4 +1,4 @@
-.Home {
+.conset {
     text-align: center;
     display: flex;
     width: 100vw;
@@ -6,9 +6,9 @@
     align-items: center;
     flex-direction: column;
     align-content: space-between;
-  }
+}
 
-.Home_Container {
+.conset_container {
     width: 90vw;
     height: 90vh;
     box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
@@ -18,26 +18,10 @@
     align-items: center;
 }
 
-.home_Register {
-    margin: 32px;
-    display: flex;
-    justify-content: space-evenly;
+.consentText {
+    margin: 2em;
+    text-align: start;
+    font-size: 18px;
+    font-weight: 400;
 }
 
-.register_btn {
-  width: 160px;
-  height: 160px;
-}
-
-.role_btn {
-  width: 80px;
-  height: 80px;
-}
-
-.form {
-  margin: 16px;
-  height: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}

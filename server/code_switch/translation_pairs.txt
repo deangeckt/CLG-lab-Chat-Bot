@@ -1,3 +1,0 @@
-{"eng": ["start", "butterfly", "end"],
-"spa": ["inicio", "mariposa", "final"]
-}

@@ -17,11 +17,15 @@ export interface UserSurveyQuestion {
     questionCont?: string;
     not_applicable?: boolean;
     question_ref?: string;
+    ignore?: boolean;
 }
+
+export type surveyType = 'map' | 'general';
 
 export interface IQuestionInterface {
     meta: UserSurveyQuestion;
     id: string;
+    survey: surveyType;
 }
 
 export interface UserSurvey {
@@ -41,12 +45,10 @@ export interface MapMetadata {
     cols: number;
     end_cell: MapCellIdx;
     start_cell: MapCellIdx;
-    bot_support?: boolean;
     map_idx: number;
 }
 
-export type gameMode = 'bot' | 'human';
-export type gameRegister = 'yes' | 'no' | 'load' | 'choose_map' | 'err';
+export type gameRegister = 'yes' | 'no' | 'load' | 'err';
 export type gameRole = number;
 export interface Dictionary {
     [Key: number]: string;
@@ -64,9 +66,8 @@ export interface GameState {
 }
 
 export interface GameConfig {
-    game_mode?: gameMode;
     game_role: gameRole;
-    registerd: gameRegister;
+    map_index: number;
     guid: string;
 }
 
@@ -77,15 +78,31 @@ export interface ChatMsg {
     curr_nav_cell?: MapCellIdx;
 }
 
-export interface IAppState {
+export interface ISingleGameState {
     chat: ChatMsg[];
     map_metadata: MapMetadata;
     user_map_path: MapCellIdx[];
-    user_survey: UserSurvey;
+    map_survey: UserSurvey;
     game_state: GameState;
     game_config: GameConfig;
+}
+
+export interface IProlific {
+    prolific_id: string;
+    study_id: string;
+    seassion_id: string;
+}
+
+export interface IAppState {
+    games: ISingleGameState[];
+    general_survey: UserSurvey;
     clinet_version: string;
     server_version: string;
+    consent: boolean;
+    uploaded: boolean;
+    registerd: gameRegister;
+    curr_game: number;
+    prolific: IProlific;
 }
 
 export const maps: MapMetadata[] = [
@@ -129,131 +146,155 @@ export const maps: MapMetadata[] = [
         start_cell: { r: 3, c: 23 },
         map_idx: 3,
     },
-    {
-        im_width: 2304,
-        im_height: 1728,
-        im_src: 'map5_0.jpg',
-        rows: 18,
-        cols: 24,
-        end_cell: { r: 16, c: 9 },
-        start_cell: { r: 1, c: 1 },
-        map_idx: 4,
-    },
-    {
-        im_width: 1754,
-        im_height: 1226,
-        im_src: 'map6_0.jpg',
-        rows: 18,
-        cols: 24,
-        end_cell: { r: 6, c: 2 },
-        start_cell: { r: 8, c: 7 },
-        map_idx: 5,
-    },
+    // {
+    //     im_width: 2304,
+    //     im_height: 1728,
+    //     im_src: 'map5_0.jpg',
+    //     rows: 18,
+    //     cols: 24,
+    //     end_cell: { r: 16, c: 9 },
+    //     start_cell: { r: 1, c: 1 },
+    //     map_idx: 4,
+    // },
+    // {
+    //     im_width: 1754,
+    //     im_height: 1226,
+    //     im_src: 'map6_0.jpg',
+    //     rows: 18,
+    //     cols: 24,
+    //     end_cell: { r: 6, c: 2 },
+    //     start_cell: { r: 8, c: 7 },
+    //     map_idx: 5,
+    // },
 ];
 
-export const init_app_state: IAppState = {
-    chat: [],
-    map_metadata: maps[0],
-    user_map_path: [],
-    user_survey: {
-        '0': {
-            question: 'How much did you enjoy the task?',
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '1': {
-            question: 'How difficult was it to communicate with your partner?',
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '2': {
-            question: 'How successful do you think you were at completing the task?',
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '3': {
-            question: "How difficult was it to understand your partner's directions?",
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '4': {
-            question: 'How likely is your partner to be a fluent speaker of English?',
-            answer: 50,
-            type: 'rating',
-        },
-        '5': {
-            question: 'How likely is your partner to be a fluent speaker of Spanish?',
-            answer: 50,
-            type: 'rating',
-        },
-        '6': {
-            question: 'How likely do you think it is that your partner is bilingual?',
-            answer: 50,
-            type: 'rating',
-        },
+export const init_map_survey: UserSurvey = {
+    '0': {
+        question: 'How much did you enjoy the task?',
+        answer: 50,
+        type: 'rating',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '1': {
+        question: 'How difficult was it to communicate with your partner?',
+        answer: 50,
+        type: 'rating',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '2': {
+        question: 'How successful do you think you were at completing the task?',
+        answer: 50,
+        type: 'rating',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '3': {
+        question: "How difficult was it to understand your partner's instructions?",
+        answer: 50,
+        type: 'rating',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '4': {
+        question: 'How likely is your partner to be a fluent speaker of English?',
+        answer: 50,
+        type: 'rating',
+    },
+    '5': {
+        question: 'How likely is your partner to be a fluent speaker of Spanish?',
+        answer: 50,
+        type: 'rating',
+        ignore: true,
+    },
+    '6': {
+        question: 'How likely do you think it is that your partner is bilingual?',
+        answer: 50,
+        type: 'rating',
+        ignore: true,
+    },
 
-        '7': {
-            hintAbove: 'Please rate your partner according to the following attributes:',
-            question: 'friendly',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
+    '7': {
+        hintAbove: 'Please rate your partner according to the following attributes:',
+        question: 'friendly',
+        answer: 50,
+        type: 'rating',
+        question_ref: '7',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '8': {
+        question: 'smart',
+        answer: 50,
+        type: 'rating',
+        question_ref: '7',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '9': {
+        question: 'collaborative',
+        answer: 50,
+        type: 'rating',
+        question_ref: '7',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '10': {
+        question: 'honest',
+        answer: 50,
+        type: 'rating',
+        question_ref: '7',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '11': {
+        question: 'funny',
+        answer: 50,
+        type: 'rating',
+        question_ref: '7',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+    '12': {
+        question: 'How likely do you think it was that you were talking to a chatbot rather than a human?',
+        answer: 50,
+        type: 'rating',
+    },
+    '13': {
+        question:
+            'If you were communicating with a chat bot, would you want them to communicate in both English and Spanish?',
+        answer: 50,
+        type: 'rating',
+        sliderLeftText: 'not at all',
+        slideRightText: 'extremely',
+    },
+};
+
+export const init_game_state: GameState = {
+    end: false,
+    started: false,
+    end_modal_text: '',
+    end_modal_title: game_over_modal_str,
+    init_time: 420,
+    game_time: 0,
+    open_instructions: true,
+};
+
+export const game_role = 1;
+
+export const init_app_state: IAppState = {
+    games: [
+        {
+            chat: [],
+            map_metadata: maps[0],
+            game_state: JSON.parse(JSON.stringify(init_game_state)),
+            map_survey: JSON.parse(JSON.stringify(init_map_survey)),
+            user_map_path: [],
+            game_config: { game_role: game_role, map_index: 0, guid: '' },
         },
-        '8': {
-            question: 'smart',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '9': {
-            question: 'collaborative',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '10': {
-            question: 'honest',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '11': {
-            question: 'funny',
-            answer: 50,
-            type: 'rating',
-            question_ref: '7',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
-        '12': {
-            question: 'How likely do you think it was that you were talking to a chatbot rather than a human?',
-            answer: 50,
-            type: 'rating',
-        },
-        '13': {
-            question:
-                'If you were communicating with a chat bot, would you want them to communicate in both English and Spanish?',
-            answer: 50,
-            type: 'rating',
-            sliderLeftText: 'not at all',
-            slideRightText: 'extremely',
-        },
+    ],
+    general_survey: {
         '14': {
             question: 'Age:',
             answer: '',
@@ -592,18 +633,17 @@ export const init_app_state: IAppState = {
             not_applicable: true,
         },
     },
-    game_state: {
-        end: false,
-        started: false,
-        end_modal_text: '',
-        end_modal_title: game_over_modal_str,
-        init_time: 300,
-        game_time: 0,
-        open_instructions: true,
-    },
-    game_config: { game_role: 0, registerd: 'no', guid: '' },
-    clinet_version: '2.0.1_e',
+    registerd: 'no',
+    clinet_version: '2.3.6_p',
     server_version: '',
+    consent: false,
+    uploaded: false,
+    curr_game: 0,
+    prolific: {
+        prolific_id: '',
+        study_id: '',
+        seassion_id: '',
+    },
 };
 
 const Wrapper = (props: any) => {

@@ -1,20 +1,20 @@
 import json
 import os
+
 from flask import Flask, Response
 from flask import request
 from flask_cors import CORS
 
 from bot_server import BotServer
+from bots.cs_unit import CodeSwitchStrategyName
 from google_cloud.storage import save_to_storage
-from human_server import HumanServer
 
-VERSION = '2.0.4_e' # TODO: tmp version of english only for friends
-cs_strategy = "goldfish"
+VERSION = '2.4.0_p'
 
 app = Flask(__name__)
 CORS(app)
 
-human_server = HumanServer()
+cs_strategy = CodeSwitchStrategyName.insertional_spanish_incongruent
 bot_server = BotServer(cs_strategy)
 
 game_roles = {'navigator': 0, 'instructor': 1}
@@ -30,77 +30,22 @@ def call_bot():
                                              params['map_index'],
                                              params['game_role'],
                                              params['state'])
-        return json.dumps({'res': res, 'is_finish': is_finish}),200, {'Content-Type': 'application/json'}
+        return json.dumps({'res': res, 'is_finish': is_finish}), 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
-
-
-@app.route('/api/v1/call_human', methods=['POST'])
-def call_human():
-    try:
-        params = request.get_json()
-        id_ = params['id']
-        guid_ = params['guid']
-        msg = params['msg']
-        to_other_msg = f"{guid_}__{id_}__{msg}__dummy"
-        human_server.announce(to_other_msg, guid_)
-        return '', 200, {'Content-Type': 'application/json'}
-    except Exception as e:
-        print('err:', e)
-        return "Server error", 500, {'Content-Type': 'application/json'}
-
-
-@app.route('/api/v1/notify_end_human', methods=['POST'])
-def notify_end_human():
-    try:
-        params = request.get_json()
-        id_ = params['id']
-        guid_ = params['guid']
-        to_other_msg = f"{guid_}__{id_}__dummy__end"
-        human_server.announce(to_other_msg, guid_)
-        return '', 200, {'Content-Type': 'application/json'}
-    except Exception as e:
-        print('err:', e)
-        return "Server error", 500, {'Content-Type': 'application/json'}
-
-
-@app.route('/api/v1/event')
-def event():
-    guid = request.args.get('guid')
-
-    def stream(guid: str):
-        messages = human_server.listen(guid)  # returns a queue.Queue
-        while True:
-            msg = messages.get()  # blocks until a new message arrives
-            yield msg
-
-    return Response(stream(guid), mimetype='text/event-stream')
 
 
 @app.route('/api/v1/register', methods=['POST'])
 def register():
+    """
+    client decide a role (nav/ins) and a map - we construct a bot that matches and return guid
+    """
     try:
         params = request.get_json()
-
-        game_mode = params['mode']
-        map_index = params['map_index']
-        if game_mode not in ['bot', 'human']:
-            raise Exception('Invalid game mode')
-
-        resp = {'version': VERSION}
-        if game_mode == 'bot':
-            # TODO: random game role in prolific
-            # TODO: random map in prolific
-            resp['role'] = params['game_role']
-            guid = bot_server.register(map_index, params['game_role'])
-            resp['guid'] = guid
-        elif game_mode == 'human':
-            role, guid = human_server.assign_role_api(map_index)
-            resp['role'] = game_roles[role]
-            resp['guid'] = guid
+        guid, welcome_str = bot_server.register(params['map_index'], params['game_role'])
+        resp = {'version': VERSION, 'guid': guid, 'welcome_str': welcome_str}
         return resp, 200, {'Content-Type': 'application/json'}
-
     except Exception as e:
         print('err:', e)
         return "Server error", 500, {'Content-Type': 'application/json'}
@@ -110,24 +55,20 @@ def register():
 def upload_api():
     try:
         params = request.get_json()
-        if 'guid' not in params:
-            raise Exception('Missing guid!')
-        if params['game_config']['game_mode'] == 'human':
-            upload_data = human_server.upload(params)
-        else:
-            upload_data = params
-            bot_server.un_register(params['guid'])
-            upload_data['cs_strategy'] = cs_strategy
 
-        if upload_data is not None:
-            chat = upload_data['chat']
+        upload_data = params
+        upload_data['server_version'] = VERSION
+        upload_data['cs_strategy'] = cs_strategy.value
+
+        for game in upload_data['games_data']:
+            bot_server.un_register(game['config']['guid'])
+            game['config']['game_role'] = game_roles_reverse[game['config']['game_role']]
+
+            chat = game['chat']
             for c in chat:
                 c['id'] = game_roles_reverse[c['id']]
-            if 'game_role' in upload_data['game_config']:
-                upload_data['game_config']['game_role'] = game_roles_reverse[upload_data['game_config']['game_role']]
 
-            upload_data['server_version'] = VERSION
-            save_to_storage(upload_data)
+        save_to_storage(upload_data, upload_data['prolific']['prolific_id'])
         return '', 200, {'Content-Type': 'application/json'}
     except Exception as e:
         print('err:', e)
