@@ -22,6 +22,8 @@ class GptBotInstructor(Bot):
         system_map_prefix = kb['system_common_map_prefix']
 
         system_content = f'{system_prefix}\n{system_map_prefix}\n{map_kw}\n{system_suffix}'
+        if self.is_spanish_cs_strategy:
+            system_content = f'{system_content}\nPlease respond in Spanish only, The user can chat in either English or Spanish.'
         self.messages = [
             {"role": "system", "content": system_content},
             {'role': 'assistant', 'content': self.welcome_str}

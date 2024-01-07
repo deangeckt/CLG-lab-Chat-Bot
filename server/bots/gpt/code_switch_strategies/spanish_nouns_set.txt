@@ -69,7 +69,7 @@ banco_bench
 floristerã­a_florist
 flores_flowers
 floristería_florist
-camino_trailflores
+camino_trail
 sendero_path
 bayas_berries
 baya_berry

@@ -24,7 +24,11 @@ class CodeSwitchStrategies(CSUnit):
             CodeSwitchStrategyName.alternation_short_context: AlternationShortContext(welcome_str),
             CodeSwitchStrategyName.alternation_switch_last_user: AlternationSwitchLastUser(),
             CodeSwitchStrategyName.alternation_align_last_user: AlternationAlignLastUser(),
-            CodeSwitchStrategyName.insertional_spanish_incongruent: InsertionalSpanishIncongruent(map_index)
+            CodeSwitchStrategyName.insertional_spanish_incongruent1: InsertionalSpanishIncongruent(CodeSwitchStrategyName.insertional_spanish_incongruent1),
+            CodeSwitchStrategyName.insertional_spanish_incongruent2: InsertionalSpanishIncongruent(
+                CodeSwitchStrategyName.insertional_spanish_incongruent2),
+            CodeSwitchStrategyName.insertional_spanish_congruent: InsertionalSpanishIncongruent(
+                CodeSwitchStrategyName.insertional_spanish_congruent)
         }
 
         self.is_last_switched = False

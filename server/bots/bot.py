@@ -27,16 +27,13 @@ spanish_welcome_messages = [
 ]
 
 
-def cs_strategy_to_welcome_msg(cs_strategy: CodeSwitchStrategyName) -> list[str]:
-    if 'spanish' in cs_strategy:
-        return spanish_welcome_messages
-    return mixed_welcome_messages
-
-
 class Bot(metaclass=ABCMeta):
     def __init__(self, cs_strategy: CodeSwitchStrategyName):
         self.messages = []
-        self.welcome_str = random.choice(cs_strategy_to_welcome_msg(cs_strategy))
+        self.is_spanish_cs_strategy = 'spanish' in cs_strategy
+
+        welcome_msg_options = spanish_welcome_messages if self.is_spanish_cs_strategy else mixed_welcome_messages
+        self.welcome_str = random.choice(welcome_msg_options)
 
     @abstractmethod
     def call(self, user_msg, user_state=None) -> Tuple[list[str], bool]:

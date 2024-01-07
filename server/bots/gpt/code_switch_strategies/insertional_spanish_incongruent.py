@@ -1,4 +1,6 @@
 from typing import List
+
+from bots.cs_unit import CodeSwitchStrategyName
 from bots.gpt.code_switch_strategies.code_switch_strategy import CodeSwitchStrategy
 from bots.models.lang_id_bert import LanguageId
 from bots.models.nouns_extractor_spacy import NounsExtractor
@@ -7,15 +9,21 @@ from collections import Counter
 
 class InsertionalSpanishIncongruent(CodeSwitchStrategy):
     """
-        this CS strategy uses a different sub strategy / condition per map, but the order of map remains: Ins, Nav, Ins, Nav
         1. Nouns are always translated from ES to ENG
         2. DET (or edge case or ADP) are gender switched according to condition
-        3. ADJ are gender switched to align with new DET gender
     """
 
-    def __init__(self, map_index: int):
+    def __init__(self, strategy: CodeSwitchStrategyName):
         super().__init__()
-        self.map_index = map_index
+
+        self.strategy = strategy
+        self.strategies = {
+            CodeSwitchStrategyName.insertional_spanish_incongruent1: self.__incongruent_1,
+            CodeSwitchStrategyName.insertional_spanish_incongruent2: self.__incongruent_2,
+            CodeSwitchStrategyName.insertional_spanish_congruent: self.__congruent
+        }
+
+
         self.noun_phrase_extractor = NounsExtractor()
         nouns_file = codecs.open('bots/gpt/code_switch_strategies/spanish_nouns_set.txt', "r", "utf-8")
         self.es_to_eng_nouns = {n.strip().split('_')[0]: n.strip().split('_')[1] for n in nouns_file.readlines()}
@@ -120,10 +128,6 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         if not any([len(nouns) for nouns in nouns_bot_resp]):
             return bot_resp, False
 
-        # TODO at the end - each is a diff strategy - easy impl!
-        if self.map_index % 2 == 0:
-            self.__incongruent_1(nouns_bot_resp, bot_resp)
-        else:
-            self.__incongruent_2(nouns_bot_resp, bot_resp)
+        self.strategies[self.strategy](nouns_bot_resp=nouns_bot_resp, bot_resp=bot_resp)
 
         return bot_resp, False

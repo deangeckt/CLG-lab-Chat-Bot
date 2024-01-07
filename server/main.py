@@ -14,7 +14,7 @@ VERSION = '2.4.0_p'
 app = Flask(__name__)
 CORS(app)
 
-cs_strategy = CodeSwitchStrategyName.insertional_spanish_incongruent
+cs_strategy = CodeSwitchStrategyName.insertional_spanish_congruent
 bot_server = BotServer(cs_strategy)
 
 game_roles = {'navigator': 0, 'instructor': 1}

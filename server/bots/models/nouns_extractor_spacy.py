@@ -40,13 +40,13 @@ class NounsExtractor:
     def __is_complex_noun(noun: Token) -> bool:
         for child in noun.children:
             if child.dep_ in ['amod', 'nmod']:
-                print(f'noun: {noun.text} is complex  -  ignore')
+                print(f'noun: {noun.text} is complex - ignore')
                 return True
         return False
 
     def extract_nouns_with_det(self, text: str, lang: LanguageId) -> list[Tuple[dict, dict]]:
         """
-        extracting simple nouns with DET (nouns without DET are ignored, nouns with ADJ  / amod edge are ignored)
+        extracting simple nouns with DET (nouns without DET are ignored, nouns with ADJ / amod edge are ignored)
         valid tuples:
         DET, ..., NOUN
         ADP NOUN (del X, al X)

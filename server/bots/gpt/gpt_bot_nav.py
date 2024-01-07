@@ -26,6 +26,8 @@ class GptBotNavigator(Bot):
         self.final_object = kb[f'{map_id}_final_object']
 
         system_content = f'{system_prefix1}\n{system_prefix2}\n{system_prefix3}\n{system_map_prefix}\n{map_kw}\n{map_suffix_kw}\n{system_suffix}'
+        if self.is_spanish_cs_strategy:
+            system_content = f'{system_content}\nPlease respond in Spanish only, The user can chat in either English or Spanish.'
         self.messages = [
             {"role": "system", "content": system_content},
             {'role': 'assistant', 'content': self.welcome_str}
