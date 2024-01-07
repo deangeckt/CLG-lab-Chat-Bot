@@ -22,7 +22,7 @@ class LangIdBert:
         print(time.time() - s)
 
     @staticmethod
-    def __cs_clf_heuristic(langs: list) -> LanguageId:
+    def __cs_clf_heuristic(langs: list[LanguageId]) -> LanguageId:
         if LanguageId.eng in langs and LanguageId.es in langs:
             return LanguageId.mix
         if LanguageId.eng in langs:
@@ -30,7 +30,11 @@ class LangIdBert:
         else:
             return LanguageId.es
 
-    def identify(self, user_msg) -> LanguageId:
+    def identify(self, user_msg: str) -> LanguageId:
+        langs = self.get_lang_tokens(user_msg)
+        return self.__cs_clf_heuristic(langs)
+
+    def get_lang_tokens(self, user_msg: str) -> list[LanguageId]:
         result = self.lid(user_msg)
         langs = []
         for r in result:
@@ -39,4 +43,4 @@ class LangIdBert:
                 langs.append(LanguageId.eng)
             elif lng == 'spa':
                 langs.append(LanguageId.es)
-        return self.__cs_clf_heuristic(langs)
+        return langs

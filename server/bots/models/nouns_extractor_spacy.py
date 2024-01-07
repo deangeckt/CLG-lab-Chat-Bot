@@ -37,13 +37,16 @@ class NounsExtractor:
         return [token.text for token in doc if token.pos_ == 'NOUN']
 
     @staticmethod
-    def __extract_adj_of_nouns(noun: Token) -> list[Token]:
-        res = [token for token in noun.lefts if token.pos_ == 'ADJ']
-        res.extend([token for token in noun.rights if token.pos_ == 'ADJ'])
-        return res
+    def __is_complex_noun(noun: Token) -> bool:
+        for child in noun.children:
+            if child.dep_ in ['amod', 'nmod']:
+                print(f'noun: {noun.text} is complex  -  ignore')
+                return True
+        return False
 
-    def extract_nouns_with_det(self, text: str, lang: LanguageId) -> list[Tuple[list, dict, dict]]:
+    def extract_nouns_with_det(self, text: str, lang: LanguageId) -> list[Tuple[dict, dict]]:
         """
+        extracting simple nouns with DET (nouns without DET are ignored, nouns with ADJ  / amod edge are ignored)
         valid tuples:
         DET, ..., NOUN
         ADP NOUN (del X, al X)
@@ -53,7 +56,6 @@ class NounsExtractor:
         nlp = self.en_nlp if lang == LanguageId.eng else self.es_nlp
         doc = nlp(text)
 
-        # TODO: currently nouns without DET are ignored
         res = []
         for token in doc:
             if token.pos_ != 'NOUN':
@@ -92,17 +94,24 @@ class NounsExtractor:
                     det_obj = {'text': det_token.text, 'idx': det_token.idx}
 
             noun_obj = {'text': token.text, 'idx': token.idx}
-            adj_list = self.__extract_adj_of_nouns(token)
-            res.append((adj_list, det_obj, noun_obj))
+            if not self.__is_complex_noun(token):
+                res.append((det_obj, noun_obj))
 
         return res
 
 
 if __name__ == "__main__":
-
     ex = NounsExtractor()
 
     texts = [
+        'La gerente de la empresa dijo que',
+        'al puesto de flores',
+        # el perro blanco: blanco is ADJ and not amod on the edge
+        'pero no llegues al puesto de flores. dá un giro de 180 grados a la izquierda y cruza de nuevo el sendero hacia el perro blanco. ¿listo?',
+
+        'al tigre en la isla pequeña a mi izquierda.',  # adj with amod edge
+        'ya estoy junto al tigre',  # adj but not amod edge
+
         # basic:
         ' okay, me veo caminando por el camino hacia el tigre',
         '¡genial! ahora estoy en la pequeña isla con el tigre',
@@ -112,7 +121,7 @@ if __name__ == "__main__":
         'Voy al parque',
         'He pasado el tigre y voy camino del perro y el elefante.',
         'He pasado el tigre y voy camino de la perra y el elefante.',
-        
+
         # adj
         'la pequeña perra negra fea',
         'el pequeño perro negro feo'

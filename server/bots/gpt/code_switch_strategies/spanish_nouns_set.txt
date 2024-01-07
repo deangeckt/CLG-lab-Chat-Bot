@@ -69,7 +69,7 @@ banco_bench
 floristerã­a_florist
 flores_flowers
 floristería_florist
-camino_trail
+camino_trailflores
 sendero_path
 bayas_berries
 baya_berry
@@ -81,6 +81,8 @@ estera_mat
 bicicleta_bicycle
 personas_people
 cesta_basket
+puesto_stand
+mantel_tablecloth
 carpa_tent
 parilla_barbecue
 fuego_fire
