@@ -136,18 +136,16 @@ function MapCanvas({ width, height }: IMapCanvas): JSX.Element {
         const new_path = [...path, new_index];
         setPath(new_path);
 
+        const user_path = new_path.map((cell_flat_idx) => flat_idx_to_map_cell_idx(cell_flat_idx));
+        const games = [...state.games];
+        games[state.curr_game].user_map_path = user_path;
+
         if (is_finish(flat_idx_to_map_cell_idx(new_index))) {
-            const user_path = new_path.map((cell_flat_idx) => flat_idx_to_map_cell_idx(cell_flat_idx));
-
-            const games = [...state.games];
-            games[state.curr_game].user_map_path = user_path;
-
             const game_state = games[state.curr_game].game_state;
             game_state.end = true;
             game_state.end_modal_text = nav_end_model_str;
-
-            setState({ ...state, games: games });
         }
+        setState({ ...state, games: games });
     };
 
     const onKeyboard = (e: any) => {
