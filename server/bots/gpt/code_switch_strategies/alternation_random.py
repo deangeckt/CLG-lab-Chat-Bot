@@ -27,3 +27,6 @@ class AlternationRandom(CodeSwitchStrategy):
         translate_cb = self.translate.translate_to_spa if lang == LanguageId.eng else self.translate.translate_to_eng
         bot_resp_translated = [translate_cb(msg) for msg in bot_resp]
         return bot_resp_translated, True
+
+    def get_game_metadata(self):
+        pass

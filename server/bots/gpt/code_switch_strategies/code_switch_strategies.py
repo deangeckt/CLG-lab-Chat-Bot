@@ -14,7 +14,7 @@ class CodeSwitchStrategies(CSUnit):
     Insertional strategies detect NP and translate only it
     """
 
-    def __init__(self, strategy: CodeSwitchStrategyName, welcome_str: str, map_index: int):
+    def __init__(self, strategy: CodeSwitchStrategyName, welcome_str: str):
         super().__init__()
 
         self.strategy = strategy
@@ -43,6 +43,9 @@ class CodeSwitchStrategies(CSUnit):
 
     def is_switched(self) -> bool:
         return self.is_last_switched
+
+    def get_game_metadata(self):
+        return self.strategies[self.strategy].get_game_metadata()
 
     def db_push(self) -> dict:
         pass

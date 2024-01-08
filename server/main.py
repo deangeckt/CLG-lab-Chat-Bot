@@ -61,6 +61,9 @@ def upload_api():
         upload_data['cs_strategy'] = cs_strategy.value
 
         for game in upload_data['games_data']:
+            cs_metadata = bot_server.get_cs_metadata(game['config']['guid'])
+            game['cs_metadata'] = cs_metadata
+
             bot_server.un_register(game['config']['guid'])
             game['config']['game_role'] = game_roles_reverse[game['config']['game_role']]
 

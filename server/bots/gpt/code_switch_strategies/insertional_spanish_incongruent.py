@@ -13,8 +13,11 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         2. DET (or edge case or ADP) are gender switched according to condition
     """
 
+
+
     def __init__(self, strategy: CodeSwitchStrategyName):
         super().__init__()
+        self.metadata = [] # the metadata we save is the bot responses where CS was made
 
         self.strategy = strategy
         self.strategies = {
@@ -65,6 +68,7 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
 
 
     def __swap(self, nouns_bot_resp: list, bot_resp: List[str], det_dict: dict):
+        switches = []
         for resp_idx, nouns in enumerate(nouns_bot_resp):
             substitutions = []
             for det, noun in nouns:
@@ -73,6 +77,7 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
                 if noun_text not in self.es_to_eng_nouns:
                     continue
 
+                switches.append(resp_idx)
                 det_text = det['text']
                 det_idx = det['idx']
                 translated_noun = self.es_to_eng_nouns[noun_text]
@@ -86,6 +91,9 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
                 substitutions.append({'orig': noun_text, 'new': translated_noun, 'idx': noun_idx})
 
             bot_resp[resp_idx] = self.__replace_substrings(text=bot_resp[resp_idx], substitutions=substitutions)
+
+        for switch in switches:
+            self.metadata.append(bot_resp[switch])
 
     def __congruent(self, nouns_bot_resp: list, bot_resp: List[str]):
         """
@@ -131,3 +139,6 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         self.strategies[self.strategy](nouns_bot_resp=nouns_bot_resp, bot_resp=bot_resp)
 
         return bot_resp, False
+
+    def get_game_metadata(self):
+        return self.metadata

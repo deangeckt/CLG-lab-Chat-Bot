@@ -48,3 +48,7 @@ class CSUnit(metaclass=ABCMeta):
         is last bot msg switched with some sort of CS strategy
         """
         pass
+
+    @abstractmethod
+    def get_game_metadata(self):
+        pass

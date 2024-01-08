@@ -10,7 +10,6 @@ class CodeSwitchStrategy(metaclass=ABCMeta):
         self.lid = LangIdBert()
         self.translate = Translate()
 
-
     @abstractmethod
     def call(self, user_msg: str, bot_resp: List[str]) -> tuple[list[str], bool]:
         """
@@ -18,4 +17,8 @@ class CodeSwitchStrategy(metaclass=ABCMeta):
         param bot_resp: the generated messages (list) the bot generated
         :return: spanglish generated string in a list, bool if modified
         """
+        pass
+
+    @abstractmethod
+    def get_game_metadata(self):
         pass

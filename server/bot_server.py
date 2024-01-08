@@ -20,19 +20,23 @@ class BotServer:
         if guid is None:
             guid = str(uuid.uuid4())
         map_id = f'map_{map_index + 1}'
-        bot: Bot = GptBotNavigator(map_id, self.cs_strategy) if game_role == 1 else GptBotInstructor(map_id, self.cs_strategy)
+        bot: Bot = GptBotNavigator(map_id, self.cs_strategy) if game_role == 1 else GptBotInstructor(map_id,
+                                                                                                     self.cs_strategy)
         self.sessions[guid] = {
             'bot': bot,
-            'cs': CodeSwitchStrategies(strategy=self.cs_strategy,
-                                       welcome_str=bot.welcome_str,
-                                       map_index=map_index
-                                       )
+            'cs': CodeSwitchStrategies(strategy=self.cs_strategy, welcome_str=bot.welcome_str)
         }
         return guid, bot.welcome_str
 
     def un_register(self, guid):
         if guid in self.sessions:
             del self.sessions[guid]
+
+    def get_cs_metadata(self, guid):
+        if not guid in self.sessions:
+            return
+        cs_unit: CSUnit = self.sessions[guid]['cs']
+        return cs_unit.get_game_metadata()
 
     def call_bot(self, guid, user_msg, map_idx, game_role, user_state=None) -> Tuple[list[str], bool]:
         db_data = None

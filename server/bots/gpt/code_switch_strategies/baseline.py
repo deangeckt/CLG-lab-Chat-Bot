@@ -5,3 +5,6 @@ from bots.gpt.code_switch_strategies.code_switch_strategy import CodeSwitchStrat
 class Baseline(CodeSwitchStrategy):
     def call(self, user_msg: str, bot_resp: List[str]) -> tuple[list[str], bool]:
         return bot_resp, False
+
+    def get_game_metadata(self):
+        pass
