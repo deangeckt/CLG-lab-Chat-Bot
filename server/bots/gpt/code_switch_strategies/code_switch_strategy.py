@@ -19,6 +19,5 @@ class CodeSwitchStrategy(metaclass=ABCMeta):
         """
         pass
 
-    @abstractmethod
     def get_game_metadata(self):
-        pass
+        return []

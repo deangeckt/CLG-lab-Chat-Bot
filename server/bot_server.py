@@ -34,7 +34,7 @@ class BotServer:
 
     def get_cs_metadata(self, guid):
         if not guid in self.sessions:
-            return
+            return []
         cs_unit: CSUnit = self.sessions[guid]['cs']
         return cs_unit.get_game_metadata()
 

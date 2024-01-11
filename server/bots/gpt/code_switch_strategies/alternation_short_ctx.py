@@ -40,6 +40,3 @@ class AlternationShortContext(CodeSwitchStrategy):
         bot_resp[-1] = translate_cb(last_resp)
 
         return bot_resp, True
-
-    def get_game_metadata(self):
-        pass
