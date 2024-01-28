@@ -310,13 +310,13 @@ export const init_app_state: IAppState = {
             isStyleHoriz: true,
         },
         '16': {
-            question: 'Place of birth:',
+            question: 'Place of birth (state, country):',
             answer: '',
             type: 'textfield',
             isStyleHoriz: true,
         },
         '17': {
-            question: 'Place of current residence:',
+            question: 'Place of current residence (approximate city, state, country):',
             answer: '',
             type: 'textfield',
             isStyleHoriz: true,
@@ -401,7 +401,7 @@ export const init_app_state: IAppState = {
             question_ref: '24',
         },
         '28': {
-            hintAbove: 'Please rate how likely you are to use your first language in the following contexts:',
+            hintAbove: 'Please rate how likely you are to use your native language in the following contexts:',
             question: 'At work',
             answer: 50,
             type: 'rating',
@@ -515,49 +515,54 @@ export const init_app_state: IAppState = {
             type: 'textfield',
         },
         '45': {
+            question: 'Do you speak any additional languages? If so, please describe briefly here.',
+            answer: '',
+            type: 'textfield',
+        },
+        '46': {
             question:
-                'On a day-to-day basis, how likely are you to have a conversation using both your first and second languages?',
+                'On a day-to-day basis, how likely are you to have a conversation using both English and Spanish?',
             answer: 50,
             type: 'rating',
             not_applicable: true,
         },
-        '46': {
+        '47': {
             hintAbove: 'How likely would you be to mix languages in the following contexts?',
             question: 'At work',
             answer: 50,
             type: 'rating',
             not_applicable: true,
-            question_ref: '46',
+            question_ref: '47',
         },
-        '47': {
+        '48': {
             question: 'At home',
             answer: 50,
             type: 'rating',
             not_applicable: true,
-            question_ref: '46',
+            question_ref: '47',
         },
-        '48': {
+        '49': {
             question: 'Interacting with friends',
             answer: 50,
             type: 'rating',
             not_applicable: true,
-            question_ref: '46',
+            question_ref: '47',
         },
-        '49': {
+        '50': {
             question: 'Interacting with family',
             answer: 50,
             type: 'rating',
             not_applicable: true,
-            question_ref: '46',
+            question_ref: '47',
         },
-        '50': {
+        '51': {
             question: 'Using social media',
             answer: 50,
             type: 'rating',
             not_applicable: true,
-            question_ref: '46',
+            question_ref: '47',
         },
-        '51': {
+        '52': {
             hintAbove: 'When you switch languages, how often is it for the following reasons?',
             question: "To accommodate people who don't share the same language or language fluency.",
             answer: 50,
@@ -565,54 +570,54 @@ export const init_app_state: IAppState = {
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
-            question_ref: '51',
+            question_ref: '52',
         },
-        '52': {
+        '53': {
             question: 'For social reasons; one language feels more appropriate.',
             answer: 50,
             type: 'rating',
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
-            question_ref: '51',
+            question_ref: '52',
         },
-        '53': {
+        '54': {
             question: "I can't think of a word in the current language.",
             answer: 50,
             type: 'rating',
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
-            question_ref: '51',
+            question_ref: '52',
         },
-        '54': {
+        '55': {
             question: 'The word in the other language just fits better.',
             answer: 50,
             type: 'rating',
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
-            question_ref: '51',
+            question_ref: '52',
         },
-        '55': {
+        '56': {
             question: "It's an accident, or I don't realize I'm doing it.",
             answer: 50,
             type: 'rating',
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
-            question_ref: '51',
+            question_ref: '52',
         },
-        '56': {
+        '57': {
             question: "I'm more comfortable discussing the topic in the other language.",
             answer: 50,
             type: 'rating',
             sliderLeftText: 'never',
             slideRightText: 'always',
             not_applicable: true,
-            question_ref: '51',
+            question_ref: '52',
         },
-        '57': {
+        '58': {
             question: 'Do you enjoy mixing languages in conversation?',
             answer: 50,
             type: 'rating',
@@ -620,21 +625,35 @@ export const init_app_state: IAppState = {
             slideRightText: 'yes very much',
             not_applicable: true,
         },
-        '58': {
-            question: 'What do you think when others mix languages in conversation? Please explain:',
-            answer: '',
-            type: 'textfield',
+        '59': {
+            question: 'When you hear others mixing languages in conversation, how do you feel about it?',
+            answer: 50,
+            type: 'rating',
+            sliderLeftText: 'very negative',
+            slideRightText: 'very positive',
             not_applicable: true,
         },
-        '59': {
+        '60': {
+            question: 'How natural was your conversational partner’s language switching?',
+            answer: 50,
+            type: 'rating',
+            sliderLeftText: 'very unnatural',
+            slideRightText: 'very natural ',
+            not_applicable: true,
+        },
+        '61': {
+            question: 'Any final comments about your partner’s language switching?',
+            answer: '',
+            type: 'textfield',
+        },
+        '62': {
             question: 'Any final comments about your language background?',
             answer: '',
             type: 'textfield',
-            not_applicable: true,
         },
     },
     registerd: 'no',
-    clinet_version: '2.3.7_p',
+    clinet_version: '2.3.8_p',
     server_version: '',
     consent: false,
     uploaded: false,

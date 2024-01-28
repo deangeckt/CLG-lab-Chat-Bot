@@ -12,7 +12,10 @@ export const end_page_group_3_str = 'Partner Evaluation, Continued';
 export const end_page_group_4_str = 'Basic Demographic Questions';
 export const end_page_group_5_str = 'Native Language Information';
 export const end_page_group_6_str = 'Second Language Information';
-export const end_page_group_7_str = 'Language Switching Information';
+export const end_page_group_7_str = 'Additional Languages';
+export const end_page_group_8_str = 'Language Switching Information';
+export const end_page_group_5_subtitle =
+    'The following questions are about your native (or most proficient, or most dominant) language.';
 
 // Alternations - english new instructions
 

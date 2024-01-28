@@ -10,6 +10,8 @@ import {
     end_page_group_5_str,
     end_page_group_6_str,
     end_page_group_7_str,
+    end_page_group_8_str,
+    end_page_group_5_subtitle,
 } from '../common/strings';
 import RatingQuestion from './RatingQuestion';
 import TextFieldQuestion from './TextFieldQuestion';
@@ -27,7 +29,7 @@ function SurveyGeneral(): JSX.Element {
     const [reg, SetReg] = useState('not_sent');
 
     React.useEffect(() => {
-        if (!state.consent) navigate('/');
+        // if (!state.consent) navigate('/');
         if (state.uploaded) {
             SetReg('done');
         }
@@ -39,12 +41,16 @@ function SurveyGeneral(): JSX.Element {
         end_page_group_5_str,
         end_page_group_6_str,
         end_page_group_7_str,
+        end_page_group_8_str,
     ];
+
+    const survey_groups_subtitles: string[] = ['', end_page_group_5_subtitle, '', ''];
 
     survey_groups.push(Object.keys(state.general_survey).slice(0, 9));
     survey_groups.push(Object.keys(state.general_survey).slice(9, 19));
     survey_groups.push(Object.keys(state.general_survey).slice(19, 31));
-    survey_groups.push(Object.keys(state.general_survey).slice(31, 47));
+    survey_groups.push(Object.keys(state.general_survey).slice(31, 32));
+    survey_groups.push(Object.keys(state.general_survey).slice(32, 50));
 
     const scroll_begin = () => {
         const tr = document.getElementById('container');
@@ -91,8 +97,9 @@ function SurveyGeneral(): JSX.Element {
                             {end_page_title1_str}
                         </Typography>
                         <div className="Group">
-                            <Typography variant="h5" style={{ marginBottom: '32px' }}>
-                                {survey_groups_titles[currGroup]}
+                            <Typography variant="h5">{survey_groups_titles[currGroup]}</Typography>
+                            <Typography variant="h6" style={{ marginBottom: '32px', fontSize: '16px' }}>
+                                {survey_groups_subtitles[currGroup]}
                             </Typography>
                             {survey_groups[currGroup].map(function (key) {
                                 const t = state.general_survey[key].type;
