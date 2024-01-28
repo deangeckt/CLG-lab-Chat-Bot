@@ -29,7 +29,7 @@ function SurveyGeneral(): JSX.Element {
     const [reg, SetReg] = useState('not_sent');
 
     React.useEffect(() => {
-        // if (!state.consent) navigate('/');
+        if (!state.consent) navigate('/');
         if (state.uploaded) {
             SetReg('done');
         }
