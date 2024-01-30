@@ -26,7 +26,7 @@ export function useApp() {
     };
 
     const navigate_to_end_page = () => {
-        navigate('/map_survey');
+        navigate('/next');
     };
 
     return { open_ending_modal, navigate_to_end_page, finish_early };

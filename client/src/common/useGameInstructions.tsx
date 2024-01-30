@@ -7,9 +7,8 @@ export function useGameInstructions() {
     const setGameInstructions = (val: boolean) => {
         const games = [...state.games];
         const game_state = games[state.curr_game].game_state;
-        game_state.open_instructions = val;
         game_state.started = true;
-        setState({ ...state, games: games });
+        setState({ ...state, games: games, open_instructions: val });
     };
 
     return { setGameInstructions };

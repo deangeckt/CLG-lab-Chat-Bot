@@ -62,12 +62,12 @@ export const upload = async (state: IAppState, update: (success: boolean) => voi
         });
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { general_survey, games } = state;
+        const { general_survey, map_survey, games } = state;
         const general_survey_simpler = simplify_survey(general_survey);
+        const map_survey_simpler = simplify_survey(map_survey);
 
         const games_data = games.map((game) => {
             return {
-                survey: simplify_survey(game.map_survey),
                 game_time: game.game_state.game_time,
                 config: game.game_config,
                 chat: game.chat,
@@ -80,6 +80,7 @@ export const upload = async (state: IAppState, update: (success: boolean) => voi
             .post(baseUrl + 'upload', {
                 games_data,
                 general_survey: general_survey_simpler,
+                map_survey: map_survey_simpler,
                 clinet_version: state.clinet_version,
                 prolific: state.prolific,
             })

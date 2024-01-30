@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Box, CircularProgress } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { useContext } from 'react';
 import { AppContext } from '../AppContext';
@@ -16,13 +16,10 @@ import SelectQuestion from './SelectQuestion';
 import { useNavigate } from 'react-router-dom';
 import './EndPage.css';
 import { maps } from '../Wrapper';
-import { useRegister } from '../useRegister';
-import { main_blue } from '../common/colors';
 
 function SurveyMap(): JSX.Element {
     const navigate = useNavigate();
     const { state } = useContext(AppContext);
-    const { create_new_game } = useRegister();
     const [currGroup, SetCurrGroup] = useState(0);
 
     React.useEffect(() => {
@@ -32,7 +29,7 @@ function SurveyMap(): JSX.Element {
     const survey_groups: string[][] = [];
     const survey_groups_titles: string[] = [end_page_group_1_str, end_page_group_2_str, end_page_group_3_str];
 
-    const map_survey = state.games[state.curr_game].map_survey;
+    const map_survey = state.map_survey;
 
     survey_groups.push(Object.keys(map_survey).slice(0, 3));
     survey_groups.push(Object.keys(map_survey).slice(3, 12));
@@ -56,28 +53,7 @@ function SurveyMap(): JSX.Element {
         }
     };
 
-    const render_new_map_btn = () => {
-        if (state.curr_game == maps.length - 1) return null;
-        if (currGroup !== survey_groups.length - 1) return null;
-        return (
-            <Button
-                style={{
-                    textTransform: 'none',
-                    marginRight: '16px',
-                    marginBottom: '16px',
-                }}
-                variant="outlined"
-                color="primary"
-                onClick={create_new_game}
-            >
-                Next map
-            </Button>
-        );
-    };
-
     const render_next_survey_btn = () => {
-        let text = 'Next';
-        if (state.curr_game == maps.length - 1 && currGroup == survey_groups.length - 1) text = 'Finish';
         if (currGroup === survey_groups.length - 1 && state.curr_game < maps.length - 1) return null;
         return (
             <Button
@@ -90,7 +66,7 @@ function SurveyMap(): JSX.Element {
                 color="primary"
                 onClick={next}
             >
-                {text}
+                {'Next'}
             </Button>
         );
     };
@@ -104,15 +80,10 @@ function SurveyMap(): JSX.Element {
     return (
         <div className="End">
             <Header />
-            {state.registerd === 'load' && (
-                <Box sx={{ display: 'flex', margin: '32px' }}>
-                    <CircularProgress style={{ color: main_blue, width: '30px', height: '30px' }} />
-                </Box>
-            )}
             {state.registerd === 'yes' && (
                 <div className="End_Container" id="container">
                     <Typography style={{ marginTop: '16px' }} variant="h4">
-                        {end_page_title1_str} - map {state.curr_game + 1}
+                        {end_page_title1_str}
                     </Typography>
                     <div className="Group">
                         <Typography variant="h5" style={{ marginBottom: '32px' }}>
@@ -144,10 +115,7 @@ function SurveyMap(): JSX.Element {
                         >
                             Back
                         </Button>
-                        <div>
-                            {render_next_survey_btn()}
-                            {render_new_map_btn()}
-                        </div>
+                        <div>{render_next_survey_btn()}</div>
                     </div>
                 </div>
             )}

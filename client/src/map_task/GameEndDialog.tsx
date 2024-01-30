@@ -25,7 +25,7 @@ function GameEndDialog(): JSX.Element {
                 open={game.game_state.end}
                 TransitionComponent={Transition as any}
                 keepMounted
-                onClose={navigate_to_end_page}
+                // onClose={navigate_to_end_page}
             >
                 <DialogTitle>{game.game_state.end_modal_title}</DialogTitle>
                 <DialogContent>

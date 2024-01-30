@@ -46,7 +46,7 @@ function GameInstructionsDialog({}): JSX.Element {
     return (
         <>
             <Dialog
-                open={game.game_state.open_instructions}
+                open={state.open_instructions}
                 TransitionComponent={Transition as any}
                 keepMounted
                 onClose={() => setGameInstructions(false)}

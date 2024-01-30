@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from './AppContext';
 import { register } from './api';
-import { maps, ISingleGameState, init_game_state, init_map_survey, IProlific, game_role } from './Wrapper';
+import { maps, ISingleGameState, init_game_state, IProlific, game_role } from './Wrapper';
 import { useNavigate } from 'react-router-dom';
 
 export function useRegister() {
@@ -22,7 +22,6 @@ export function useRegister() {
             chat: [{ id: 1 - new_game_role, msg: data.welcome_str, timestamp: Date.now() }],
             map_metadata: map_metadata,
             game_state: { ...JSON.parse(JSON.stringify(init_game_state)) },
-            map_survey: { ...JSON.parse(JSON.stringify(init_map_survey)) },
             user_map_path: [maps[map_idx].start_cell],
             game_config: { game_role: new_game_role, map_index: map_idx, guid: data.guid },
         };
@@ -31,6 +30,7 @@ export function useRegister() {
         setState({
             ...state,
             games: games,
+            open_instructions: true,
             curr_game: state.curr_game + 1,
             registerd: 'yes',
         });
