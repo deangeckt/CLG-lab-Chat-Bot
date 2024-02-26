@@ -11,7 +11,7 @@ def db_mock():
 
 server = BotServer(CodeSwitchStrategyName.insertional_spanish_congruent)
 game_role = 0
-guid, welcome_str = server.register(map_index=1, game_role=game_role)
+guid, welcome_str = server.register(map_index=3, game_role=game_role)
 
 print(f'bot: {welcome_str}')
 while True:

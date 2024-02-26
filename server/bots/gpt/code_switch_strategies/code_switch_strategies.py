@@ -19,7 +19,8 @@ class CodeSwitchStrategies(CSUnit):
 
         self.strategy = strategy
         self.strategies = {
-            CodeSwitchStrategyName.none: Baseline,
+            CodeSwitchStrategyName.insertional_spanish_baseline: Baseline(),
+            CodeSwitchStrategyName.none: Baseline(),
             CodeSwitchStrategyName.alternation_random: AlternationRandom(),
             CodeSwitchStrategyName.alternation_short_context: AlternationShortContext(welcome_str),
             CodeSwitchStrategyName.alternation_switch_last_user: AlternationSwitchLastUser(),
