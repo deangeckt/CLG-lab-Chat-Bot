@@ -44,6 +44,17 @@ function SurveyMap(): JSX.Element {
         });
     };
 
+    const is_valid = () => {
+        const curr_questions_keys = survey_groups[currGroup];
+        for (let i = 0; i < curr_questions_keys.length; i++) {
+            const key = curr_questions_keys[i];
+            if (state.map_survey[key].answer === '') {
+                return false;
+            }
+        }
+        return true;
+    };
+
     const next = () => {
         scroll_begin();
         if (currGroup == survey_groups.length - 1) {
@@ -65,6 +76,7 @@ function SurveyMap(): JSX.Element {
                 variant="outlined"
                 color="primary"
                 onClick={next}
+                disabled={!is_valid()}
             >
                 {'Next'}
             </Button>

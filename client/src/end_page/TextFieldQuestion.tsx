@@ -35,7 +35,11 @@ function TextFieldQuestion(data: IQuestionInterface): JSX.Element {
                 variant="outlined"
                 onChange={(event) => simple_set(event)}
                 type={data.meta.numberText ? 'number' : undefined}
+                InputProps={{
+                    inputProps: { min: 0 },
+                }}
                 value={survey[data.id].answer}
+                required
             />
         </div>
     );

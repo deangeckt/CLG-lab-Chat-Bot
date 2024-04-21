@@ -651,7 +651,7 @@ export const init_app_state: IAppState = {
         },
     },
     registerd: 'no',
-    clinet_version: '2.3.9_p',
+    clinet_version: '2.4.0_p',
     server_version: '',
     consent: false,
     uploaded: false,

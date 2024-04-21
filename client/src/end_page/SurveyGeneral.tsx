@@ -87,6 +87,17 @@ function SurveyGeneral(): JSX.Element {
         SetCurrGroup(currGroup - 1);
     };
 
+    const is_valid = () => {
+        const curr_questions_keys = survey_groups[currGroup];
+        for (let i = 0; i < curr_questions_keys.length; i++) {
+            const key = curr_questions_keys[i];
+            if (state.general_survey[key].answer === '') {
+                return false;
+            }
+        }
+        return true;
+    };
+
     return (
         <div className="End">
             <Header />
@@ -156,6 +167,7 @@ function SurveyGeneral(): JSX.Element {
                                 variant="outlined"
                                 color="primary"
                                 onClick={next}
+                                disabled={!is_valid()}
                             >
                                 {currGroup == survey_groups.length - 1 ? 'Finish' : 'Next'}
                             </Button>
