@@ -7,17 +7,16 @@ from bots.models.nouns_extractor_spacy import NounsExtractor
 import codecs
 from collections import Counter
 
+
 class InsertionalSpanishIncongruent(CodeSwitchStrategy):
     """
         1. Nouns are always translated from ES to ENG
         2. DET (or edge case or ADP) are gender switched according to condition
     """
 
-
-
     def __init__(self, strategy: CodeSwitchStrategyName):
         super().__init__()
-        self.metadata = [] # the metadata we save is the bot responses where CS was made
+        self.metadata = []  # the metadata we save is the bot responses where CS was made
 
         self.strategy = strategy
         self.strategies = {
@@ -26,10 +25,12 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
             CodeSwitchStrategyName.insertional_spanish_congruent: self.__congruent
         }
 
-
         self.noun_phrase_extractor = NounsExtractor()
         nouns_file = codecs.open('bots/gpt/code_switch_strategies/spanish_nouns_set.txt', "r", "utf-8")
         self.es_to_eng_nouns = {n.strip().split('_')[0]: n.strip().split('_')[1] for n in nouns_file.readlines()}
+
+        eng_gender_nouns_file = codecs.open('bots/gpt/code_switch_strategies/english_nouns_gender_set.txt', "r", "utf-8")
+        self.eng_gender_nouns = {n.strip().split('_')[0]: n.strip().split('_')[1] for n in eng_gender_nouns_file.readlines()}
 
         # https://en.wikipedia.org/wiki/Spanish_determiners
         self.masc_femi_determiners_dict = {
@@ -48,6 +49,9 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
             #### ADP
             'del': 'de la',  # to the
             'al': 'a la',  # of / to the (al = a + el shortcut)
+            ### new:
+            'otro': 'otra',
+            'otros': 'otras'
         }
 
     @staticmethod
@@ -66,7 +70,6 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
 
         return ''.join(result)
 
-
     def __swap(self, nouns_bot_resp: list, bot_resp: List[str], det_dict: dict):
         switches = []
         for resp_idx, nouns in enumerate(nouns_bot_resp):
@@ -74,13 +77,23 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
             for det, noun in nouns:
                 noun_text = noun['text']
                 noun_idx = noun['idx']
+
+                det_text = det['text']
+                det_idx = det['idx']
+
                 if noun_text not in self.es_to_eng_nouns:
                     continue
 
-                switches.append(resp_idx)
-                det_text = det['text']
-                det_idx = det['idx']
+                # for in-cong strategies check the det matches the expected gender
+                if len(det_dict) and det_text not in det_dict:
+                    continue
+
                 translated_noun = self.es_to_eng_nouns[noun_text]
+                noun_gender = self.eng_gender_nouns.get(translated_noun, 'amb')
+                if noun_gender == 'amb':
+                    continue
+
+                switches.append(resp_idx)
 
                 if det_text in det_dict:
                     substitutions.append({'orig': det_text, 'new': det_dict[det_text], 'idx': det_idx})
@@ -122,14 +135,14 @@ class InsertionalSpanishIncongruent(CodeSwitchStrategy):
         counts = Counter(langs)
         return counts[LanguageId.eng] <= 1
 
-
     def call(self, user_msg: str, bot_resp: List[str]) -> tuple[list[str], bool]:
         nouns_bot_resp = []
         for msg in bot_resp:
             langs = self.lid.get_lang_tokens(msg)
             is_spanish = self.__is_valid_spanish_sentence(langs)
             print(is_spanish, msg)
-            extracted_nouns = self.noun_phrase_extractor.extract_nouns_with_det(msg, LanguageId.es) if is_spanish else []
+            extracted_nouns = self.noun_phrase_extractor.extract_nouns_with_det(msg,
+                                                                                LanguageId.es) if is_spanish else []
             print('extracted_nouns:', extracted_nouns)
             nouns_bot_resp.append(extracted_nouns)
 

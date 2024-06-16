@@ -9,9 +9,9 @@ def db_mock():
 # Translate.__wrapped__.translate_to_spa = lambda self, x: x
 # Database.__wrapped__.push = lambda self, data_, guid_: db_mock()
 
-server = BotServer(CodeSwitchStrategyName.insertional_spanish_congruent)
-game_role = 0
-guid, welcome_str = server.register(map_index=3, game_role=game_role)
+server = BotServer(CodeSwitchStrategyName.insertional_spanish_incongruent1)
+game_role = 1
+guid, welcome_str = server.register(map_index=0, game_role=game_role)
 
 print(f'bot: {welcome_str}')
 while True:

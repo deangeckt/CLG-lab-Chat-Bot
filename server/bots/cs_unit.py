@@ -14,6 +14,7 @@ class CodeSwitchStrategyName(str, Enum):
     insertional_spanish_incongruent2 = "insertional_spanish_incongruent2"  # '2.4.2_p'
     insertional_spanish_baseline = "insertional_spanish_baseline"  # '2.4.3_p"
 
+
 class CSUnit(metaclass=ABCMeta):
     def __init__(self):
         pass
