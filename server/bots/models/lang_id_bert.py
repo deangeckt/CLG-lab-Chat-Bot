@@ -13,11 +13,11 @@ class LanguageId(str, Enum):
 @singleton
 class LangIdBert:
     """
-    A wrapper around
+    A wrapper around https://huggingface.co/sagorsarker/codeswitch-spaeng-lid-lince
+    *** Download the model in advance to model_path ***
     """
     def __init__(self):
         s = time.time()
-        # https://huggingface.co/sagorsarker/codeswitch-spaeng-lid-lince
         model_path = f'bots/models/spaeng-lid-lince'
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
         self.model = AutoModelForTokenClassification.from_pretrained(model_path)

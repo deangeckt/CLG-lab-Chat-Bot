@@ -10,6 +10,9 @@ from bots.models.lang_id_bert import LanguageId
 
 @singleton
 class NounsExtractor:
+    """
+    *** Download the models in advance to the path below ***
+    """
     def __init__(self):
         s = time.time()
         self.en_nlp = spacy.load(r'bots/models/en_core_web_sm-3.7.1')
