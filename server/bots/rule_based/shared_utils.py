@@ -11,17 +11,20 @@ def __tokenize(text):
     split = re.findall(fr'[${string.punctuation}]|\w+', text)
     return [t for t in split]
 
+
 def is_question(text):
     tokens = __tokenize(text)
     if tokens[-1] == '?':
         return True
     return any(token in question_words for token in tokens)
 
+
 def is_basic_greeting(text) -> bool:
     for token in __tokenize(text):
         if token in greeting_words:
             return True
     return False
+
 
 def is_how_are_you_greeting(text) -> bool:
     t = text.lower()
@@ -39,6 +42,7 @@ def is_goal_match(text) -> bool:
     match |= bool(re.match("(what am i expected to do?)", t))
     match |= bool(re.match("(what to do?)", t))
     return match
+
 
 def find_closest_object(coord, kb_abs):
     """

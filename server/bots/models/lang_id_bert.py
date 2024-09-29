@@ -3,6 +3,7 @@ from enum import Enum
 from transformers import pipeline, AutoModelForTokenClassification, AutoTokenizer
 import time
 
+
 class LanguageId(str, Enum):
     mix = "mix"
     eng = "eng"
@@ -11,6 +12,9 @@ class LanguageId(str, Enum):
 
 @singleton
 class LangIdBert:
+    """
+    A wrapper around
+    """
     def __init__(self):
         s = time.time()
         # https://huggingface.co/sagorsarker/codeswitch-spaeng-lid-lince

@@ -11,6 +11,9 @@ from bots.gpt.code_switch_strategies.code_switch_strategies import CodeSwitchStr
 
 
 class BotServer:
+    """
+    --- google DB is currently not used ---
+    """
     def __init__(self, cs_strategy: CodeSwitchStrategyName):
         self.sessions = {}
         # self.database = Database()

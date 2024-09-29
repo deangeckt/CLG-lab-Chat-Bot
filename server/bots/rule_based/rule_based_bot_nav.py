@@ -3,6 +3,8 @@ from pkg_resources import resource_filename
 from bots.bot import Bot
 import json
 import random
+
+from bots.cs_unit import CodeSwitchStrategyName
 from bots.rule_based.navigator.template_matchers.action import Action
 from bots.rule_based.navigator.template_matchers.direction import Direction
 from bots.rule_based.navigator.template_matchers.goal import GoalMatcher
@@ -16,7 +18,7 @@ from bots.rule_based.navigator.template_matchers.yn_near import YnNear
 
 class RuleBasedBotNavigator(Bot):
     def __init__(self, map_id):
-        super().__init__()
+        super().__init__(CodeSwitchStrategyName.none)
         self.chat = []
 
         kb_path = resource_filename('bots', f'rule_based/maps_kb/{map_id}.json')
@@ -51,7 +53,7 @@ class RuleBasedBotNavigator(Bot):
 
             user_msg = user_msg.lower()
             if user_msg.endswith(('!', '.')):
-                user_msg = user_msg[:len(user_msg)-1]
+                user_msg = user_msg[:len(user_msg) - 1]
 
             for template_matcher in self.ordered_template_matchers:
                 resp = template_matcher.match(user_msg)
@@ -74,7 +76,6 @@ class RuleBasedBotNavigator(Bot):
 
         is_finish = self.shared.finish
         return bot_msgs, is_finish
-
 
     def db_push(self) -> dict:
         return {'rb_nav_state': self.shared.state}

@@ -5,6 +5,7 @@ import json
 import random
 
 from bots.bot import Bot
+from bots.cs_unit import CodeSwitchStrategyName
 from bots.rule_based.instructor.template_matchers.clarification import Clarification
 from bots.rule_based.instructor.template_matchers.done import Done
 from bots.rule_based.instructor.template_matchers.game_instructions import GameInstructions
@@ -19,7 +20,7 @@ from bots.rule_based.shared_utils import find_closest_object
 
 class RuleBasedBotInstructor(Bot):
     def __init__(self, map_id):
-        super().__init__()
+        super().__init__(CodeSwitchStrategyName.none)
         self.chat = []
         self.no_resp_prefix = ["i'm not sure what you mean but maybe this will help",
                                "not too sure about that, but maybe this will help",

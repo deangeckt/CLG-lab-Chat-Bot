@@ -40,7 +40,6 @@ class GptBotInstructor(Bot):
             self.messages.append({'role': 'assistant', 'content': pp_msg})
         return post_proc_msgs, False
 
-
     def db_push(self) -> dict:
         # chat is too long for DB
         # return {'chat': self.messages}

@@ -43,7 +43,7 @@ class GptBotNavigator(Bot):
             if 'completado' in t: return True
             if 'logrado' in t: return True
             if 'felicidades' in t: return True
-            if 'finalizado'in t: return True
+            if 'finalizado' in t: return True
 
         match = bool(re.match(f"(.*)((reached|arrive|arrived) (.*) {self.final_object})(.*)", t))
         match |= bool(re.match(f"(.*)((reached|arrive|arrived) (.*) final (destination|object))(.*)", t))
@@ -51,7 +51,6 @@ class GptBotNavigator(Bot):
         match |= bool(re.match("(.*)((alcanzado|llegar|llegado) (.*) final (destino|objeto))(.*)", t))
 
         return match
-
 
     def call(self, user_msg, user_state=None) -> Tuple[list[str], bool]:
         self.messages.append({'role': 'user', 'content': user_msg})
@@ -64,7 +63,6 @@ class GptBotNavigator(Bot):
         for pp_msg in post_proc_msgs:
             self.messages.append({'role': 'assistant', 'content': pp_msg})
         return post_proc_msgs, is_finished
-
 
     def db_push(self) -> dict:
         return {}

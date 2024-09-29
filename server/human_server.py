@@ -3,9 +3,14 @@ import time
 import uuid
 from collections import defaultdict
 from apscheduler.schedulers.background import BackgroundScheduler
+
+
 # package: APScheduler
 
 class HumanServer:
+    """"
+    --UNUSED--
+    """
     def __init__(self):
         self.sessions_roles = {}
         self.sessions_resp = {}
@@ -13,7 +18,7 @@ class HumanServer:
 
         self.role_timeout = 180
         self.scheduler = BackgroundScheduler()
-        self.scheduler.add_job(func=self.__clear_roles, trigger="interval", seconds=self.role_timeout+10)
+        self.scheduler.add_job(func=self.__clear_roles, trigger="interval", seconds=self.role_timeout + 10)
         self.scheduler.start()
 
     def __clear_roles(self):

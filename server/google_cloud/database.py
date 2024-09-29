@@ -2,6 +2,7 @@ from datetime import datetime
 from google.cloud import datastore
 from singleton_decorator import singleton
 
+
 @singleton
 class Database:
     def __init__(self):
@@ -21,4 +22,3 @@ class Database:
         if ent is None:
             return None
         return ent
-

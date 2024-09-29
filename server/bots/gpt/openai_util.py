@@ -6,7 +6,7 @@ openai.organization = "org-uDZtzijOHrdSPGJiRCBzAPac"
 openai.api_key = os.environ['OPENAI_API_KEY']
 
 # https://platform.openai.com/docs/api-reference/chat/create
-# https://platform.openai.com/docs/guides/chat/introduction - finish code should be 'stop' only
+# https://platform.openai.com/docs/guides/chat/introduction
 
 
 def openai_call(messages: list[dict]) -> Tuple[str, bool]:

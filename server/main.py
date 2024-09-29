@@ -1,7 +1,7 @@
 import json
 import os
 
-from flask import Flask, Response
+from flask import Flask
 from flask import request
 from flask_cors import CORS
 
