@@ -42,11 +42,3 @@ If you use this code in your work, please cite our paper:
 ├── analysis/      # Data post-processing and analysis scripts
 └── README.md
 ```
-
-## License
-
-\[Specify your license here, e.g., MIT License]
-
----
-
-If you want, I can now add a **"Quick Start"** section so that cloning and running both the client and server is straightforward for new users. That would make this README ready for public release.
