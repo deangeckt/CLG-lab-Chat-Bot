@@ -1,6 +1,6 @@
 # Strategies of Code-switching in Human-Machine Dialogs
 
-This repository contains the implementation and analysis code for the experiments described in our paper:
+This repository contains the implementation code for the experiments described in our paper:
 
 > **Strategies of Code-switching in Human-Machine Dialogs**
 > [Bilingualism: Language and Cognition (2025)](https://doi.org/10.1017/S1366728925100436)
@@ -13,7 +13,7 @@ It features a **client–server architecture**:
 * **Client:** A React-based web application providing the interactive map-task interface for participants.
 * **Server:** A Python Flask application implementing the chatbot agent logic and handling communication with the client.
 
-In addition, the repository includes an **`analysis/`** directory containing scripts and notebooks for **post-processing and analyzing collected data** from our experiments.
+In addition, the data post-processing and analysis scripts for our experiments can be found in a separate repository: [CLG-lab-Chat-Bot-Analysis](https://github.com/deangeckt/CLG-lab-Chat-Bot-Analysis).
 
 ## Paper Link
 
@@ -42,6 +42,5 @@ If you use this code in your work, please cite our paper:
 .
 ├── client/        # React web application for the Map-Task interface
 ├── server/        # Python Flask application implementing the chatbot
-├── analysis/      # Data post-processing and analysis scripts
 └── README.md
 ```
