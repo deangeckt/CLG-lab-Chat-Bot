@@ -3,7 +3,7 @@
 This repository contains the implementation and analysis code for the experiments described in our paper:
 
 > **Strategies of Code-switching in Human-Machine Dialogs**
-> [arXiv:2508.07325](https://arxiv.org/abs/2508.07325)
+> [Bilingualism: Language and Cognition (2025)](https://doi.org/10.1017/S1366728925100436)
 
 ## Overview
 
